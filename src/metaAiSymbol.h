@@ -20,12 +20,12 @@ private:
 	};
 	
 public:
-	
 	void setup(int size, int range, float threshold);
 	void update(float delta);
 	void draw();
 
 private:
+	void updateLine();
 	void initBaseDist(float unit);
 	vector<int> getNearIndex(int x, int y, int maxNum);
 	void index2xy(int index, int& x, int& y);
@@ -39,4 +39,5 @@ private:
 	array<symbolNode, cMetaAiSymbolNodeNum> _symbolNode;
 	array<float, cMetaAiSymbolSize * 2> _symbolBaseDist;
 
+	ofVboMesh _lineMesh;
 };

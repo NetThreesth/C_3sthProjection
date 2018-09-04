@@ -49,6 +49,8 @@ void metaAiSymbol::setup(int size, int range, float threshold)
 	_moveRange = range;
 	_threshold = threshold * threshold;
 
+	_lineMesh.setMode(ofPrimitiveMode::OF_PRIMITIVE_LINES);
+
 	float unitDist = _displaySize / (float)cMetaAiSymbolSize;
 	unitDist *= unitDist;
 
@@ -75,6 +77,7 @@ void metaAiSymbol::update(float delta)
 	{
 		iter.update(delta);
 	}
+	updateLine();
 }
 
 //---------------------------------------
@@ -88,8 +91,20 @@ void metaAiSymbol::draw()
 		index2xy(i, sX, sY);
 		//Draw Node
 		_symbolNode[i].draw();
-		
-		//Draw Line
+	}
+	_lineMesh.draw();
+	ofPopStyle();
+}
+
+//---------------------------------------
+void metaAiSymbol::updateLine()
+{
+	_lineMesh.clear();
+	for (int i = 0; i < cMetaAiSymbolNodeNum; i++)
+	{
+		int sX, sY;
+		index2xy(i, sX, sY);
+
 		ofVec3f pos = _symbolNode[i].getPos();
 		for (auto& iter : _symbolLineCheck[i])
 		{
@@ -102,17 +117,17 @@ void metaAiSymbol::draw()
 			index2xy(iter, tX, tY);
 
 			ofVec3f target = _symbolNode[iter].getPos();
-			
+
 			int diff = abs(sX - tX) + abs(sY - tY);
 			auto dist = _symbolBaseDist[diff] + (target.z - pos.z) * (target.z - pos.z);
-			
+
 			if (dist <= _threshold)
 			{
-				ofLine(pos, target);
+				_lineMesh.addVertex(pos);
+				_lineMesh.addVertex(target);
 			}
 		}
 	}
-	ofPopStyle();
 }
 
 //---------------------------------------
