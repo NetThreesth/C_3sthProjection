@@ -2,27 +2,37 @@
 
 #include "constParameter.h"
 
-class metaAiSymbol
-{
-private:
-	class symbolNode {
-	public:
-		symbolNode();
-		void init(int x, int y, ofColor c);
-		void update(float delta);
-		void draw();
+class symbolNode {
+public:
+	symbolNode();
+	void init(int x, int y);
+	void update(float delta);
+	void draw(float size);
 
-		ofVec3f getPos();
-		ofColor getColor();
-	private:
-		ofVec3f _pos;
-		ofColor _color;
-	};
+	ofVec3f getPos();
+private:
+	ofVec3f _pos;
+};
+
+class symbol
+{
+public:
+	void load(string path);
 	
 public:
+	array<bool, cMetaAiSymbolNodeNum> _symbolFlag;
+	array<ofColor, cMetaAiSymbolNodeNum> _symbolColor;
+	ofImage _symbol;
+};
+
+class metaAiSymbolDisplay
+{
+public:
+	metaAiSymbolDisplay();
 	void setup(int size, int range, float threshold);
 	void update(float delta);
 	void draw();
+	void setSymbol(symbol& data);
 
 private:
 	void updateLine();
@@ -31,13 +41,13 @@ private:
 	void index2xy(int index, int& x, int& y);
 private:
 	int _displaySize;
-	float _moveRange, _threshold;
+	float _moveRange, _threshold, _nodeSize;
 	ofPixels _text;
-	
-	array<bool, cMetaAiSymbolNodeNum> _symbolFlag;
+
+	ofVboMesh _symbolLine;
 	array<vector<int>, cMetaAiSymbolNodeNum> _symbolLineCheck;
 	array<symbolNode, cMetaAiSymbolNodeNum> _symbolNode;
 	array<float, cMetaAiSymbolSize * 2> _symbolBaseDist;
-
-	ofVboMesh _lineMesh;
+	symbol* _symbolRef;
 };
+

@@ -24,7 +24,8 @@ private:
 public:
 
 private:
-	metaAiSymbol _symbol;
+	array<symbol, cMetaAiSymbolDisplayNum> _symbolList;
+	array<metaAiSymbolDisplay, cMetaAiSymbolDisplayNum> _symbolDisplay;
 #pragma endregion
 
 };
