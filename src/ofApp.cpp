@@ -4,14 +4,8 @@
 void ofApp::setup() {
 	
 	_mb.setup(ofGetWidth(), ofGetHeight());
+	initSymbol();
 
-	for (int i = 0; i < cMetaAiSymbolDisplayNum; i++)
-	{
-		_symbolDisplay[i].setup(200, 100, 20);
-		_symbolList[i].load("test" + ofToString(i+1) + ".png");
-		_symbolDisplay[i].setSymbol(_symbolList[i]);
-	}
-	
 	
 	
 
@@ -24,10 +18,7 @@ void ofApp::update() {
 	float delta = ofGetElapsedTimef() - _timer;
 	_timer += delta;
 
-	for (int i = 0; i < cMetaAiSymbolDisplayNum; i++)
-	{
-		_symbolDisplay[i].update(delta);
-	}
+	_symbolDisplay.update(delta);
 	
 	//_mb.update(delta);
 
@@ -40,22 +31,7 @@ void ofApp::draw() {
 
 	_cam.begin();
 	int index = 0;
-	for (int y = 0; y < 3; y++)
-	{
-		int pY = y * 250;
-		for (int x = 0; x < 3; x++)
-		{
-			int pX = x * 250;
-			ofPushMatrix();
-			ofTranslate(pX, pY);
-
-			_symbolDisplay[index].draw();
-			ofPopMatrix();
-
-			index++;
-		}
-	}
-	
+	_symbolDisplay.draw();
 	_cam.end();
 
 	//_mb.draw();
@@ -65,4 +41,20 @@ void ofApp::draw() {
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
 
+}
+
+//--------------------------------------------------------------
+void ofApp::initSymbol()
+{
+	_symbolDisplay.setup(200, 100, 20);
+
+	ofDirectory dir("symbol");
+	dir.allowExt("png");
+	auto size = dir.listDir();
+	_symbolList.resize(size);
+	for (int i = 0; i < size; i++)
+	{
+		_symbolList[i].load(dir.getPath(i));
+	}
+	_symbolDisplay.setSymbol(_symbolList[0]);
 }

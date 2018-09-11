@@ -22,10 +22,10 @@ private:
 
 #pragma region metaAiText
 public:
-
+	void initSymbol();
 private:
-	array<symbol, cMetaAiSymbolDisplayNum> _symbolList;
-	array<metaAiSymbolDisplay, cMetaAiSymbolDisplayNum> _symbolDisplay;
+	vector<symbol> _symbolList;
+	metaAiSymbolDisplay _symbolDisplay;
 #pragma endregion
 
 };
