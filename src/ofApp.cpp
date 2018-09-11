@@ -6,9 +6,7 @@ void ofApp::setup() {
 	_mb.setup(ofGetWidth(), ofGetHeight());
 	initSymbol();
 
-	
-	
-
+	_cam.setVFlip(true);
 	ofBackground(0);
 	_timer = ofGetElapsedTimef();
 }
@@ -30,7 +28,6 @@ void ofApp::draw() {
 	ofSetColor(255);
 
 	_cam.begin();
-	int index = 0;
 	_symbolDisplay.draw();
 	_cam.end();
 
@@ -40,7 +37,15 @@ void ofApp::draw() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-
+	switch (key)
+	{
+	case 'q':
+	{
+		_symbolIndex = (_symbolIndex + 1) % _symbolList.size();
+		_symbolDisplay.toSymbol(_symbolList[_symbolIndex]);
+		break;
+	}
+	}
 }
 
 //--------------------------------------------------------------
@@ -57,4 +62,5 @@ void ofApp::initSymbol()
 		_symbolList[i].load(dir.getPath(i));
 	}
 	_symbolDisplay.setSymbol(_symbolList[0]);
+	_symbolIndex = 0;
 }

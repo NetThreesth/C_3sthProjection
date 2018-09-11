@@ -1,12 +1,13 @@
 #pragma once
 
 #include "constParameter.h"
+#include "ofxAnimatableOfPoint.h"
 
 class symbolNode {
 public:
 	symbolNode();
 	void init(int x, int y);
-	void update(float delta);
+	void update(float time, float range);
 	void draw(float size);
 
 	ofVec3f getPos();
@@ -37,8 +38,9 @@ public:
 
 private:
 	void drawNode();
-	void updateLine();
-	void checkState();
+	void rebuildLine(symbol* data);
+
+	
 	void initBaseDist(float unit);
 	vector<int> getNearIndex(int x, int y, int maxNum);
 	void index2xy(int index, int& x, int& y);
@@ -52,14 +54,22 @@ private:
 	array<vector<int>, cMetaAiSymbolNodeNum> _symbolLineCheck;
 	array<symbolNode, cMetaAiSymbolNodeNum> _symbolNode;
 	array<float, cMetaAiSymbolSize * 2> _symbolBaseDist;
-	symbol* _symbolRef;
-	
+	symbol* _symbolRef, *_symbolTarget;
+	float _mainTimer;
+
+private:
+	void checkState(float delta);
+	void updateLine();
+	void toCenter();
+	void toTargetSymbol();
+private:
 	enum eAnimState
 	{
-		eAnimHide = 0,
-		eAnimEnter,
-		eAnimVisable,
-		eAnimExit,
+		eAnimDisplay,
+		eAnimOutput,
+		eAnimIn,
 	}_eState;
+	vector<ofxAnimatableOfPoint> _animPointList;
+	float _animTimer;
 };
 

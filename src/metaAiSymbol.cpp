@@ -1,5 +1,6 @@
 #include "metaAiSymbol.h"
 
+
 #pragma region SymbolNode
 symbolNode::symbolNode()
 	:_pos(0)
@@ -13,9 +14,9 @@ void symbolNode::init(int x, int y)
 }
 
 //---------------------------------------
-void symbolNode::update(float delta)
+void symbolNode::update(float time, float range)
 {
-	_pos.z = ofNoise(_pos.x, _pos.y, ofGetElapsedTimef()) * 100.0f;
+	_pos.z = (ofNoise(_pos.x, _pos.y, time) - 0.5) * range;
 }
 
 //---------------------------------------
@@ -69,7 +70,7 @@ void symbol::load(string path)
 //---------------------------------------
 metaAiSymbolDisplay::metaAiSymbolDisplay()
 	:_symbolRef(nullptr)
-	, _eState(eAnimHide)
+	, _eState(eAnimDisplay)
 {}
 
 //---------------------------------------
@@ -98,21 +99,19 @@ void metaAiSymbolDisplay::setup(int size, int range, float threshold)
 			_symbolNode[index].init(x * unitDist - half, y * unitDist - half);
 		}
 	}
+	_mainTimer = 0.0f;
 }
 
 //---------------------------------------
 void metaAiSymbolDisplay::update(float delta)
 {
-	if (_symbolRef == nullptr || _eState == eAnimHide)
+	if (_symbolRef == nullptr)
 	{
 		return;
 	}
+	
+	checkState(delta);
 
-	for (auto& iter : _symbolNode)
-	{
-		iter.update(delta);
-	}
-	updateLine();
 }
 
 //---------------------------------------
@@ -124,15 +123,23 @@ void metaAiSymbolDisplay::draw()
 	}
 
 	ofPushStyle();
-	
+	ofSetColor(255);
 	_symbolLine.draw();
 	ofPopStyle();
+
 }
 
 //---------------------------------------
 void metaAiSymbolDisplay::setSymbol(symbol & data)
 {
 	_symbolRef = &data;
+}
+
+//---------------------------------------
+void metaAiSymbolDisplay::toSymbol(symbol & toData)
+{
+	_symbolTarget = &toData;
+	toCenter();
 }
 
 //---------------------------------------
@@ -152,12 +159,12 @@ void metaAiSymbolDisplay::drawNode()
 }
 
 //---------------------------------------
-void metaAiSymbolDisplay::updateLine()
+void metaAiSymbolDisplay::rebuildLine(symbol* data)
 {
 	_symbolLine.clear();
 	for (int i = 0; i < cMetaAiSymbolNodeNum; i++)
 	{
-		if (!_symbolRef->_symbolFlag[i])
+		if (!data->_symbolFlag[i])
 		{
 			continue;
 		}
@@ -169,7 +176,7 @@ void metaAiSymbolDisplay::updateLine()
 		ofVec3f pos = _symbolNode[i].getPos();
 		for (auto& iter : _symbolLineCheck[i])
 		{
-			if (iter <= i || !_symbolRef->_symbolFlag[iter])
+			if (iter <= i || !data->_symbolFlag[iter])
 			{
 				//draw before
 				continue;
@@ -231,6 +238,94 @@ void metaAiSymbolDisplay::index2xy(int index, int & x, int & y)
 {
 	x = index % cMetaAiSymbolSize;
 	y = index / cMetaAiSymbolSize;
+}
+
+//---------------------------------------
+void metaAiSymbolDisplay::checkState(float delta)
+{
+	switch (_eState)
+	{
+	case eAnimOutput:
+	case eAnimIn:
+	{
+		for (auto& iter : _animPointList)
+		{
+			iter.update(delta);
+		}
+		_animTimer -= delta;
+		if (_animTimer <= 0.0f)
+		{
+			if (_eState == eAnimOutput)
+			{
+				_eState = eAnimDisplay;
+
+			}
+			else 
+			{
+				toTargetSymbol();
+			}
+		}
+		else
+		{
+			updateLine();
+		}
+		break;
+	}
+	case eAnimDisplay:
+	{
+		_mainTimer += delta;
+		for (auto& iter : _symbolNode)
+		{
+			iter.update(_mainTimer, _moveRange);
+		}
+		rebuildLine(_symbolRef);
+		break;
+	}
+	}
+}
+
+//---------------------------------------
+void metaAiSymbolDisplay::updateLine()
+{
+	for (int i = 0; i < _animPointList.size(); i++)
+	{
+		_symbolLine.setVertex(i, _animPointList[i].getCurrentPosition());
+	}
+}
+
+//---------------------------------------
+void metaAiSymbolDisplay::toCenter()
+{
+	_eState = eAnimIn;
+	_animPointList.clear();
+
+	_animPointList.resize(_symbolLine.getNumVertices());
+	for (int i = 0; i < _symbolLine.getNumVertices(); i++)
+	{
+		_animPointList[i].setPosition(_symbolLine.getVertex(i));
+		_animPointList[i].setDuration(1.0f + ofRandom(-0.5, 0.5));
+		_animPointList[i].animateTo(ofPoint(0));
+	}
+	_animTimer = 1.5f;
+}
+
+//---------------------------------------
+void metaAiSymbolDisplay::toTargetSymbol()
+{
+	_eState = eAnimOutput;
+	rebuildLine(_symbolTarget);
+	_animPointList.clear();
+	_animPointList.resize(_symbolLine.getNumVertices());
+	for (int i = 0; i < _symbolLine.getNumVertices(); i++)
+	{
+		_animPointList[i].setPosition(ofPoint(0));
+		_animPointList[i].setDuration(1.0f + ofRandom(-0.5, 0.5));
+		_animPointList[i].animateTo(_symbolLine.getVertex(i));
+		_symbolLine.setVertex(i, ofPoint(0));
+	}
+	_animTimer = 1.5f;
+	_symbolRef = _symbolTarget;
+	_symbolTarget = nullptr;
 }
 
 #pragma endregion

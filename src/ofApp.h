@@ -24,6 +24,7 @@ private:
 public:
 	void initSymbol();
 private:
+	int _symbolIndex;
 	vector<symbol> _symbolList;
 	metaAiSymbolDisplay _symbolDisplay;
 #pragma endregion
