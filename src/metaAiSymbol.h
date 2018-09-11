@@ -33,12 +33,16 @@ public:
 	void update(float delta);
 	void draw();
 	void setSymbol(symbol& data);
+	void toSymbol(symbol& toData);
 
 private:
+	void drawNode();
 	void updateLine();
+	void checkState();
 	void initBaseDist(float unit);
 	vector<int> getNearIndex(int x, int y, int maxNum);
 	void index2xy(int index, int& x, int& y);
+
 private:
 	int _displaySize;
 	float _moveRange, _threshold, _nodeSize;
@@ -49,5 +53,13 @@ private:
 	array<symbolNode, cMetaAiSymbolNodeNum> _symbolNode;
 	array<float, cMetaAiSymbolSize * 2> _symbolBaseDist;
 	symbol* _symbolRef;
+	
+	enum eAnimState
+	{
+		eAnimHide = 0,
+		eAnimEnter,
+		eAnimVisable,
+		eAnimExit,
+	}_eState;
 };
 

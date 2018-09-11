@@ -65,11 +65,11 @@ void symbol::load(string path)
 }
 #pragma endregion
 
-
 #pragma region metaAi Symbol Display
 //---------------------------------------
 metaAiSymbolDisplay::metaAiSymbolDisplay()
 	:_symbolRef(nullptr)
+	, _eState(eAnimHide)
 {}
 
 //---------------------------------------
@@ -103,7 +103,7 @@ void metaAiSymbolDisplay::setup(int size, int range, float threshold)
 //---------------------------------------
 void metaAiSymbolDisplay::update(float delta)
 {
-	if (_symbolRef == nullptr)
+	if (_symbolRef == nullptr || _eState == eAnimHide)
 	{
 		return;
 	}
@@ -122,17 +122,8 @@ void metaAiSymbolDisplay::draw()
 	{
 		return;
 	}
+
 	ofPushStyle();
-	
-	//for (int i = 0; i < cMetaAiSymbolNodeNum; i++)
-	//{
-	//	if (!_symbolRef->_symbolFlag[i])
-	//	{
-	//		continue;
-	//	}
-	//	ofSetColor(_symbolRef->_symbolColor[i]);
-	//	_symbolNode[i].draw(_nodeSize);
-	//}
 	
 	_symbolLine.draw();
 	ofPopStyle();
@@ -142,6 +133,22 @@ void metaAiSymbolDisplay::draw()
 void metaAiSymbolDisplay::setSymbol(symbol & data)
 {
 	_symbolRef = &data;
+}
+
+//---------------------------------------
+void metaAiSymbolDisplay::drawNode()
+{
+	ofPushStyle();
+	for (int i = 0; i < cMetaAiSymbolNodeNum; i++)
+	{
+		if (!_symbolRef->_symbolFlag[i])
+		{
+			continue;
+		}
+		ofSetColor(_symbolRef->_symbolColor[i]);
+		_symbolNode[i].draw(_nodeSize);
+	}
+	ofPopStyle();
 }
 
 //---------------------------------------
