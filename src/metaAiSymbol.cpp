@@ -304,6 +304,7 @@ void metaAiSymbolDisplay::toCenter()
 	{
 		_animPointList[i].setPosition(_symbolLine.getVertex(i));
 		_animPointList[i].setDuration(1.0f + ofRandom(-0.5, 0.5));
+		
 		_animPointList[i].animateTo(ofPoint(0));
 	}
 	_animTimer = 1.5f;
@@ -320,6 +321,7 @@ void metaAiSymbolDisplay::toTargetSymbol()
 	{
 		_animPointList[i].setPosition(ofPoint(0));
 		_animPointList[i].setDuration(1.0f + ofRandom(-0.5, 0.5));
+		
 		_animPointList[i].animateTo(_symbolLine.getVertex(i));
 		_symbolLine.setVertex(i, ofPoint(0));
 	}

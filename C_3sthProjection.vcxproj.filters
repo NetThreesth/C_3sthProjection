@@ -40,6 +40,12 @@
     <ClCompile Include="src\metaAiSymbol.cpp">
       <Filter>src\metaAiSymbol</Filter>
     </ClCompile>
+    <ClCompile Include="src\kinectUnit.cpp">
+      <Filter>src\kinectTracking</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kinectMgr.cpp">
+      <Filter>src\kinectTracking</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -65,6 +71,9 @@
     </Filter>
     <Filter Include="src\metaAiSymbol">
       <UniqueIdentifier>{ddc10951-5841-4966-a426-8fefeb74299b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\kinectTracking">
+      <UniqueIdentifier>{f4001f4c-18ec-411c-afe5-8f28264ed378}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +121,15 @@
     </ClInclude>
     <ClInclude Include="src\metaAiSymbol.h">
       <Filter>src\metaAiSymbol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kinectBase.h">
+      <Filter>src\kinectTracking</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kinectUnit.h">
+      <Filter>src\kinectTracking</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kinectMgr.h">
+      <Filter>src\kinectTracking</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -171,6 +171,8 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\kinectMgr.cpp" />
+    <ClCompile Include="src\kinectUnit.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\metaAiSymbol.cpp" />
     <ClCompile Include="src\metaball.cpp" />
@@ -187,6 +189,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\constParameter.h" />
+    <ClInclude Include="src\kinectBase.h" />
+    <ClInclude Include="src\kinectMgr.h" />
+    <ClInclude Include="src\kinectUnit.h" />
     <ClInclude Include="src\metaAiSymbol.h" />
     <ClInclude Include="src\metaball.h" />
     <ClInclude Include="src\ofApp.h" />
