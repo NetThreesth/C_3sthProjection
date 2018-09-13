@@ -3,6 +3,7 @@
 #include "constParameter.h"
 #include "metaball.h"
 #include "metaAiSymbol.h"
+#include "kinectMgr.h"
 
 class ofApp : public ofBaseApp{
 
@@ -28,6 +29,12 @@ private:
 	vector<symbol> _symbolList;
 	metaAiSymbolDisplay _symbolDisplay;
 #pragma endregion
+
+#pragma region KinectMgr
+private:
+	kinectMgr _kinectMgr;
+#pragma endregion
+
 
 };
 

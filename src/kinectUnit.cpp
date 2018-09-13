@@ -30,6 +30,7 @@ bool kinectUnit::update(float delta)
 				CopyMemory(_blobList, package._blobData, sizeof(blobData) * cKMaxBlobNumEach);
 			}
 		}
+		
 		return true;
 	}
 	else
@@ -41,8 +42,10 @@ bool kinectUnit::update(float delta)
 //-------------------------
 void kinectUnit::draw()
 {
+	ofPushStyle();
 	for (auto& iter : _blobList)
 	{
 		ofDrawRectangle(iter.x, iter.y, iter.width, iter.height);
 	}
+	ofPopStyle();
 }

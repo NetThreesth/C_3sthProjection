@@ -5,15 +5,16 @@
 
 class kinectMgr
 {
-private:
+public:
 	void setup();
 	void update(float delta);
 	void draw();
 
 private:
-	void merge();
+	void checkBlob();
+	void checkMerge(blobData& blob);
 
 public:
-	list<blobData> _megreBlobList;
+	list<blobData> _mergeBlobList;
 	array<kinectUnit, cKinectNum> _kinectList;
 };

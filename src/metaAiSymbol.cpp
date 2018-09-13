@@ -87,6 +87,7 @@ void metaAiSymbolDisplay::setup(int size, int range, float threshold)
 	float unitDistPow = unitDist * unitDist;
 	_nodeSize = unitDist * 0.2f;
 
+	
 	initBaseDist(unitDist);
 
 	int maxUnit = ceil(threshold / unitDist);

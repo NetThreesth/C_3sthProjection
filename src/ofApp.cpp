@@ -2,10 +2,9 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-	
 	_mb.setup(ofGetWidth(), ofGetHeight());
 	initSymbol();
-
+	_kinectMgr.setup();
 	_cam.setVFlip(true);
 	ofBackground(0);
 	_timer = ofGetElapsedTimef();
@@ -17,7 +16,7 @@ void ofApp::update() {
 	_timer += delta;
 
 	_symbolDisplay.update(delta);
-	
+	_kinectMgr.update(delta);
 	//_mb.update(delta);
 
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
@@ -30,6 +29,8 @@ void ofApp::draw() {
 	_cam.begin();
 	_symbolDisplay.draw();
 	_cam.end();
+
+	_kinectMgr.draw();
 
 	//_mb.draw();
 	//_mb.drawNode();
@@ -60,6 +61,7 @@ void ofApp::initSymbol()
 	for (int i = 0; i < size; i++)
 	{
 		_symbolList[i].load(dir.getPath(i));
+
 	}
 	_symbolDisplay.setSymbol(_symbolList[0]);
 	_symbolIndex = 0;
