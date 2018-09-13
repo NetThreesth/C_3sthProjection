@@ -28,15 +28,12 @@ bool kinectUnit::update(float delta)
 			if (package._kid == _kinectId)
 			{
 				CopyMemory(_blobList, package._blobData, sizeof(blobData) * cKMaxBlobNumEach);
+				_isUpdate = true;
 			}
 		}
 		
-		return true;
 	}
-	else
-	{
-		return false;
-	}
+	return _isUpdate;
 }
 
 //-------------------------

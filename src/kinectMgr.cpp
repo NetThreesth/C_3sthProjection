@@ -12,15 +12,23 @@ void kinectMgr::setup()
 //--------------------------------
 void kinectMgr::update(float delta)
 {
-	bool hasUpdate = false;
+	bool hasUpdate = true;
 	for (auto& iter : _kinectList)
 	{
-		hasUpdate |= iter.update(delta);
+		hasUpdate &= iter.update(delta);
 	}
 
 	if (hasUpdate)
 	{
-		checkBlob();
+		vector<trackBlob> newBlobList;
+		checkBlob(newBlobList);
+		tracking(newBlobList);
+		_mergeBlobList = newBlobList;
+
+		for (auto& iter : _kinectList)
+		{
+			iter._isUpdate = false;
+		}
 	}
 }
 
@@ -32,15 +40,18 @@ void kinectMgr::draw()
 	ofSetColor(255);
 	for (auto& iter : _mergeBlobList)
 	{
-		ofDrawRectangle(iter.x, iter.y, iter.width, iter.height);
+		ofDrawRectangle(iter._rect);
+
+		ofDrawBitmapStringHighlight(ofToString(iter._bid), iter._rect.getCenter());
 	}
 	ofPopStyle();
 }
 
 //--------------------------------
-void kinectMgr::checkBlob()
+void kinectMgr::checkBlob(vector<trackBlob>& nextBlobList)
 {
-	_mergeBlobList.clear();
+	nextBlobList.clear();
+
 	for (auto& iter : _kinectList)
 	{
 		for (auto& blob : iter._blobList)
@@ -52,20 +63,20 @@ void kinectMgr::checkBlob()
 			newBlob.x += iter._range.x;
 			newBlob.y += iter._range.y;
 
-			checkMerge(newBlob);
+			checkMerge(newBlob, nextBlobList);
 
 		}
 	}
 }
 
 //--------------------------------
-void kinectMgr::checkMerge(blobData& blob)
+void kinectMgr::checkMerge(blobData& blob, vector<trackBlob>& blobList)
 {
 	bool independentBlob = true;
-	
-	for (auto& iter : _mergeBlobList)
+
+	for (auto& iter : blobList)
 	{
-		ofRectangle oldBlob(iter.x, iter.y, iter.width, iter.height);
+		ofRectangle oldBlob = iter._rect;
 		ofRectangle newBlob(blob.x, blob.y, blob.width, blob.height);
 
 		if (oldBlob.intersects(newBlob))
@@ -77,10 +88,10 @@ void kinectMgr::checkMerge(blobData& blob)
 			p2.y = MAX(oldBlob.getMaxY(), newBlob.getMaxY());
 
 
-			iter.x = p1.x;
-			iter.y = p1.y;
-			iter.width = p2.x - p1.x;
-			iter.height = p2.y - p1.y;
+			iter._rect.x = p1.x;
+			iter._rect.y = p1.y;
+			iter._rect.width = p2.x - p1.x;
+			iter._rect.height = p2.y - p1.y;
 
 			independentBlob = false;
 			break;
@@ -89,7 +100,88 @@ void kinectMgr::checkMerge(blobData& blob)
 
 	if (independentBlob)
 	{
-		_mergeBlobList.push_back(blob);
+		blobList.push_back(blob);
 	}
-	
+
+}
+
+//--------------------------------
+void kinectMgr::tracking(vector<trackBlob>& blobList)
+{
+	if (blobList.size() == 0)
+	{
+		//No blob
+		_blobCounter = 0;
+		return;
+	}
+
+	if (_mergeBlobList.size() == 0)
+	{
+		//New Tracking
+		for (auto& iter : blobList)
+		{
+			iter._bid = _blobCounter;
+			_blobCounter++;
+		}
+		return;
+	}
+
+	vector<vector<blobDistSet>> distMap;
+	vector<bool> flagList;
+	flagList.resize(_mergeBlobList.size(), false);
+	for (auto& newBlob : blobList)
+	{
+		vector<blobDistSet> dist;
+		for (int i = 0; i < _mergeBlobList.size(); i++)
+		{
+			blobDistSet dSet(i, newBlob._rect.getCenter().distanceSquared(_mergeBlobList[i]._rect.getCenter()));
+			dist.push_back(dSet);
+		}
+		sort(dist.begin(), dist.end(),
+			[](const blobDistSet& a, const blobDistSet& b)
+		{
+			return a._dist < b._dist;
+		}
+		);
+		distMap.push_back(dist);
+	}
+
+	for (int i = 0; i < blobList.size(); i++)
+	{
+		int index = -1;
+		int newIndex = -1;
+		float dist = cKTrackingMaxDist;
+		for (int j = 0; j < distMap.size(); j++)
+		{
+			for (int k = 0; k < distMap[j].size(); k++)
+			{
+				if (!flagList[distMap[j][k]._id])
+				{
+					if (distMap[j][k]._dist < dist)
+					{
+						dist = distMap[j][k]._dist;
+						index = distMap[j][k]._id;
+						newIndex = j;
+					}
+					break;
+				}
+			}
+		}
+
+		if (index != -1)
+		{
+			flagList[index] = true;
+			blobList[newIndex]._bid = _mergeBlobList[index]._bid;
+		}		
+	}
+
+	for (auto& iter : blobList)
+	{
+		if (iter._bid == -1)
+		{
+			iter._bid = _blobCounter;
+			_blobCounter++;
+		}
+	}
+
 }
