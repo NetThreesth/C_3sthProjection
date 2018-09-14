@@ -8,7 +8,8 @@ void kinectMgr::setup()
 	_kinectList[2].setup(3, 10, 470, 640, 480, 2255);
 	_kinectList[3].setup(4, 630, 470, 640, 480, 2266);
 
-
+	_mergeArea[0].set((1280 - cKMergeSize) * 0.5, 0, cKMergeSize, 960);
+	_mergeArea[1].set(0, (960 - cKMergeSize) * 0.5, 1280, cKMergeSize);
 }
 
 //--------------------------------
@@ -24,7 +25,7 @@ void kinectMgr::update(float delta)
 	{
 		vector<trackBlob> newBlobList;
 		checkBlob(newBlobList);
-		mergeCheck(newBlobList);
+		//mergeCheck(newBlobList);
 		
 		tracking(newBlobList);
 		_mergeBlobList = newBlobList;
@@ -44,10 +45,16 @@ void kinectMgr::draw()
 	ofSetColor(255);
 	for (auto& iter : _mergeBlobList)
 	{
-		ofDrawRectangle(iter._rect);
 
-		ofDrawBitmapStringHighlight(ofToString(iter._bid), iter._rect.getCenter());
+		ofDrawRectangle(iter._rect);
+		auto center = iter._rect.getCenter();
+		ofLine(center, center - iter._vec);
+		ofDrawBitmapString(ofToString(iter._bid), center);
 	}
+
+	ofSetColor(255, 0, 0);
+	ofDrawRectangle(_mergeArea[0]);
+	ofDrawRectangle(_mergeArea[1]);
 	ofPopStyle();
 }
 
@@ -77,28 +84,29 @@ void kinectMgr::checkBlob(vector<trackBlob>& nextBlobList)
 void kinectMgr::addNewBlob(blobData& blob, vector<trackBlob>& blobList)
 {
 	bool independentBlob = true;
+	ofRectangle newBlob(blob.x, blob.y, blob.width, blob.height);
 
-	for (auto& iter : blobList)
+	if (newBlob.intersects(_mergeArea[0]) || newBlob.intersects(_mergeArea[1]))
 	{
-		ofRectangle oldBlob = iter._rect;
-		ofRectangle newBlob(blob.x, blob.y, blob.width, blob.height);
-
-		if (oldBlob.intersects(newBlob))
+		for (auto& iter : blobList)
 		{
-			ofVec2f p1, p2;
-			p1.x = MIN(oldBlob.getMinX(), newBlob.getMinX());
-			p1.y = MIN(oldBlob.getMinY(), newBlob.getMinY());
-			p2.x = MAX(oldBlob.getMaxX(), newBlob.getMaxX());
-			p2.y = MAX(oldBlob.getMaxY(), newBlob.getMaxY());
+			ofRectangle oldBlob = iter._rect;
+			if (oldBlob.intersects(newBlob))
+			{
+				ofVec2f p1, p2;
+				p1.x = MIN(oldBlob.getMinX(), newBlob.getMinX());
+				p1.y = MIN(oldBlob.getMinY(), newBlob.getMinY());
+				p2.x = MAX(oldBlob.getMaxX(), newBlob.getMaxX());
+				p2.y = MAX(oldBlob.getMaxY(), newBlob.getMaxY());
 
-			
-			iter._rect.x = p1.x;
-			iter._rect.y = p1.y;
-			iter._rect.width = p2.x - p1.x;
-			iter._rect.height = p2.y - p1.y;
+				iter._rect.x = p1.x;
+				iter._rect.y = p1.y;
+				iter._rect.width = p2.x - p1.x;
+				iter._rect.height = p2.y - p1.y;
 
-			independentBlob = false;
-			break;
+				independentBlob = false;
+				break;
+			}
 		}
 	}
 
@@ -224,6 +232,7 @@ void kinectMgr::tracking(vector<trackBlob>& blobList)
 			flagList[index] = true;
 			flagNewList[newIndex] = true;
 			blobList[newIndex]._bid = _mergeBlobList[index]._bid;
+			blobList[newIndex]._vec.set(blobList[newIndex]._rect.getCenter() - _mergeBlobList[index]._rect.getCenter());
 		}		
 	}
 

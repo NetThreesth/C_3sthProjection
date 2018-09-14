@@ -37,6 +37,7 @@ struct trackBlob
 	}
 
 	int _bid;
+	ofVec2f _vec;
 	ofRectangle _rect;
 };
 

@@ -25,5 +25,5 @@ public:
 	vector<trackBlob> _mergeBlobList;
 	array<kinectUnit, cKinectNum> _kinectList;
 
-	vector<ofRectangle> _mergeArea;
+	array<ofRectangle, 2> _mergeArea;
 };
