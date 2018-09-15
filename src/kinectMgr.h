@@ -19,7 +19,7 @@ private:
 	void addNewBlob(blobData& blob, vector<trackBlob>& blobList);
 	bool mergeCheck(vector<trackBlob>& blobList);
 	void tracking(vector<trackBlob>& blobList);
-
+	void updateFlowField();
 public:
 	int _blobCounter;
 	vector<trackBlob> _mergeBlobList;

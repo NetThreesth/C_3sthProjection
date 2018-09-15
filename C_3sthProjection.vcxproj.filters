@@ -46,6 +46,9 @@
     <ClCompile Include="src\kinectMgr.cpp">
       <Filter>src\kinectTracking</Filter>
     </ClCompile>
+    <ClCompile Include="src\flowField.cpp">
+      <Filter>src\flowField</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -74,6 +77,9 @@
     </Filter>
     <Filter Include="src\kinectTracking">
       <UniqueIdentifier>{f4001f4c-18ec-411c-afe5-8f28264ed378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\flowField">
+      <UniqueIdentifier>{edbcbaae-5a15-4b70-bb8b-d61d9ded0bde}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="src\kinectMgr.h">
       <Filter>src\kinectTracking</Filter>
+    </ClInclude>
+    <ClInclude Include="src\flowField.h">
+      <Filter>src\flowField</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

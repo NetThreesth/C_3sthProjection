@@ -4,6 +4,7 @@
 #include "metaball.h"
 #include "metaAiSymbol.h"
 #include "kinectMgr.h"
+#include "flowField.h"
 
 class ofApp : public ofBaseApp{
 

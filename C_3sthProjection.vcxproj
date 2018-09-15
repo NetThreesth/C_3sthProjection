@@ -171,6 +171,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\flowField.cpp" />
     <ClCompile Include="src\kinectMgr.cpp" />
     <ClCompile Include="src\kinectUnit.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -189,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\constParameter.h" />
+    <ClInclude Include="src\flowField.h" />
     <ClInclude Include="src\kinectBase.h" />
     <ClInclude Include="src\kinectMgr.h" />
     <ClInclude Include="src\kinectUnit.h" />

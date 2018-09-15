@@ -18,7 +18,7 @@ void ofApp::update() {
 	_symbolDisplay.update(delta);
 	_kinectMgr.update(delta);
 	//_mb.update(delta);
-
+	flowField::getInstance()->update(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
@@ -32,6 +32,7 @@ void ofApp::draw() {
 
 	_kinectMgr.draw();
 
+	flowField::getInstance()->draw(0, 0, 1280, 960);
 	//_mb.draw();
 	//_mb.drawNode();
 }

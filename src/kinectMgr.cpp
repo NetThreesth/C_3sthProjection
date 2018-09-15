@@ -1,4 +1,5 @@
 #include "kinectMgr.h"
+#include "flowField.h"
 
 //--------------------------------
 void kinectMgr::setup()
@@ -8,8 +9,8 @@ void kinectMgr::setup()
 	_kinectList[2].setup(3, 10, 470, 640, 480, 2255);
 	_kinectList[3].setup(4, 630, 470, 640, 480, 2266);
 
-	_mergeArea[0].set((1280 - cKMergeSize) * 0.5, 0, cKMergeSize, 960);
-	_mergeArea[1].set(0, (960 - cKMergeSize) * 0.5, 1280, cKMergeSize);
+	_mergeArea[0].set((cKinectMergeRect.width - cKMergeSize) * 0.5, 0, cKMergeSize, cKinectMergeRect.height);
+	_mergeArea[1].set(0, (cKinectMergeRect.height - cKMergeSize) * 0.5, cKinectMergeRect.width, cKMergeSize);
 }
 
 //--------------------------------
@@ -30,10 +31,13 @@ void kinectMgr::update(float delta)
 		tracking(newBlobList);
 		_mergeBlobList = newBlobList;
 
+		updateFlowField();
 		for (auto& iter : _kinectList)
 		{
 			iter._isUpdate = false;
 		}
+
+
 	}
 }
 
@@ -42,19 +46,18 @@ void kinectMgr::draw()
 {
 	ofPushStyle();
 	ofNoFill();
-	ofSetColor(255);
+	ofSetColor(0, 255, 0);
 	for (auto& iter : _mergeBlobList)
 	{
-
 		ofDrawRectangle(iter._rect);
 		auto center = iter._rect.getCenter();
 		ofLine(center, center - iter._vec);
 		ofDrawBitmapString(ofToString(iter._bid), center);
 	}
 
-	ofSetColor(255, 0, 0);
-	ofDrawRectangle(_mergeArea[0]);
-	ofDrawRectangle(_mergeArea[1]);
+	//ofSetColor(255, 0, 0);
+	//ofDrawRectangle(_mergeArea[0]);
+	//ofDrawRectangle(_mergeArea[1]);
 	ofPopStyle();
 }
 
@@ -245,4 +248,14 @@ void kinectMgr::tracking(vector<trackBlob>& blobList)
 		}
 	}
 
+}
+
+//--------------------------------
+void kinectMgr::updateFlowField()
+{
+	for (auto& iter : _mergeBlobList)
+	{
+		auto pos = iter._rect.getCenter();
+		flowField::getInstance()->setForce(pos.x, pos.y, iter._vec, cKinectMergeRect.width, cKinectMergeRect.height);
+	}
 }
