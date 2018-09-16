@@ -26,6 +26,8 @@ public:
 	void update(float delta);
 	void draw(int x, int y, int width, int height);
 	void setForce(int x, int y, ofVec2f force, int width, int height);
+	void setForce(ofRectangle range, ofVec2f force, int width, int height);
+	ofVec2f getForce(int x, int y, int width, int height);
 
 private:
 	int getIndex(int x, int y, int width, int height);
@@ -34,9 +36,9 @@ private:
 private:
 	array<forceUnit, cFFNum> _flowMap;
 
-//-------------------
-//Singleton
-//-------------------
+	//-------------------
+	//Singleton
+	//-------------------
 private:
 	flowField()
 	{

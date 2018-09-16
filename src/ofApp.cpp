@@ -17,7 +17,7 @@ void ofApp::update() {
 
 	_symbolDisplay.update(delta);
 	_kinectMgr.update(delta);
-	//_mb.update(delta);
+	_mb.update(delta);
 	flowField::getInstance()->update(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
@@ -26,15 +26,16 @@ void ofApp::update() {
 void ofApp::draw() {
 	ofSetColor(255);
 
-	_cam.begin();
+	/*_cam.begin();
 	_symbolDisplay.draw();
-	_cam.end();
+	_cam.end();*/
+
+	_mb.draw();
+	_mb.drawNode();
 
 	_kinectMgr.draw();
-
 	flowField::getInstance()->draw(0, 0, 1280, 960);
-	//_mb.draw();
-	//_mb.drawNode();
+
 }
 
 //--------------------------------------------------------------

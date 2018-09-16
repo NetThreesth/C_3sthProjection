@@ -7,6 +7,7 @@ void flowField::forceUnit::update(float delta)
 	if (_timer < 0.0f)
 	{
 		_needUpdate = false;
+		_force.set(0);
 	}
 }
 
@@ -21,14 +22,19 @@ ofVec2f flowField::forceUnit::getForce()
 	{
 		return ofVec2f(0);
 	}
-	
+
 }
 
 //-----------------------------------
 void flowField::forceUnit::setForce(ofVec2f force)
 {
 	_needUpdate = true;
+	//if (_force != force)
+	//{
+	//	_force += force;
+	//}
 	_force = force;
+	
 	_timer = cFFFourceTime;
 }
 
@@ -54,7 +60,7 @@ void flowField::draw(int x, int y, int width, int height)
 	ofPushStyle();
 	{
 		//Grid
-		ofSetColor(255, 100);
+		ofSetColor(255, 0, 0, 100);
 		for (int i = 0; i <= cFFColsNum; i++)
 		{
 			ofLine(unitW * i, 0, unitW * i, height);
@@ -65,7 +71,7 @@ void flowField::draw(int x, int y, int width, int height)
 		}
 
 		//flow
-		ofSetColor(255);
+		ofSetColor(255, 0,0);
 		ofVec2f pos;
 		for (int y = 0; y < cFFRowsNum; y++)
 		{
@@ -85,9 +91,9 @@ void flowField::draw(int x, int y, int width, int height)
 //--------------------------------------------------------------
 void flowField::setForce(int x, int y, ofVec2f force, int width, int height)
 {
-	ofVec2f sp, ep;
-	ep = getPos(x, y, width, height);
-	sp = getPos(x - force.x, y - force.y, width, height);
+
+	ofVec2f ep = getPos(x, y, width, height);
+	ofVec2f sp = getPos(x - force.x, y - force.y, width, height);
 
 	int sx = MIN(sp.x, ep.x);
 	int sy = MIN(sp.y, ep.y);
@@ -109,9 +115,32 @@ void flowField::setForce(int x, int y, ofVec2f force, int width, int height)
 				int index = dx + dy * cFFColsNum;
 				_flowMap[index].setForce(force);
 			}
-
 		}
 	}
+}
+
+//--------------------------------------------------------------
+void flowField::setForce(ofRectangle range, ofVec2f force, int width, int height)
+{
+	ofVec2f sp = getPos(range.getLeft(), range.getTop(), width, height);
+	ofVec2f ep = getPos(range.getRight(), range.getBottom(), width, height);
+
+
+	for (int dy = sp.y; dy <= ep.y; dy++)
+	{
+		for (int dx = sp.x; dx <= ep.x; dx++)
+		{
+			int index = dx + dy * cFFColsNum;
+			_flowMap[index].setForce(force);
+		}
+	}
+
+}
+
+//--------------------------------------------------------------
+ofVec2f flowField::getForce(int x, int y, int width, int height)
+{
+	return _flowMap[getIndex(x, y, width, height)].getForce();
 }
 
 //--------------------------------------------------------------
@@ -120,7 +149,7 @@ int flowField::getIndex(int x, int y, int width, int height)
 	int indexX = floor(((float)x / width) * cFFColsNum);
 	int indexY = floor(((float)y / height) * cFFRowsNum);
 
-	return indexX + indexY * cFFColsNum;
+	return MAX(MIN(indexX + indexY * cFFColsNum, _flowMap.size() - 1), 0);
 }
 
 //--------------------------------------------------------------

@@ -3,8 +3,8 @@
 #include "ofMain.h"
 
 //Metaball
-static const int cMetaballNum = 10;
-
+static const int cMetaballNum = 8;
+static const ofRectangle cMetaballRect(0, 0, 1280, 960);
 
 //Meta Ai Symbol
 static const int cMetaAiSymbolSize = 64;
@@ -24,4 +24,4 @@ static const int cKMergeSize = 60;
 static const int cFFRowsNum = 30;
 static const int cFFColsNum = 40;
 static const int cFFNum = cFFRowsNum * cFFColsNum;
-static const float cFFFourceTime = 10.0f;
+static const float cFFFourceTime = 100.0f;

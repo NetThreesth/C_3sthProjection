@@ -13,7 +13,7 @@ public:
 	void draw();
 	ofVec3f getData();
 private:
-	ofVec2f _vec, _pos;
+	ofVec2f _vec, _pos, _acc;
 	float _r;
 };
 

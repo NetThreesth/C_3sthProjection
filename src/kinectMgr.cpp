@@ -256,6 +256,11 @@ void kinectMgr::updateFlowField()
 	for (auto& iter : _mergeBlobList)
 	{
 		auto pos = iter._rect.getCenter();
-		flowField::getInstance()->setForce(pos.x, pos.y, iter._vec, cKinectMergeRect.width, cKinectMergeRect.height);
+		
+		//Only center
+		//flowField::getInstance()->setForce(pos.x, pos.y, iter._vec, cKinectMergeRect.width, cKinectMergeRect.height);
+
+		//Full range
+		flowField::getInstance()->setForce(iter._rect, iter._vec, cKinectMergeRect.width, cKinectMergeRect.height);
 	}
 }
