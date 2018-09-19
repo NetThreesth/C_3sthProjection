@@ -25,3 +25,11 @@ static const int cFFRowsNum = 30;
 static const int cFFColsNum = 40;
 static const int cFFNum = cFFRowsNum * cFFColsNum;
 static const float cFFFourceTime = 100.0f;
+
+//Arm
+static const int cArmKinectNum = 2;
+static const int cArmBufferSize = 240;
+static const float cFrameTime = 1 / 24.0f;
+static const int cArmStartFrame = 218;
+static const int cArmEndFrame = 2049;
+static const int cArmFrameNum = 1832;

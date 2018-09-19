@@ -49,6 +49,9 @@
     <ClCompile Include="src\flowField.cpp">
       <Filter>src\flowField</Filter>
     </ClCompile>
+    <ClCompile Include="src\armKinect.cpp">
+      <Filter>src\armKinect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -80,6 +83,9 @@
     </Filter>
     <Filter Include="src\flowField">
       <UniqueIdentifier>{edbcbaae-5a15-4b70-bb8b-d61d9ded0bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\armKinect">
+      <UniqueIdentifier>{103f70da-f80b-4068-b3c7-45c4d3e3c89f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="src\flowField.h">
       <Filter>src\flowField</Filter>
+    </ClInclude>
+    <ClInclude Include="src\armKinect.h">
+      <Filter>src\armKinect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
