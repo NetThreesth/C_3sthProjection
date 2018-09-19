@@ -5,7 +5,7 @@ void ofApp::setup() {
 	_mb.setup(ofGetWidth(), ofGetHeight());
 	initSymbol();
 	_kinectMgr.setup();
-	_cam.setVFlip(true);
+	_cam.setVFlip(false);
 	ofBackground(0);
 	_timer = ofGetElapsedTimef();
 }
@@ -18,6 +18,7 @@ void ofApp::update() {
 	_symbolDisplay.update(delta);
 	_kinectMgr.update(delta);
 	_mb.update(delta);
+	_armKinect.update(delta);
 	flowField::getInstance()->update(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
@@ -26,15 +27,18 @@ void ofApp::update() {
 void ofApp::draw() {
 	ofSetColor(255);
 
-	/*_cam.begin();
-	_symbolDisplay.draw();
-	_cam.end();*/
+	_cam.begin();
+	//_symbolDisplay.draw();
+	_armKinect.draw();
+	_cam.end();
 
-	_mb.draw();
-	_mb.drawNode();
+	//_mb.draw();
+	//_mb.drawNode();
 
-	_kinectMgr.draw();
-	flowField::getInstance()->draw(0, 0, 1280, 960);
+	//_kinectMgr.draw();
+	//flowField::getInstance()->draw(0, 0, 1280, 960);
+
+	ofDrawBitmapStringHighlight("Frame:" + ofToString(_armKinect.getFrame()), 0, 70);
 
 }
 
@@ -46,6 +50,11 @@ void ofApp::keyPressed(int key) {
 	{
 		_symbolIndex = (_symbolIndex + 1) % _symbolList.size();
 		_symbolDisplay.toSymbol(_symbolList[_symbolIndex]);
+		break;
+	}
+	case 'k':
+	{
+		_armKinect.start();
 		break;
 	}
 	}

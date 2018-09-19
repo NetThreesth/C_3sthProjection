@@ -5,6 +5,7 @@
 #include "metaAiSymbol.h"
 #include "kinectMgr.h"
 #include "flowField.h"
+#include "armKinect.h"
 
 class ofApp : public ofBaseApp{
 
@@ -36,6 +37,12 @@ private:
 	kinectMgr _kinectMgr;
 #pragma endregion
 
+#pragma region armKinect
+public:
+	
+private:
+	armKinect _armKinect;
+#pragma endregion
 
 };
 
