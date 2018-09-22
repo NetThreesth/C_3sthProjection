@@ -30,7 +30,7 @@ class metaAiSymbolDisplay
 {
 public:
 	metaAiSymbolDisplay();
-	void setup(int size, int range, float threshold);
+	void setup(int size, int range, float thresholdMin, float thresholdMax);
 	void update(float delta);
 	void draw();
 	void setSymbol(symbol& data);
@@ -39,18 +39,21 @@ public:
 private:
 	void drawNode();
 	void rebuildLine(symbol* data);
+	void rebuildMesh(symbol* data);
+
+	vector<int> getNearIndex(symbol * data, int index);
 
 	
 	void initBaseDist(float unit);
-	vector<int> getNearIndex(int x, int y, int maxNum);
+	vector<int> getPossibleIndex(int x, int y, int minNum, int maxNum);
 	void index2xy(int index, int& x, int& y);
 
 private:
 	int _displaySize;
-	float _moveRange, _threshold, _nodeSize;
+	float _moveRange, _tMin, _tMax, _nodeSize;
 	ofPixels _text;
 
-	ofVboMesh _symbolLine;
+	ofVboMesh _symbolLine, _symbolMesh;
 	array<vector<int>, cMetaAiSymbolNodeNum> _symbolLineCheck;
 	array<symbolNode, cMetaAiSymbolNodeNum> _symbolNode;
 	array<float, cMetaAiSymbolSize * 2> _symbolBaseDist;
@@ -71,5 +74,19 @@ private:
 	}_eState;
 	vector<ofxAnimatableOfPoint> _animPointList;
 	float _animTimer;
+
+#pragma region Light
+private:
+	void lightSetup();
+	void lightUpdate();
+	void lightEnable();
+	void lightDisable();
+
+private:
+
+	//light
+	ofLight _pointLight, _spotLight, _directionalLight;
+#pragma endregion
+
 };
 

@@ -28,7 +28,7 @@ void ofApp::draw() {
 	ofSetColor(255);
 
 	_cam.begin();
-	//_symbolDisplay.draw();
+	_symbolDisplay.draw();
 	_armKinect.draw();
 	_cam.end();
 
@@ -63,7 +63,7 @@ void ofApp::keyPressed(int key) {
 //--------------------------------------------------------------
 void ofApp::initSymbol()
 {
-	_symbolDisplay.setup(200, 100, 20);
+	_symbolDisplay.setup(640, 100, 11, 25);
 
 	ofDirectory dir("symbol");
 	dir.allowExt("png");
