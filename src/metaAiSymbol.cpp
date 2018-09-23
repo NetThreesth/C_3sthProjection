@@ -18,7 +18,7 @@ void symbolNode::init(int x, int y)
 //---------------------------------------
 void symbolNode::update(float time, float range)
 {
-	_pos.z = (ofNoise(_pos.x, _pos.y, time) - 0.5) * range;
+	_pos.z = (ofNoise(_pos.x, _pos.y, time * 0.1f) - 0.5) * range;
 }
 
 //---------------------------------------
@@ -134,14 +134,14 @@ void metaAiSymbolDisplay::draw()
 
 	ofSetDepthTest(true);
 	ofPushStyle();
-	//lightEnable();
+	lightEnable();
 	ofSetColor(255);
 	//drawNode();
 	
 	_symbolLine.draw();
 	_symbolMesh.drawWireframe();
 	_symbolMesh.draw();
-	//lightDisable();
+	lightDisable();
 	ofPopStyle();
 	ofSetDepthTest(false);
 
@@ -220,7 +220,6 @@ void metaAiSymbolDisplay::rebuildMesh(symbol * data)
 		{
 			nearSet.insert(iter);
 		}
-
 
 		for (auto& nearNode : nearList)
 		{

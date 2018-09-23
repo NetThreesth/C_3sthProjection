@@ -6,7 +6,7 @@ void ofApp::setup() {
 	initSymbol();
 	_kinectMgr.setup();
 	_cam.setVFlip(false);
-	ofBackground(0);
+	ofSetSmoothLighting(true);
 	_timer = ofGetElapsedTimef();
 }
 
@@ -26,7 +26,7 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	ofSetColor(255);
-
+	ofBackgroundGradient(ofColor(100), ofColor(15));
 	_cam.begin();
 	_symbolDisplay.draw();
 	_armKinect.draw();
