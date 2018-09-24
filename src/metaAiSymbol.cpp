@@ -1,74 +1,6 @@
 #include "metaAiSymbol.h"
 
 
-#pragma region SymbolNode
-symbolNode::symbolNode()
-	:_pos(0)
-{
-
-}
-
-//---------------------------------------
-void symbolNode::init(int x, int y)
-{
-	_pos.set(x, y);
-	_pos.z = (ofNoise(_pos.x, _pos.y) - 0.5) * 100;
-}
-
-//---------------------------------------
-void symbolNode::update(float time, float range)
-{
-	_pos.z = (ofNoise(_pos.x, _pos.y, time * 0.1f) - 0.5) * range;
-}
-
-//---------------------------------------
-void symbolNode::draw(float size)
-{
-	ofPushStyle();
-	ofDrawSphere(_pos, size);
-	ofPopStyle();
-}
-
-//---------------------------------------
-ofVec3f symbolNode::getPos()
-{
-	return _pos;
-}
-
-
-#pragma endregion
-
-#pragma region Sybmol
-//---------------------------------------
-void symbol::load(string path)
-{
-	if (!_symbol.load(path))
-	{
-		ofLog(OF_LOG_ERROR, "[symbol::load]load failed");
-		return;
-	}
-
-	auto pixel = _symbol.getPixels();
-	for (int i = 0; i < cMetaAiSymbolNodeNum; i++)
-	{
-		uint8_t r = pixel[i * 3];
-		uint8_t g = pixel[i * 3 + 1];
-		uint8_t b = pixel[i * 3 + 2];
-		int intensity = static_cast<int>((r + g + b) / 3.0f + 0.5f);
-		if (intensity > cMetaAiPixelThreshold)
-		{
-			_symbolFlag[i] = true;
-			_symbolColor[i] = ofColor(r, g, b, ofRandom(30, 100));
-		}
-		else
-		{
-			_symbolFlag[i] = false;
-		}
-	}
-
-}
-#pragma endregion
-
 #pragma region metaAi Symbol Display
 //---------------------------------------
 metaAiSymbolDisplay::metaAiSymbolDisplay()
@@ -106,8 +38,6 @@ void metaAiSymbolDisplay::setup(int size, int range, float thresholdMin, float t
 			_symbolNode[index].init(x * unitDist - half, y * unitDist - half);
 		}
 	}
-
-	lightSetup();
 	_mainTimer = 0.0f;
 }
 
@@ -118,8 +48,8 @@ void metaAiSymbolDisplay::update(float delta)
 	{
 		return;
 	}
-
-	lightUpdate();
+	
+	_animSymbol.update(delta);
 	checkState(delta);
 
 }
@@ -134,14 +64,12 @@ void metaAiSymbolDisplay::draw()
 
 	ofSetDepthTest(true);
 	ofPushStyle();
-	lightEnable();
 	ofSetColor(255);
 	//drawNode();
 	
 	_symbolLine.draw();
 	_symbolMesh.drawWireframe();
 	_symbolMesh.draw();
-	lightDisable();
 	ofPopStyle();
 	ofSetDepthTest(false);
 
@@ -151,13 +79,14 @@ void metaAiSymbolDisplay::draw()
 void metaAiSymbolDisplay::setSymbol(symbol & data)
 {
 	_symbolRef = &data;
+	_animSymbol.setSymbol(_symbolRef);
 }
 
 //---------------------------------------
 void metaAiSymbolDisplay::toSymbol(symbol & toData)
 {
-	_symbolTarget = &toData;
-	toCenter();
+	//_symbolTarget = &toData;
+	_animSymbol.toSymbol(toData, 3);
 }
 
 //---------------------------------------
@@ -323,30 +252,9 @@ void metaAiSymbolDisplay::checkState(float delta)
 {
 	switch (_eState)
 	{
-	case eAnimOutput:
-	case eAnimIn:
+	case eAnimTranslate:
 	{
-		for (auto& iter : _animPointList)
-		{
-			iter.update(delta);
-		}
-		_animTimer -= delta;
-		if (_animTimer <= 0.0f)
-		{
-			if (_eState == eAnimOutput)
-			{
-				_eState = eAnimDisplay;
-
-			}
-			else
-			{
-				toTargetSymbol();
-			}
-		}
-		else
-		{
-			updateLine();
-		}
+		_animSymbol.update(delta);
 		break;
 	}
 	case eAnimDisplay:
@@ -362,116 +270,6 @@ void metaAiSymbolDisplay::checkState(float delta)
 	}
 	}
 }
-
-//---------------------------------------
-void metaAiSymbolDisplay::updateLine()
-{
-	for (int i = 0; i < _animPointList.size(); i++)
-	{
-		_symbolLine.setVertex(i, _animPointList[i].getCurrentPosition());
-	}
-}
-
-//---------------------------------------
-void metaAiSymbolDisplay::toCenter()
-{
-	_eState = eAnimIn;
-	_animPointList.clear();
-
-	_animPointList.resize(_symbolLine.getNumVertices());
-	for (int i = 0; i < _symbolLine.getNumVertices(); i++)
-	{
-		_animPointList[i].setPosition(_symbolLine.getVertex(i));
-		_animPointList[i].setDuration(1.0f + ofRandom(-0.5, 0.5));
-
-		_animPointList[i].animateTo(ofPoint(0));
-	}
-	_animTimer = 1.5f;
-}
-
-//---------------------------------------
-void metaAiSymbolDisplay::toTargetSymbol()
-{
-	_eState = eAnimOutput;
-	rebuildLine(_symbolTarget);
-	_animPointList.clear();
-	_animPointList.resize(_symbolLine.getNumVertices());
-	for (int i = 0; i < _symbolLine.getNumVertices(); i++)
-	{
-		_animPointList[i].setPosition(ofPoint(0));
-		_animPointList[i].setDuration(1.0f + ofRandom(-0.5, 0.5));
-
-		_animPointList[i].animateTo(_symbolLine.getVertex(i));
-		_symbolLine.setVertex(i, ofPoint(0));
-	}
-	_animTimer = 1.5f;
-	_symbolRef = _symbolTarget;
-	_symbolTarget = nullptr;
-}
-
-//---------------------------------------
-void metaAiSymbolDisplay::lightSetup()
-{
-	_pointLight.setDiffuseColor(ofColor(64));
-
-	// specular color, the highlight/shininess color //
-	_pointLight.setSpecularColor(ofColor(255));
-	_pointLight.setPointLight();
-
-
-	_spotLight.setDiffuseColor(ofColor(255));
-	_spotLight.setSpecularColor(ofColor(255));
-
-	// turn the light into spotLight, emit a cone of light //
-	_spotLight.setSpotlight();
-
-	// size of the cone of emitted light, angle between light axis and side of cone //
-	// angle range between 0 - 90 in degrees //
-	_spotLight.setSpotlightCutOff(90);
-
-	// rate of falloff, illumitation decreases as the angle from the cone axis increases //
-	// range 0 - 128, zero is even illumination, 128 is max falloff //
-	_spotLight.setSpotConcentration(128);
-
-
-	// Directional Lights emit light based on their orientation, regardless of their position //
-	_directionalLight.setDiffuseColor(ofColor(255.f));
-	_directionalLight.setSpecularColor(ofColor(255.f));
-	_directionalLight.setDirectional();
-
-	// set the direction of the light
-	_directionalLight.setOrientation(ofVec3f(0, 0, 0));
-}
-
-//---------------------------------------
-void metaAiSymbolDisplay::lightUpdate()
-{
-	_spotLight.setPosition(600 * sin(ofGetElapsedTimef()), 0, 500 * cos(ofGetElapsedTimef()));
-	_spotLight.lookAt(ofVec3f());
-
-	_pointLight.setPosition(600 * (1 - sin(ofGetElapsedTimef())), 0, 600 * (1 - cos(ofGetElapsedTimef())));
-	_pointLight.lookAt(ofVec3f());
-}
-
-//---------------------------------------
-void metaAiSymbolDisplay::lightEnable()
-{
-	ofEnableLighting();
-	_directionalLight.enable();
-	_spotLight.enable();
-	_pointLight.enable();
-}
-
-//---------------------------------------
-void metaAiSymbolDisplay::lightDisable()
-{
-	_directionalLight.disable();
-	_spotLight.disable();
-	_pointLight.disable();
-	ofDisableLighting();
-}
-
-
 
 #pragma endregion
 

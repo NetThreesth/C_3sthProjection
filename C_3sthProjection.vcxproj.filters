@@ -52,6 +52,12 @@
     <ClCompile Include="src\armKinect.cpp">
       <Filter>src\armKinect</Filter>
     </ClCompile>
+    <ClCompile Include="src\baseSymbol.cpp">
+      <Filter>src\metaAiSymbol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lightSet.cpp">
+      <Filter>src\lightSet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -86,6 +92,9 @@
     </Filter>
     <Filter Include="src\armKinect">
       <UniqueIdentifier>{103f70da-f80b-4068-b3c7-45c4d3e3c89f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\lightSet">
+      <UniqueIdentifier>{ef0aaf67-0034-4802-9b63-40e432f1a310}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="src\armKinect.h">
       <Filter>src\armKinect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\baseSymbol.h">
+      <Filter>src\metaAiSymbol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lightSet.h">
+      <Filter>src\lightSet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

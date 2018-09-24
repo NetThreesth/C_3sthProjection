@@ -172,9 +172,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\armKinect.cpp" />
+    <ClCompile Include="src\baseSymbol.cpp" />
     <ClCompile Include="src\flowField.cpp" />
     <ClCompile Include="src\kinectMgr.cpp" />
     <ClCompile Include="src\kinectUnit.cpp" />
+    <ClCompile Include="src\lightSet.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\metaAiSymbol.cpp" />
     <ClCompile Include="src\metaball.cpp" />
@@ -191,11 +193,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\armKinect.h" />
+    <ClInclude Include="src\baseSymbol.h" />
     <ClInclude Include="src\constParameter.h" />
     <ClInclude Include="src\flowField.h" />
     <ClInclude Include="src\kinectBase.h" />
     <ClInclude Include="src\kinectMgr.h" />
     <ClInclude Include="src\kinectUnit.h" />
+    <ClInclude Include="src\lightSet.h" />
     <ClInclude Include="src\metaAiSymbol.h" />
     <ClInclude Include="src\metaball.h" />
     <ClInclude Include="src\ofApp.h" />

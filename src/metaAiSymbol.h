@@ -1,30 +1,10 @@
 #pragma once
 
-#include "constParameter.h"
+#include "baseSymbol.h"
+#include "ofxAnimatableFloat.h"
 #include "ofxAnimatableOfPoint.h"
 
-class symbolNode {
-public:
-	symbolNode();
-	void init(int x, int y);
-	void update(float time, float range);
-	void draw(float size);
 
-	ofVec3f getPos();
-private:
-	ofVec3f _pos;
-};
-
-class symbol
-{
-public:
-	void load(string path);
-	
-public:
-	array<bool, cMetaAiSymbolNodeNum> _symbolFlag;
-	array<ofColor, cMetaAiSymbolNodeNum> _symbolColor;
-	ofImage _symbol;
-};
 
 class metaAiSymbolDisplay
 {
@@ -62,31 +42,13 @@ private:
 
 private:
 	void checkState(float delta);
-	void updateLine();
-	void toCenter();
-	void toTargetSymbol();
 private:
 	enum eAnimState
 	{
-		eAnimDisplay,
-		eAnimOutput,
-		eAnimIn,
+		eAnimDisplay = 0,
+		eAnimTranslate
 	}_eState;
-	vector<ofxAnimatableOfPoint> _animPointList;
-	float _animTimer;
-
-#pragma region Light
-private:
-	void lightSetup();
-	void lightUpdate();
-	void lightEnable();
-	void lightDisable();
-
-private:
-
-	//light
-	ofLight _pointLight, _spotLight, _directionalLight;
-#pragma endregion
+	symbolAnim _animSymbol;
 
 };
 
