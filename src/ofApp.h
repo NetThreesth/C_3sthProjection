@@ -1,10 +1,8 @@
 #pragma once
 
 #include "constParameter.h"
-#include "metaball.h"
-#include "metaAiSymbol.h"
+#include "vSymbolMirror.h"
 #include "kinectMgr.h"
-#include "flowField.h"
 #include "armKinect.h"
 
 class ofApp : public ofBaseApp{
@@ -21,16 +19,12 @@ private:
 	float _timer;
 	ofEasyCam _cam;
 
-	metaball _mb;
 
-#pragma region metaAiText
-public:
-	void initSymbol();
+#pragma region Symbol Mirror
 private:
-	int _symbolIndex;
-	vector<symbol> _symbolList;
-	metaAiSymbolDisplay _symbolDisplay;
+	vSymbolMirror _viewSymbol;
 #pragma endregion
+
 
 #pragma region KinectMgr
 private:

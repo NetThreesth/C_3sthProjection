@@ -4,7 +4,7 @@
 
 //Metaball
 static const int cMetaballNum = 8;
-static const ofRectangle cMetaballRect(0, 0, 1280, 960);
+static const ofRectangle cMetaballRect(0, 0, 1920, 1080);
 
 //Meta Ai Symbol
 static const int cMetaAiSymbolSize = 64;

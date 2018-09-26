@@ -2,9 +2,11 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-	_mb.setup(ofGetWidth(), ofGetHeight());
-	initSymbol();
-	_kinectMgr.setup();
+
+	_viewSymbol.setup(ofGetWindowWidth(), ofGetWindowHeight());
+	_viewSymbol.start();
+
+	//_kinectMgr.setup();
 	_cam.setVFlip(false);
 	ofSetSmoothLighting(true);
 	_timer = ofGetElapsedTimef();
@@ -15,10 +17,9 @@ void ofApp::update() {
 	float delta = ofGetElapsedTimef() - _timer;
 	_timer += delta;
 
-	_symbolDisplay.update(delta);
-	_kinectMgr.update(delta);
-	_mb.update(delta);
-	_armKinect.update(delta);
+	_viewSymbol.update(delta);
+	//_kinectMgr.update(delta);
+	//_armKinect.update(delta);
 	flowField::getInstance()->update(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
@@ -27,13 +28,10 @@ void ofApp::update() {
 void ofApp::draw() {
 	ofSetColor(255);
 	ofBackgroundGradient(ofColor(100), ofColor(15));
-	_cam.begin();
-	_symbolDisplay.draw();
-	_armKinect.draw();
-	_cam.end();
-
-	//_mb.draw();
-	//_mb.drawNode();
+	//_cam.begin();
+	_viewSymbol.draw();
+	//_armKinect.draw();
+	//_cam.end();
 
 	//_kinectMgr.draw();
 	//flowField::getInstance()->draw(0, 0, 1280, 960);
@@ -46,34 +44,10 @@ void ofApp::draw() {
 void ofApp::keyPressed(int key) {
 	switch (key)
 	{
-	case 'q':
-	{
-		_symbolIndex = (_symbolIndex + 1) % _symbolList.size();
-		_symbolDisplay.toSymbol(_symbolList[_symbolIndex]);
-		break;
-	}
 	case 'k':
 	{
 		_armKinect.start();
 		break;
 	}
 	}
-}
-
-//--------------------------------------------------------------
-void ofApp::initSymbol()
-{
-	_symbolDisplay.setup(640, 100, 11, 25);
-
-	ofDirectory dir("symbol");
-	dir.allowExt("png");
-	auto size = dir.listDir();
-	_symbolList.resize(size);
-	for (int i = 0; i < size; i++)
-	{
-		_symbolList[i].load(dir.getPath(i));
-
-	}
-	_symbolDisplay.setSymbol(_symbolList[0]);
-	_symbolIndex = 0;
 }

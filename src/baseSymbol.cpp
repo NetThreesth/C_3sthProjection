@@ -58,7 +58,7 @@ void symbol::load(string path)
 		if (intensity > cMetaAiPixelThreshold)
 		{
 			_symbolFlag[i] = true;
-			_symbolColor[i] = ofColor(r, g, b, ofRandom(30, 100));
+			_symbolColor[i] = ofColor(r, g, b);
 		}
 		else
 		{

@@ -2,17 +2,17 @@
 
 #include "constParameter.h"
 
-
-
 class metaNode
 {
 public:
 	metaNode() {};
-	void setup(int x, int y);
+	void setup(int x, int y, ofColor c);
 	void update(float delta);
 	void draw();
-	ofVec3f getData();
+	ofVec3f getPosAndR();
+	ofColor getColor();
 private:
+	ofColor _color;
 	ofVec2f _vec, _pos, _acc;
 	float _r;
 };

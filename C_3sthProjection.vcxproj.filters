@@ -58,6 +58,9 @@
     <ClCompile Include="src\lightSet.cpp">
       <Filter>src\lightSet</Filter>
     </ClCompile>
+    <ClCompile Include="src\vSymbolMirror.cpp">
+      <Filter>src\view</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -95,6 +98,9 @@
     </Filter>
     <Filter Include="src\lightSet">
       <UniqueIdentifier>{ef0aaf67-0034-4802-9b63-40e432f1a310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\view">
+      <UniqueIdentifier>{73b1b414-95ac-419a-a3bb-df27a54a30ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="src\lightSet.h">
       <Filter>src\lightSet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vSymbolMirror.h">
+      <Filter>src\view</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
