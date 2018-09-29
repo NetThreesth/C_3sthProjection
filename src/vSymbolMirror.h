@@ -4,6 +4,7 @@
 #include "metaball.h"
 #include "metaAiSymbol.h"
 #include "flowField.h"
+#include "ofxLayerMask.h"
 
 class vSymbolMirror
 {
@@ -14,22 +15,43 @@ public:
 	{}
 	void setup(int width, int height);
 	void update(float delta);
-	void draw();
+	void draw(ofVec3f pos);
 
 	void start();
 	void stop();
+
+private:
+	void initLayerMask(int width, int height);
+
+private:
+	bool _isSetup, _isStart;
+	ofxLayerMask _mirrorContext;
+
+
+#pragma region Symbol & Metaball
 private:
 	void initSymbol();
-	void drawOnCanvas();
-	
+	void drawOnMirror();
+
 	vector<symbol> _symbolList;
 	metaAiSymbolDisplay _symbolDisplay;
 
 private:
-	bool _isSetup, _isStart;
 	ofEasyCam _cam;
-	ofFbo _canvas;
 	int _symbolIndex;
 	metaball _mb;
+#pragma endregion
+
+
+#pragma region Mirror & Mask
+private:
+	bool load(string name);
+	bool loadMirror(string name);
+	void drawMirror();
+private:
+	ofImage _mask;
+	ofVboMesh _mirror;
+#pragma endregion
+
 
 };

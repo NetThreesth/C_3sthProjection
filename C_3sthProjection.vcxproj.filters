@@ -61,6 +61,15 @@
     <ClCompile Include="src\vSymbolMirror.cpp">
       <Filter>src\view</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxLayerMask\src\ofxLayerMask.cpp">
+      <Filter>addons\ofxLayerMask\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vThreeBody.cpp">
+      <Filter>src\view</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vKinectArm.cpp">
+      <Filter>src\view</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -101,6 +110,12 @@
     </Filter>
     <Filter Include="src\view">
       <UniqueIdentifier>{73b1b414-95ac-419a-a3bb-df27a54a30ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLayerMask">
+      <UniqueIdentifier>{d5e02826-b6a0-4d31-962a-309dbf75f4d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLayerMask\src">
+      <UniqueIdentifier>{10b2600f-083b-41c9-9b61-c9adc1ff9803}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +186,15 @@
       <Filter>src\lightSet</Filter>
     </ClInclude>
     <ClInclude Include="src\vSymbolMirror.h">
+      <Filter>src\view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxLayerMask\src\ofxLayerMask.h">
+      <Filter>addons\ofxLayerMask\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vThreeBody.h">
+      <Filter>src\view</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vKinectArm.h">
       <Filter>src\view</Filter>
     </ClInclude>
   </ItemGroup>

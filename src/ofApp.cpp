@@ -3,12 +3,14 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 
-	_viewSymbol.setup(ofGetWindowWidth(), ofGetWindowHeight());
-	_viewSymbol.start();
+	_viewSymbol.setup(cMetaballRect.getWidth(), cMetaballRect.getHeight());
+	//_viewSymbol.start();
 
 	//_kinectMgr.setup();
-	_cam.setVFlip(false);
+	_cam.setVFlip(true);
 	ofSetSmoothLighting(true);
+
+	ofBackground(50);
 	_timer = ofGetElapsedTimef();
 }
 
@@ -26,12 +28,11 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	ofSetColor(255);
-	ofBackgroundGradient(ofColor(100), ofColor(15));
-	//_cam.begin();
-	_viewSymbol.draw();
+	
+	_cam.begin();
+	_viewSymbol.draw(ofVec3f(0, 0, 0));
 	//_armKinect.draw();
-	//_cam.end();
+	_cam.end();
 
 	//_kinectMgr.draw();
 	//flowField::getInstance()->draw(0, 0, 1280, 960);

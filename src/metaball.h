@@ -21,7 +21,7 @@ class metaball
 {
 public:
 	metaball() {};
-	void setup(int width, int height);
+	void setup();
 	void update(float delta);
 	void draw();
 	void drawNode();

@@ -3,8 +3,9 @@
 #include "ofMain.h"
 
 //Metaball
-static const int cMetaballNum = 8;
-static const ofRectangle cMetaballRect(0, 0, 1920, 1080);
+static const int cMetaballNum = 10;
+static const ofRectangle cMetaballRect(0, 0, 836, 1000);
+static const int cMetaballMaxSize = min(836, 1000);
 
 //Meta Ai Symbol
 static const int cMetaAiSymbolSize = 64;
@@ -33,3 +34,6 @@ static const float cFrameTime = 1 / 24.0f;
 static const int cArmStartFrame = 219;
 static const int cArmEndFrame = 2049;
 static const int cArmFrameNum = cArmEndFrame - cArmStartFrame + 1;
+
+//Mirror
+static const int cMirrorImgAlphaT = 20;

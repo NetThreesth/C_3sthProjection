@@ -10,7 +10,8 @@ void metaNode::setup(int x, int y, ofColor c)
 	//_vec.set(0);
 	_vec.set(ofRandom(-500, 500), ofRandom(-500, 500));
 	_acc.set(0);
-	_r = ofRandom(50, 100);
+
+	_r = cMetaballMaxSize * 0.5 * ofRandom(0.05f, 0.2f);
 }
 
 //--------------------------------------------------------------
@@ -76,11 +77,11 @@ ofColor metaNode::getColor()
 #pragma endregion
 
 //--------------------------------------------------------------
-void metaball::setup(int width, int height)
+void metaball::setup()
 {
 	_canvas.allocate(cMetaballRect.width, cMetaballRect.height, GL_RGBA);
 
-	_tmp.allocate(width, height, ofImageType::OF_IMAGE_COLOR);
+	_tmp.allocate(cMetaballRect.width, cMetaballRect.height, ofImageType::OF_IMAGE_COLOR);
 	if (!_meta.load("shader/metaShader"))
 	{
 		ofLog(OF_LOG_ERROR, "Load shader failed");
@@ -135,6 +136,7 @@ void metaball::update(float delta)
 	_canvas.end();
 }
 
+//--------------------------------------------------------------
 void metaball::draw()
 {
 	ofPushStyle();
@@ -143,17 +145,18 @@ void metaball::draw()
 	ofPopStyle();
 }
 
+//--------------------------------------------------------------
 void metaball::drawNode()
 {
 	ofPushStyle();
 	for (auto& iter : _nodeSet)
 	{
-		
 		iter.draw();
 	}
 	ofPopStyle();
 }
 
+//--------------------------------------------------------------
 void metaball::nodeUpdate(float delta)
 {
 	for (auto& iter : _nodeSet)
