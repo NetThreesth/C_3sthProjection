@@ -4,6 +4,8 @@
 #include "vSymbolMirror.h"
 #include "kinectMgr.h"
 #include "armKinect.h"
+#include "threeBody.h"
+
 
 class ofApp : public ofBaseApp{
 
@@ -36,6 +38,11 @@ public:
 	
 private:
 	armKinect _armKinect;
+#pragma endregion
+
+#pragma region threeBody
+private:
+	threeBody _tBody;
 #pragma endregion
 
 };

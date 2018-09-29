@@ -37,3 +37,11 @@ static const int cArmFrameNum = cArmEndFrame - cArmStartFrame + 1;
 
 //Mirror
 static const int cMirrorImgAlphaT = 20;
+
+//Three Body
+static const float cTBMaxR = 4000.0f;
+static const float cTBMinR = 50.0f;
+static const int cDefaultMass = 800;
+static const float cDefaultR = 763.376313;
+static const int cGravity = 9;
+static const int cBodyBallSize = 20;

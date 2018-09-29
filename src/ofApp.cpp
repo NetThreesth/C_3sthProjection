@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 
+	_tBody.setup();
 	_viewSymbol.setup(cMetaballRect.getWidth(), cMetaballRect.getHeight());
 	//_viewSymbol.start();
 
@@ -12,6 +13,8 @@ void ofApp::setup() {
 
 	ofBackground(50);
 	_timer = ofGetElapsedTimef();
+
+	
 }
 
 //--------------------------------------------------------------
@@ -19,6 +22,7 @@ void ofApp::update() {
 	float delta = ofGetElapsedTimef() - _timer;
 	_timer += delta;
 
+	_tBody.update();
 	_viewSymbol.update(delta);
 	//_kinectMgr.update(delta);
 	//_armKinect.update(delta);
@@ -30,6 +34,7 @@ void ofApp::update() {
 void ofApp::draw() {
 	
 	_cam.begin();
+	_tBody.draw();
 	_viewSymbol.draw(ofVec3f(0, 0, 0));
 	//_armKinect.draw();
 	_cam.end();

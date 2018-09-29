@@ -70,6 +70,9 @@
     <ClCompile Include="src\vKinectArm.cpp">
       <Filter>src\view</Filter>
     </ClCompile>
+    <ClCompile Include="src\threeBody.cpp">
+      <Filter>src\threeBody</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -116,6 +119,9 @@
     </Filter>
     <Filter Include="addons\ofxLayerMask\src">
       <UniqueIdentifier>{10b2600f-083b-41c9-9b61-c9adc1ff9803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\threeBody">
+      <UniqueIdentifier>{88b54600-e317-4f2b-8991-eff393b52e56}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="src\vKinectArm.h">
       <Filter>src\view</Filter>
+    </ClInclude>
+    <ClInclude Include="src\threeBody.h">
+      <Filter>src\threeBody</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

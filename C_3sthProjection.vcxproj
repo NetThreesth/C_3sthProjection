@@ -191,6 +191,7 @@
     <ClCompile Include="..\..\..\addons\ofxNetwork\src\ofxTCPManager.cpp" />
     <ClCompile Include="..\..\..\addons\ofxNetwork\src\ofxTCPServer.cpp" />
     <ClCompile Include="..\..\..\addons\ofxNetwork\src\ofxUDPManager.cpp" />
+    <ClCompile Include="src\threeBody.cpp" />
     <ClCompile Include="src\vKinectArm.cpp" />
     <ClCompile Include="src\vSymbolMirror.cpp" />
     <ClCompile Include="src\vThreeBody.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="..\..\..\addons\ofxNetwork\src\ofxTCPManager.h" />
     <ClInclude Include="..\..\..\addons\ofxNetwork\src\ofxTCPServer.h" />
     <ClInclude Include="..\..\..\addons\ofxNetwork\src\ofxUDPManager.h" />
+    <ClInclude Include="src\threeBody.h" />
     <ClInclude Include="src\vKinectArm.h" />
     <ClInclude Include="src\vSymbolMirror.h" />
     <ClInclude Include="src\vThreeBody.h" />
