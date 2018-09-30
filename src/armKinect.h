@@ -10,8 +10,9 @@ class armKinect
 public:
 	armKinect();
 	void update(float delta);
-	void draw();
-	void start();
+	void draw(ofVec3f shift);
+	void reset();
+	void play();
 	int getFrame();
 private:
 	void checkBuffer();
@@ -19,7 +20,7 @@ private:
 	void load(armBuffer* loadPtr, int kinectIdx, int start, int end);
 
 private:
-	bool _isStart, _isReady, _isLoad, _haveNext;
+	bool _isSetup, _isReady, _isPlay, _isLoad, _haveNext;
 	float _frameTimer;
 
 	armBuffer *_displayPtr, *_bufferPtr;

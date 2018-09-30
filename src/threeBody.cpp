@@ -23,40 +23,54 @@ void threeBody::setup()
 	_bodyB._vel.set(-_VEL*sin(2 * PI / 3), _VEL*cos(2 * PI / 3), 0);
 	_bodyC._vel.set(-_VEL*sin(4 * PI / 3), _VEL*cos(4 * PI / 3), 1);
 
-	_bodyA._color = ofColor::red;
-	_bodyB._color = ofColor::blue;
-	_bodyC._color = ofColor::green;
+	_bodyA._color.set(255, 0, 0, 100);
+	_bodyB._color.set(0, 255, 0, 100);
+	_bodyC._color.set(0, 0, 255, 100);
 	_mesh.setMode(OF_PRIMITIVE_LINE_LOOP);
 
+	_timer = cTBUpdateTime;
+	_meshTimer = cTBAddMeshTime;
 	_isSetup = true;
 }
 
 //-----------------------------
-void threeBody::update()
+void threeBody::update(float delta)
 {
 	if (!_isSetup)
 	{
 		return;
 	}
 
-	for (int i = 0; i < _updateStep; i++)
+	_timer -= delta;
+	if (_timer <= 0.0f)
 	{
 		oneStep();
+		_timer = cTBUpdateTime;
 	}
-	//updateMesh();
 
+	_meshTimer -= delta;
+	if (_meshTimer <= 0.0f)
+	{
+		updateMesh();
+		_meshTimer = cTBAddMeshTime;
+	}
 }
 
 //-----------------------------
 void threeBody::draw()
 {
+	if (!_isSetup)
+	{
+		return;
+	}
+
 	ofPushStyle();
 	ofSetColor(255);
 	{
 		_bodyA.draw();
 		_bodyB.draw();
 		_bodyC.draw();
-		//_mesh.draw();
+		_mesh.draw();
 	}
 	ofPopStyle();
 }
@@ -105,6 +119,17 @@ void threeBody::updateMesh()
 
 	_mesh.addVertex(_bodyC._pos);
 	_mesh.addColor(_bodyC._color);
+
+	if (_mesh.getNumVertices() > cTBMeshMax)
+	{
+		_mesh.removeVertex(0);
+		_mesh.removeVertex(0);
+		_mesh.removeVertex(0);
+
+		_mesh.removeColor(0);
+		_mesh.removeColor(0);
+		_mesh.removeColor(0);
+	}
 }
 
 //-----------------------------

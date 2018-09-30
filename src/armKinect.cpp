@@ -2,7 +2,8 @@
 
 //--------------------------
 armKinect::armKinect()
-	:_isStart(false)
+	:_isSetup(false)
+	, _isPlay(false)
 	, _isReady(false)
 	, _isLoad(false)
 	, _haveNext(false)
@@ -34,12 +35,11 @@ armKinect::armKinect()
 }
 
 
-
 //--------------------------
 void armKinect::update(float delta)
 {
 
-	if (!_isStart || _displayPtr == nullptr)
+	if (!_isSetup || !_isPlay || _displayPtr == nullptr)
 	{
 		return;
 	}
@@ -55,7 +55,7 @@ void armKinect::update(float delta)
 		else if (_totalFrameIdx == cArmEndFrame - 1)
 		{
 			//End
-			_isStart = false; 
+			_isSetup = _isPlay = false;
 		}
 
 
@@ -72,15 +72,17 @@ void armKinect::update(float delta)
 }
 
 //--------------------------
-void armKinect::draw()
+void armKinect::draw(ofVec3f shift)
 {
-	if (!_isStart || _displayPtr == nullptr)
+	if (!_isSetup || _displayPtr == nullptr)
 	{
 		return;
 	}
 
 	ofPushStyle();
 	ofSetColor(255);
+	ofPushMatrix();
+	ofTranslate(shift);
 	for (int i = 0; i < cArmKinectNum; i++)
 	{
 		ofPushMatrix();
@@ -89,15 +91,15 @@ void armKinect::draw()
 		ofRotateY(_kRot[i].y);
 		ofRotateZ(_kRot[i].z);
 
-		(*_displayPtr)[_bufferFrameIdx][i].draw();
-
+		(*_displayPtr)[_bufferFrameIdx][i].draw();		
 		ofPopMatrix();
 	}
+	ofPopMatrix();
 	ofPopStyle();
 }
 
 //--------------------------
-void armKinect::start()
+void armKinect::reset()
 {	
 	_haveNext = false;
 	_bufferFrameIdx = 0;
@@ -111,6 +113,18 @@ void armKinect::start()
 	loadFrame(_displayPtr, _startF, _endF);
 
 	_totalFrameIdx = _startF;
+}
+
+//--------------------------
+void armKinect::play()
+{
+	if (!_isSetup)
+	{
+		ofLog(OF_LOG_ERROR, "[armKinect::play]Setup first");
+		return;
+	}
+
+	_isPlay = true;
 }
 
 //--------------------------
@@ -129,7 +143,6 @@ void armKinect::checkBuffer()
 	
 	if (_haveNext)
 	{
-		cout << "SWAP" << endl;
 		swap(_displayPtr, _bufferPtr);
 		_haveNext = false;
 	}
@@ -153,18 +166,16 @@ bool armKinect::loadFrame(armBuffer* loadPtr, int start, int end)
 		load(ptr, 0, sF, eF);
 		load(ptr, 1, sF, eF);
 		
-		if (_isStart)
+		if (_isSetup)
 		{
 			_haveNext = true;
 		}
 		else
 		{
-			_isStart = true;
+			_isSetup = true;
 		}
 		
 		_isLoad = false;
-		
-		cout << "Finish" << endl;
 	}, loadPtr, start, end);
 	loadT.detach();
 	return true;
@@ -177,7 +188,6 @@ void armKinect::load(armBuffer* loadPtr, int kinectIdx, int start, int end)
 	for (int photoIdx = start; photoIdx < end; photoIdx++, frameIdx++)
 	{
 		(*loadPtr)[frameIdx][kinectIdx].clear();
-		cout << photoIdx << endl;
 		ofShortImage depth;
 		ofImage color;
 		depth.load("arm/kinect" + ofToString(kinectIdx) + "/depth_" + ofToString(photoIdx) + ".png");
@@ -189,7 +199,7 @@ void armKinect::load(armBuffer* loadPtr, int kinectIdx, int start, int end)
 			pos.x = ofMap(dPixel[i * 3], 100, 65535, -400, 400);
 			pos.y = ofMap(dPixel[i * 3 + 1], 100, 65535, -400, 400);
 			pos.z = ofMap(dPixel[i * 3 + 2], 100, 65535, -50, -400);
-			if (pos.x <= -400 && pos.y <= -400 && pos.z <= -49)
+			if ((pos.x <= -400 && pos.y <= -400 && pos.z <= -49) || pos.y < cArmFilterY)
 			{
 				continue;
 			}

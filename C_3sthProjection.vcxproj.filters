@@ -67,11 +67,11 @@
     <ClCompile Include="src\vThreeBody.cpp">
       <Filter>src\view</Filter>
     </ClCompile>
-    <ClCompile Include="src\vKinectArm.cpp">
-      <Filter>src\view</Filter>
-    </ClCompile>
     <ClCompile Include="src\threeBody.cpp">
       <Filter>src\threeBody</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vArms.cpp">
+      <Filter>src\view</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,11 +200,11 @@
     <ClInclude Include="src\vThreeBody.h">
       <Filter>src\view</Filter>
     </ClInclude>
-    <ClInclude Include="src\vKinectArm.h">
-      <Filter>src\view</Filter>
-    </ClInclude>
     <ClInclude Include="src\threeBody.h">
       <Filter>src\threeBody</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vArms.h">
+      <Filter>src\view</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

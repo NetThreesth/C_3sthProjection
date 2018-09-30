@@ -40,10 +40,11 @@ private:
 public:
 	threeBody()
 		:_isSetup(false)
-		,_updateStep(1)
+		,_timer(cTBUpdateTime)
+		, _meshTimer(cTBAddMeshTime)
 	{}
 	void setup();
-	void update();
+	void update(float delta);
 	void draw();
 
 private:
@@ -55,10 +56,8 @@ private:
 	
 private:
 	bool _isSetup;
-	int _updateStep;
+	float _timer, _meshTimer;
 	stBody _bodyA, _bodyB, _bodyC;
-	vector<ofVec3f> _vertices;
-	vector<ofFloatColor> _colors;
 	ofVboMesh _mesh; //the mesh of three body movement
 
 };

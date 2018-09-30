@@ -38,6 +38,7 @@ void vSymbolMirror::draw(ofVec3f pos)
 
 	ofPushMatrix();
 	ofTranslate(pos);
+	ofRotateX(90);
 	if (_isStart)
 	{
 		ofPushStyle();
@@ -137,9 +138,8 @@ bool vSymbolMirror::loadMirror(string name)
 		for (int x = 0; x < mirror.getWidth(); x += 2) {
 			ofColor c = mirror.getColor(x, y);
 			int brightness = c.getBrightness();
-			int calpha = c.a;
 			//filter the point which it's alpha > 20
-			if (calpha > cMirrorImgAlphaT) 
+			if (c.a > cImg2MeshAlpahT)
 			{
 				ofVec3f vertex = ofVec3f((x - centerX) * 2, (y - centerY) * 2, float(brightness) / 255.0 * -50 + 25);
 				_mirror.addVertex(vertex);
@@ -147,6 +147,7 @@ bool vSymbolMirror::loadMirror(string name)
 			}
 		}
 	}
+	_mirror.setMode(ofPrimitiveMode::OF_PRIMITIVE_POINTS);
 	return true;
 }
 
@@ -155,7 +156,8 @@ void vSymbolMirror::drawMirror()
 {
 	ofPushStyle();
 	ofPushMatrix();
-	_mirror.drawVertices();
+	ofRotateX(180);
+	_mirror.draw();
 	ofPopMatrix();
 	ofPopStyle();
 }
