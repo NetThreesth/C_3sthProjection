@@ -23,6 +23,8 @@ private:
 
 
 #pragma region Viewer
+public:
+	void onViewerChange(eViewState nowState);
 private:
 	void setupViewer();
 	void updateViewer(float delta);

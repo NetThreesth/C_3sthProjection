@@ -16,12 +16,17 @@ public:
 	ofVec3f getPos();
 	ofVec3f getTarget();
 private:
-	void stateCheck();
+	void stateCheck(float delta);
+
+	void animToThreeBody();
 
 private:
 	bool _isStart;
+	float _timer;
 	ofVec3f _pos, _target;
 	eViewState _eState;
 
 	ofxAnimatableFloat _animY, _animZ;
+
+	ofEvent<eViewState> _onViewStateChange;
 };

@@ -41,8 +41,6 @@ static const int cArmStartFrame = 219;
 static const int cArmEndFrame = 2049;
 static const int cArmFrameNum = cArmEndFrame - cArmStartFrame + 1;
 
-
-
 //Three Body
 static const float cTBUpdateTime = 1.0f / 24.0f; // 24fps
 static const float cTBAddMeshTime = 0.1f;
@@ -61,3 +59,9 @@ static const int cArmsCeilingAlpha = 255;
 static const int cArmsMirrorAlpha = 255;
 static const int cArmsMirrorNum = 2;
 static const float cArmsSpaceRotateV = 10.0f;
+
+//Viewer Camera
+static const ofVec3f cViewCamDefaultPos(0, 0, 400);
+static const ofVec3f cViewCamDefaultTarget(0, 0, -1);
+static const float cViewArmsT = 3.0f;
+static const float cViewThreeBoydT = 5.0f;
