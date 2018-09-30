@@ -4,8 +4,9 @@
 #include "vArms.h"
 #include "vSymbolMirror.h"
 #include "vThreeBody.h"
-
+#include "viewCam.h"
 #include "kinectMgr.h"
+
 class ofApp : public ofBaseApp{
 
 public:
@@ -20,6 +21,7 @@ private:
 	float _timer;
 	ofEasyCam _cam;
 
+
 #pragma region Viewer
 private:
 	void setupViewer();
@@ -30,19 +32,13 @@ private:
 	vSymbolMirror _viewSymbol;
 	vThreeBody _viewThreeBody;
 	vArms _viewArms;
+	viewCam _viewCam;
 #pragma endregion
 
 
 #pragma region KinectMgr
 private:
 	kinectMgr _kinectMgr;
-#pragma endregion
-
-#pragma region armKinect
-public:
-	
-private:
-	armKinect _armKinect;
 #pragma endregion
 
 

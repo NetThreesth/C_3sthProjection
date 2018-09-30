@@ -73,6 +73,9 @@
     <ClCompile Include="src\vArms.cpp">
       <Filter>src\view</Filter>
     </ClCompile>
+    <ClCompile Include="src\viewCam.cpp">
+      <Filter>src\view</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -204,6 +207,12 @@
       <Filter>src\threeBody</Filter>
     </ClInclude>
     <ClInclude Include="src\vArms.h">
+      <Filter>src\view</Filter>
+    </ClInclude>
+    <ClInclude Include="src\viewCam.h">
+      <Filter>src\view</Filter>
+    </ClInclude>
+    <ClInclude Include="src\viewState.h">
       <Filter>src\view</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,6 +2,9 @@
 
 #include "ofMain.h"
 
+
+
+
 static const int cImg2MeshAlpahT = 20;
 
 //Metaball

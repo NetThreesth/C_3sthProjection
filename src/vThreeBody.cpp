@@ -25,14 +25,12 @@ void vThreeBody::draw(ofVec3f pos)
 	{
 		return;
 	}
-	ofSetDepthTest(true);
 	ofPushMatrix();
 	ofTranslate(pos);
 	{
 		_tBody.draw();
 	}
 	ofPopMatrix();
-	ofSetDepthTest(false);
 }
 
 //--------------------------------------------------------------

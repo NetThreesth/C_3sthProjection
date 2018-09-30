@@ -32,10 +32,8 @@ void vArms::draw(ofVec3f pos)
 		return;
 	}
 
-	ofSetDepthTest(true);
 	drawStage();
 	_arms.draw(_shiftPos);
-	ofSetDepthTest(false);
 }
 
 //------------------------------

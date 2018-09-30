@@ -28,13 +28,20 @@ void ofApp::update() {
 void ofApp::draw() {
 	
 	drawViewer();
-
+	
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
 
-	_viewArms.start();
+	switch (key)
+	{
+	case 's':
+	{
+		_viewCam.start();
+		break;
+	}
+	}
 }
 
 //--------------------------------------------------------------
@@ -56,11 +63,13 @@ void ofApp::updateViewer(float delta)
 	_viewArms.update(delta);
 	_viewThreeBody.update(delta);
 	_viewSymbol.update(delta);
+	_viewCam.update(delta);
 }
 
 //--------------------------------------------------------------
 void ofApp::drawViewer()
 {
+	ofSetDepthTest(true);
 	_cam.begin();
 	_viewArms.draw(_armsPos);
 	_viewThreeBody.draw(_threeBodyPos);
@@ -68,11 +77,7 @@ void ofApp::drawViewer()
 
 
 	//Debug
-	ofSetColor(255, 0, 0);
-	ofDrawSphere(_armsPos, 10);
-	ofSetColor(0, 255, 0);
-	ofDrawSphere(_threeBodyPos, 10);
-	ofSetColor(0, 0, 255);
-	ofDrawSphere(_symbolPos, 10);
+	_viewCam.draw();
 	_cam.end();
+	ofSetDepthTest(false);
 }
