@@ -46,6 +46,7 @@ public:
 	void setup();
 	void update(float delta);
 	void draw();
+	void reset();
 
 private:
 	void oneStep();

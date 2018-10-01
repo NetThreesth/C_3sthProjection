@@ -9,7 +9,7 @@ class viewCam
 public:
 	viewCam();
 	void update(float delta);
-	void draw();
+	void drawCamera();
 	void reset();
 	void start();
 
@@ -26,7 +26,20 @@ private:
 	ofVec3f _pos, _target;
 	eViewState _eState;
 
-	ofxAnimatableFloat _animY, _animZ;
+	ofxAnimatableFloat _animY, _animZ;	
 
+#pragma region Camera
+public:
+	void draw();
+	void draw(int x, int y, int width, int height);
+	void updateCam();
+	void begin();
+	void end();
+private:
+	ofFbo _canvas;
+	ofEasyCam _cam;
+#pragma endregion
+	
+public:
 	ofEvent<eViewState> _onViewStateChange;
 };

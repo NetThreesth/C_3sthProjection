@@ -3,29 +3,37 @@
 //--------------------------------------------------------------
 void vSymbolMirror::setup(int width, int height)
 {
+
 	_mb.setup();
 	initSymbol();
 	initLayerMask(width, height);
+	reset();
 	_isSetup = load("mirror");
 }
 
 //--------------------------------------------------------------
 void vSymbolMirror::update(float delta)
 {
-	if (!_isSetup || !_isStart)
+	if (!_isSetup)
 	{
 		return;
 	}
 
-	_symbolDisplay.update(delta);
-	_mb.update(delta);
-	
-	drawOnMirror();
-	_mirrorContext.beginMask();
-	ofSetColor(255);
-	_mask.draw(0, 0, cMetaballRect.width, cMetaballRect.height);
-	_mirrorContext.endMask();
+	_animMirrorAlpha.update(delta);
+	_animSymbolAlpha.update(delta);
+	updateMirror(delta);
+	if (_isStart)
+	{
+		_symbolDisplay.update(delta);
+		_mb.update(delta);
 
+		updateToMirror();
+		_mirrorContext.beginMask();
+		ofSetColor(255);
+		_mask.draw(0, 0, cMetaballRect.width, cMetaballRect.height);
+
+		_mirrorContext.endMask();
+	}
 }
 
 //--------------------------------------------------------------
@@ -36,17 +44,15 @@ void vSymbolMirror::draw(ofVec3f pos)
 		return;
 	}
 
-	ofPushMatrix();
-	ofTranslate(pos);
-	ofRotateX(90);
-	if (_isStart)
-	{
-		ofPushStyle();
-		_mirrorContext.draw(_mirrorContext.getWidth() * -0.5f, _mirrorContext.getHeight() * -0.5f);
-		ofPopStyle();
-	}
-	drawMirror();
-	ofPopMatrix();
+	drawMirror(pos);
+	drawSymbol(pos);
+}
+
+//--------------------------------------------------------------
+void vSymbolMirror::reset()
+{
+	_animMirrorAlpha.reset(0);
+	_animSymbolAlpha.reset(0);
 }
 
 //--------------------------------------------------------------
@@ -59,6 +65,20 @@ void vSymbolMirror::start()
 void vSymbolMirror::stop()
 {
 	_isStart = false;
+}
+
+//--------------------------------------------------------------
+void vSymbolMirror::displayMirror()
+{
+	_animMirrorAlpha.setDuration(3.0f);
+	_animMirrorAlpha.animateFromTo(0.0, 1.0f);
+}
+
+//--------------------------------------------------------------
+void vSymbolMirror::displayContent()
+{
+	_animSymbolAlpha.setDuration(2.0f);
+	_animSymbolAlpha.animateFromTo(0.0, 255);
 }
 
 //--------------------------------------------------------------
@@ -88,7 +108,7 @@ void vSymbolMirror::initSymbol()
 #pragma endregion
 
 //--------------------------------------------------------------
-void vSymbolMirror::drawOnMirror()
+void vSymbolMirror::updateToMirror()
 {
 	_mirrorContext.beginLayer();
 	ofClear(255);
@@ -102,7 +122,30 @@ void vSymbolMirror::drawOnMirror()
 	ofPopMatrix();
 	_mb.draw();
 	ofPopStyle();
+
 	_mirrorContext.endLayer();
+}
+
+//--------------------------------------------------------------
+void vSymbolMirror::drawSymbol(ofVec3f pos)
+{
+	if (!_isStart)
+	{
+		return;
+	}
+
+	ofPushMatrix();
+	ofTranslate(pos);
+	ofRotateX(90);
+	ofPushStyle();
+	{
+		ofSetColor(255);
+		_mirrorContext.draw(_mirrorContext.getWidth() * -0.5f, _mirrorContext.getHeight() * -0.5f);
+
+		
+	}	
+	ofPopStyle();
+	ofPopMatrix();
 }
 
 #pragma region Mirror & Mask
@@ -141,6 +184,7 @@ bool vSymbolMirror::loadMirror(string name)
 			//filter the point which it's alpha > 20
 			if (c.a > cImg2MeshAlpahT)
 			{
+				c.a = 0.0f;
 				ofVec3f vertex = ofVec3f((x - centerX) * 2, (y - centerY) * 2, float(brightness) / 255.0 * -50 + 25);
 				_mirror.addVertex(vertex);
 				_mirror.addColor(c);
@@ -152,14 +196,34 @@ bool vSymbolMirror::loadMirror(string name)
 }
 
 //--------------------------------------------------------------
-void vSymbolMirror::drawMirror()
+void vSymbolMirror::updateMirror(float delta)
 {
-	ofPushStyle();
+	if (!_animMirrorAlpha.isAnimating())
+	{
+		return;
+	}
+
+	for (int i = 0; i < _mirror.getNumColors(); i++)
+	{
+		auto color = _mirror.getColor(i);
+		color.a = _animMirrorAlpha.getCurrentValue();
+		_mirror.setColor(i, color);
+	}
+}
+
+//--------------------------------------------------------------
+void vSymbolMirror::drawMirror(ofVec3f pos)
+{
 	ofPushMatrix();
-	ofRotateX(180);
-	_mirror.draw();
-	ofPopMatrix();
+	ofTranslate(pos);
+	ofRotateX(-90);
+	ofPushStyle();
+	{
+		_mirror.draw();
+
+	}
 	ofPopStyle();
+	ofPopMatrix();
 }
 #pragma endregion
 

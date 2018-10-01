@@ -9,6 +9,7 @@ public:
 	vArms()
 		:_isSetup(false)
 		,_isStart(false)
+		,_displayStage(false)
 	{}
 
 	void setup();
@@ -18,9 +19,11 @@ public:
 	void start();
 	void stop();
 
+	void setStage(bool isDisplay);
 
 private:
 	bool _isSetup, _isStart;
+	
 
 #pragma region armKinect
 private:
@@ -37,6 +40,7 @@ private:
 	bool loadMirror(ofVboMesh& mesh, string name);
 
 private:
+	bool _displayStage;
 	float _rotD, _rotV;
 	ofColor _spaceColor;
 	ofVboMesh _ceiling;

@@ -19,12 +19,14 @@ public:
 
 private:
 	float _timer;
+
+	ofFbo _canvas;
 	ofEasyCam _cam;
 
 
 #pragma region Viewer
 public:
-	void onViewerChange(eViewState nowState);
+	void onViewerChange(eViewState& nowState);
 private:
 	void setupViewer();
 	void updateViewer(float delta);

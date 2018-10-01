@@ -6,11 +6,15 @@ viewCam::viewCam()
 	,_pos(cViewCamDefaultPos)
 	,_target(cViewCamDefaultTarget)
 {
+	_canvas.allocate(cViewCamSize.width, cViewCamSize.height, GL_RGB);
+	_cam.disableMouseInput();
+
 }
 
 //------------------------------------
 void viewCam::update(float delta)
 {
+	updateCam();
 	if (!_isStart)
 	{
 		return;
@@ -18,13 +22,13 @@ void viewCam::update(float delta)
 
 	_animY.update(delta);
 	_animZ.update(delta);
-
+	
 	stateCheck(delta);
 	
 }
 
 //------------------------------------
-void viewCam::draw()
+void viewCam::drawCamera()
 {
 	ofPushStyle();
 	ofSetColor(255);
@@ -79,8 +83,10 @@ void viewCam::stateCheck(float delta)
 
 			_animY.reset(_pos.y);
 			_animY.setDuration(8.0);
-			_animY.animateTo(500.0f);
+			_animY.animateTo(cAmrsCeilTopPos.y);
 			_eState = eArmsToThreeBody;
+			ofNotifyEvent(_onViewStateChange, _eState, this);
+			
 		}
 		break;
 	}
@@ -89,8 +95,9 @@ void viewCam::stateCheck(float delta)
 		if (_animY.hasFinishedAnimating() && _animY.getPercentDone() == 1.0f)
 		{
 			_animY.setDuration(10.0);
-			_animY.animateTo(4500.0f);
+			_animY.animateTo(cSymbolViewHeight.y);
 			_eState = eViewThreeBody;
+			ofNotifyEvent(_onViewStateChange, _eState, this);
 		}
 		else
 		{
@@ -99,14 +106,22 @@ void viewCam::stateCheck(float delta)
 		break;
 	}
 	case eViewThreeBody:
+	case eViewThreeBodyAndSymbol:
 	{
 		if (_animY.hasFinishedAnimating() && _animY.getPercentDone() == 1.0f)
 		{
 			_eState = eViewSymbol;
+			ofNotifyEvent(_onViewStateChange, _eState, this);
 		}
 		else
 		{
 			_pos.y = _animY.getCurrentValue();
+
+			if (_eState == eViewThreeBody && _pos.y > cSymbolDisplayHeight)
+			{
+				_eState = eViewThreeBodyAndSymbol;
+				ofNotifyEvent(_onViewStateChange, _eState, this);
+			}
 		}
 		break;
 	}
@@ -117,7 +132,6 @@ void viewCam::stateCheck(float delta)
 	}
 }
 
-
 //------------------------------------
 void viewCam::animToThreeBody()
 {
@@ -127,3 +141,46 @@ void viewCam::animToThreeBody()
 	_target = (newPos - _pos).normalized();
 	_pos = newPos;
 }
+
+#pragma region Camera
+//------------------------------------
+void viewCam::draw()
+{
+	draw(0, 0, cViewCamSize.width, cViewCamSize.height);
+}
+
+//------------------------------------
+void viewCam::draw(int x, int y, int width, int height)
+{
+	ofPushStyle();
+	ofSetColor(255);
+	_canvas.draw(x, y, width, height);
+	ofPopStyle();
+}
+
+//------------------------------------
+void viewCam::updateCam()
+{
+	_cam.setPosition(_pos);
+	_cam.lookAt(_pos + _target);
+}
+
+//------------------------------------
+void viewCam::begin()
+{
+	_canvas.begin();
+	ofClear(50);
+	_cam.begin();
+
+}
+
+//------------------------------------
+void viewCam::end()
+{
+	_cam.end();
+	_canvas.end();
+}
+
+#pragma endregion
+
+

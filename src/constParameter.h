@@ -32,7 +32,7 @@ static const int cFFColsNum = 40;
 static const int cFFNum = cFFRowsNum * cFFColsNum;
 static const float cFFFourceTime = 100.0f;
 
-//Arm
+//Kinect Arm
 static const int cArmFilterY = -70;
 static const int cArmKinectNum = 2;
 static const int cArmBufferSize = 120;
@@ -52,13 +52,28 @@ static const int cGravity = 9;
 static const int cBodyBallSize = 20;
 static const int cTBMeshMax = 3 * 1000;
 
-//Arms
+//------------------------------------------
+//Views
+//View Camera
+static const ofRectangle cViewCamSize(0, 0, 1920, 1080);
+
+//Arms View
 static const ofVec3f cArmsShiftPos(0, 0, 250);
 static const int cArmsSpaceSize = 500;
 static const int cArmsCeilingAlpha = 255;
 static const int cArmsMirrorAlpha = 255;
 static const int cArmsMirrorNum = 2;
 static const float cArmsSpaceRotateV = 10.0f;
+static const ofVec3f cAmrsCeilTopPos(0, cArmsSpaceSize, 0);
+
+//Three Body
+static const ofVec3f cThreeBodyPos(0, 3000, 0);
+
+//Symbol
+static const ofVec3f cSymbolPos(0, 5000, 0);
+static const ofVec3f cSymbolViewHeight(0, 4500, 0);
+static const float cSymbolDisplayHeight = cSymbolViewHeight.y * 0.8f;
+
 
 //Viewer Camera
 static const ofVec3f cViewCamDefaultPos(0, 0, 400);

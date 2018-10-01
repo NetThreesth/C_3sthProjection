@@ -27,7 +27,7 @@ void vArms::update(float delta)
 //------------------------------
 void vArms::draw(ofVec3f pos)
 {
-	if (!_isSetup)
+	if (!_isSetup || !_displayStage)
 	{
 		return;
 	}
@@ -47,6 +47,12 @@ void vArms::start()
 void vArms::stop()
 {
 	_isStart = false;
+}
+
+//------------------------------
+void vArms::setStage(bool isDisplay)
+{
+	_displayStage = isDisplay;
 }
 
 #pragma region Stage
@@ -72,6 +78,11 @@ bool vArms::initStage()
 //------------------------------
 void vArms::updateStage(float delta)
 {
+	if (!_displayStage)
+	{
+		return;
+	}
+
 	_rotD += delta * _rotV;
 	if (_rotD >= 360.0)
 	{
@@ -82,6 +93,10 @@ void vArms::updateStage(float delta)
 //------------------------------
 void vArms::drawStage()
 {
+	if (!_displayStage)
+	{
+		return;
+	}
 	ofPushStyle();
 
 	//Ceiling

@@ -10,8 +10,6 @@ void ofApp::setup() {
 
 	ofBackground(50);
 	_timer = ofGetElapsedTimef();
-
-	
 }
 
 //--------------------------------------------------------------
@@ -28,6 +26,8 @@ void ofApp::update() {
 void ofApp::draw() {
 	
 	drawViewer();
+
+	_viewCam.draw();
 	
 }
 
@@ -45,6 +45,45 @@ void ofApp::keyPressed(int key) {
 }
 
 //--------------------------------------------------------------
+void ofApp::onViewerChange(eViewState & nowState)
+{
+	switch (nowState)
+	{
+	case eViewArms:
+	{
+		break;
+	}
+	case eArmsToThreeBody:
+	{
+		break;
+	}
+	case eViewThreeBody:
+	{
+		_viewSymbol.displayMirror();
+		_viewThreeBody.start();
+
+		_viewArms.stop();
+		_viewArms.setStage(false);
+		break;
+	}
+	case eViewThreeBodyAndSymbol:
+	{
+		_viewSymbol.start();
+		break;
+	}
+	case eViewSymbol:
+	{
+		_viewThreeBody.stop();
+		break;
+	}
+	case eSymbolToArms:
+	{
+		break;
+	}
+	}
+}
+
+//--------------------------------------------------------------
 void ofApp::setupViewer()
 {
 	_viewArms.setup();
@@ -52,9 +91,12 @@ void ofApp::setupViewer()
 	_viewSymbol.setup(cMetaballRect.getWidth(), cMetaballRect.getHeight());
 
 	_armsPos.set(0);
-	_threeBodyPos.set(0, 5000, 0);
-	_symbolPos.set(0, 5000, 0);
+	_threeBodyPos.set(cSymbolPos);
+	_symbolPos.set(cSymbolPos);
 
+	_viewArms.setStage(true);
+
+	ofAddListener(_viewCam._onViewStateChange, this, &ofApp::onViewerChange);
 }
 
 //--------------------------------------------------------------
@@ -70,14 +112,20 @@ void ofApp::updateViewer(float delta)
 void ofApp::drawViewer()
 {
 	ofSetDepthTest(true);
-	_cam.begin();
+
+	_viewCam.begin();
+	glPointSize(2.0f);
 	_viewArms.draw(_armsPos);
 	_viewThreeBody.draw(_threeBodyPos);
 	_viewSymbol.draw(_symbolPos);
-
+	_viewCam.end();
 
 	//Debug
-	_viewCam.draw();
-	_cam.end();
+	//_cam.begin();
+	//_viewArms.draw(_armsPos);
+	//_viewThreeBody.draw(_threeBodyPos);
+	//_viewSymbol.draw(_symbolPos);	
+	//_viewCam.drawCamera();
+	//_cam.end();
 	ofSetDepthTest(false);
 }

@@ -76,6 +76,12 @@ void threeBody::draw()
 }
 
 //-----------------------------
+void threeBody::reset()
+{
+	_mesh.clear();
+}
+
+//-----------------------------
 void threeBody::oneStep()
 {
 	int totalMass = _bodyA._mass + _bodyB._mass + _bodyC._mass;

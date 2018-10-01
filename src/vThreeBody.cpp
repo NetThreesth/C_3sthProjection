@@ -27,6 +27,7 @@ void vThreeBody::draw(ofVec3f pos)
 	}
 	ofPushMatrix();
 	ofTranslate(pos);
+	ofRotateX(90);
 	{
 		_tBody.draw();
 	}
@@ -37,10 +38,13 @@ void vThreeBody::draw(ofVec3f pos)
 void vThreeBody::start()
 {
 	_isStart = true;
+	
 }
 
 //--------------------------------------------------------------
 void vThreeBody::stop()
 {
 	_isStart = false;
+	_tBody.reset();
+	
 }
