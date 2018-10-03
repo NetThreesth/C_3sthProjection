@@ -32,6 +32,8 @@ armKinect::armKinect()
 	}
 	_kPos[1].set(-136, 0, -424);
 	_kRot[1].set(0, 223, 0);
+
+	resetSPFList();
 }
 
 
@@ -187,6 +189,7 @@ void armKinect::load(armBuffer* loadPtr, int kinectIdx, int start, int end)
 	int frameIdx = 0;
 	for (int photoIdx = start; photoIdx < end; photoIdx++, frameIdx++)
 	{
+		
 		(*loadPtr)[frameIdx][kinectIdx].clear();
 		ofShortImage depth;
 		ofImage color;
@@ -205,5 +208,27 @@ void armKinect::load(armBuffer* loadPtr, int kinectIdx, int start, int end)
 			}
 			(*loadPtr)[frameIdx][kinectIdx].addVertex(pos);
 		}
+	}
+}
+
+//--------------------------
+void armKinect::resetSPFList()
+{
+	float totalTime = cFrameTime * cArmBufferSize;
+	float avgTime = totalTime / cArmPlaySpeedNum;
+	float count = 0;
+	for (auto& iter : _SPFList)
+	{
+		auto t = avgTime * ofRandom(0.2f, 2.0f);
+		iter = t;
+		count += t;
+	}
+	float delta = (totalTime - count) / cArmPlaySpeedNum;
+
+	for (auto& iter : _SPFList)
+	{
+		iter += delta;
+		iter /= cArmPlaySpeedEach;
+		
 	}
 }

@@ -2,7 +2,7 @@
 
 //------------------------------------
 viewCam::viewCam()
-	:_eState(eViewArms)
+	:_eState(eViewWait)
 	,_pos(cViewCamDefaultPos)
 	,_target(cViewCamDefaultTarget)
 {
@@ -73,21 +73,20 @@ void viewCam::stateCheck(float delta)
 	{
 	case eViewArms:
 	{
-		_timer -= delta;
-		if (_timer <= 0.0f)
-		{
-			_animZ.reset(_pos.z);
-			_animZ.setDuration(6.0);
-			_animZ.setCurve(AnimCurve::QUADRATIC_EASE_OUT);
-			_animZ.animateTo(0.0f);
+		//_timer -= delta;
+		//if (_timer <= 0.0f)
+		//{
+		//	_animZ.reset(_pos.z);
+		//	_animZ.setDuration(6.0);
+		//	_animZ.setCurve(AnimCurve::QUADRATIC_EASE_OUT);
+		//	_animZ.animateTo(0.0f);
 
-			_animY.reset(_pos.y);
-			_animY.setDuration(8.0);
-			_animY.animateTo(cAmrsCeilTopPos.y);
-			_eState = eArmsToThreeBody;
-			ofNotifyEvent(_onViewStateChange, _eState, this);
-			
-		}
+		//	_animY.reset(_pos.y);
+		//	_animY.setDuration(8.0);
+		//	_animY.animateTo(cAmrsCeilTopPos.y);
+		//	_eState = eArmsToThreeBody;
+		//	ofNotifyEvent(_onViewStateChange, _eState, this);
+		//}
 		break;
 	}
 	case eArmsToThreeBody:

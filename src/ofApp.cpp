@@ -27,7 +27,7 @@ void ofApp::draw() {
 	
 	drawViewer();
 
-	_viewCam.draw();
+	//_viewCam.draw();
 	
 }
 
@@ -39,6 +39,7 @@ void ofApp::keyPressed(int key) {
 	case 's':
 	{
 		_viewCam.start();
+		_viewArms.start();
 		break;
 	}
 	}
@@ -113,19 +114,19 @@ void ofApp::drawViewer()
 {
 	ofSetDepthTest(true);
 
-	_viewCam.begin();
-	glPointSize(2.0f);
-	_viewArms.draw(_armsPos);
-	_viewThreeBody.draw(_threeBodyPos);
-	_viewSymbol.draw(_symbolPos);
-	_viewCam.end();
-
-	//Debug
-	//_cam.begin();
+	//_viewCam.begin();
+	//glPointSize(2.0f);
 	//_viewArms.draw(_armsPos);
 	//_viewThreeBody.draw(_threeBodyPos);
-	//_viewSymbol.draw(_symbolPos);	
-	//_viewCam.drawCamera();
-	//_cam.end();
+	//_viewSymbol.draw(_symbolPos);
+	//_viewCam.end();
+
+	//Debug
+	_cam.begin();
+	_viewArms.draw(_armsPos);
+	_viewThreeBody.draw(_threeBodyPos);
+	_viewSymbol.draw(_symbolPos);	
+	_viewCam.drawCamera();
+	_cam.end();
 	ofSetDepthTest(false);
 }

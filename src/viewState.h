@@ -3,7 +3,8 @@
 
 enum eViewState
 {
-	eViewArms = 0
+	eViewWait = 0
+	,eViewArms
 	,eArmsToThreeBody
 	,eViewThreeBody
 	,eViewThreeBodyAndSymbol
