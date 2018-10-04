@@ -42,6 +42,11 @@ void ofApp::keyPressed(int key) {
 		_viewArms.start();
 		break;
 	}
+	case 't':
+	{
+		_viewParticle.start(100);
+		break;
+	}
 	}
 }
 
@@ -92,8 +97,9 @@ void ofApp::setupViewer()
 	_viewSymbol.setup(cMetaballRect.getWidth(), cMetaballRect.getHeight());
 
 	_armsPos.set(0);
-	_threeBodyPos.set(cSymbolPos);
+	_threeBodyPos.set(cThreeBodyPos);
 	_symbolPos.set(cSymbolPos);
+	_particlePos.set(cParticlePos);
 
 	_viewArms.setStage(true);
 
@@ -106,6 +112,7 @@ void ofApp::updateViewer(float delta)
 	_viewArms.update(delta);
 	_viewThreeBody.update(delta);
 	_viewSymbol.update(delta);
+	_viewParticle.update(delta);
 	_viewCam.update(delta);
 }
 
@@ -125,7 +132,8 @@ void ofApp::drawViewer()
 	_cam.begin();
 	_viewArms.draw(_armsPos);
 	_viewThreeBody.draw(_threeBodyPos);
-	_viewSymbol.draw(_symbolPos);	
+	_viewSymbol.draw(_symbolPos);
+	_viewParticle.draw(_particlePos);
 	_viewCam.drawCamera();
 	_cam.end();
 	ofSetDepthTest(false);

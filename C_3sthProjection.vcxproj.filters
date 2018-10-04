@@ -76,6 +76,12 @@
     <ClCompile Include="src\viewCam.cpp">
       <Filter>src\view</Filter>
     </ClCompile>
+    <ClCompile Include="src\particle.cpp">
+      <Filter>src\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vParticleMgr.cpp">
+      <Filter>src\view</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -125,6 +131,9 @@
     </Filter>
     <Filter Include="src\threeBody">
       <UniqueIdentifier>{88b54600-e317-4f2b-8991-eff393b52e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\particle">
+      <UniqueIdentifier>{167a04fd-e9f3-448d-a608-0928db251dda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +222,12 @@
       <Filter>src\view</Filter>
     </ClInclude>
     <ClInclude Include="src\viewState.h">
+      <Filter>src\view</Filter>
+    </ClInclude>
+    <ClInclude Include="src\particle.h">
+      <Filter>src\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vParticleMgr.h">
       <Filter>src\view</Filter>
     </ClInclude>
   </ItemGroup>

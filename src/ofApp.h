@@ -5,6 +5,7 @@
 #include "vSymbolMirror.h"
 #include "vThreeBody.h"
 #include "viewCam.h"
+#include "vParticleMgr.h"
 #include "kinectMgr.h"
 
 class ofApp : public ofBaseApp{
@@ -32,13 +33,13 @@ private:
 	void updateViewer(float delta);
 	void drawViewer();
 private:
-	ofVec3f _symbolPos, _threeBodyPos, _armsPos;
+	ofVec3f _symbolPos, _threeBodyPos, _armsPos, _particlePos;
 	vSymbolMirror _viewSymbol;
 	vThreeBody _viewThreeBody;
 	vArms _viewArms;
+	vParticleMgr _viewParticle;
 	viewCam _viewCam;
 #pragma endregion
-
 
 #pragma region KinectMgr
 private:

@@ -32,8 +32,6 @@ armKinect::armKinect()
 	}
 	_kPos[1].set(-136, 0, -424);
 	_kRot[1].set(0, 223, 0);
-
-	resetSPFList();
 }
 
 
@@ -63,7 +61,8 @@ void armKinect::update(float delta)
 
 		_totalFrameIdx = _startF + _bufferFrameIdx;
 		_bufferFrameIdx = (_bufferFrameIdx + 1) % cArmBufferSize;
-		_frameTimer = cFrameTime;
+		auto index = MIN((int)floor(_bufferFrameIdx / cArmPlaySpeedEach), cArmPlaySpeedNum - 1);
+		_frameTimer = _SPFList[index];
 
 		if (_bufferFrameIdx == 0)
 		{
@@ -109,6 +108,8 @@ void armKinect::reset()
 	_displayPtr = &_ping;
 	_bufferPtr = &_pong;
 	
+	resetSPFList();
+
 	//Load Buffer
 	_startF = cArmStartFrame;
 	_endF = cArmStartFrame + cArmBufferSize;
@@ -151,7 +152,7 @@ void armKinect::checkBuffer()
 	_startF = _endF;
 	_endF = MIN((_startF + cArmBufferSize), cArmEndFrame);
 	loadFrame(_bufferPtr, _startF, _endF);
-	
+	resetSPFList();
 }
 
 //--------------------------
@@ -207,6 +208,7 @@ void armKinect::load(armBuffer* loadPtr, int kinectIdx, int start, int end)
 				continue;
 			}
 			(*loadPtr)[frameIdx][kinectIdx].addVertex(pos);
+			(*loadPtr)[frameIdx][kinectIdx].addColor(ofColor(0));
 		}
 	}
 }
@@ -219,15 +221,16 @@ void armKinect::resetSPFList()
 	float count = 0;
 	for (auto& iter : _SPFList)
 	{
-		auto t = avgTime * ofRandom(0.2f, 2.0f);
+		auto t = avgTime * ofRandom(0.1f, 2.5f);
 		iter = t;
 		count += t;
 	}
 	float delta = (totalTime - count) / cArmPlaySpeedNum;
-
+	float total = 0.0f;
 	for (auto& iter : _SPFList)
 	{
 		iter += delta;
+		total += iter;
 		iter /= cArmPlaySpeedEach;
 		
 	}

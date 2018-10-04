@@ -36,9 +36,10 @@ static const float cFFFourceTime = 100.0f;
 static const int cArmFilterY = -70;
 static const int cArmKinectNum = 2;
 static const int cArmBufferSize = 120;
-static const int cArmPlaySpeedNum = 5;
+static const int cArmPlaySpeedNum = 6;
+static const float cArmPlayBaseFPS = 24.0f;
 static const float cArmPlaySpeedEach = cArmBufferSize / (float)cArmPlaySpeedNum;
-static const float cFrameTime = 1 / 24.0f;
+static const float cFrameTime = 1 / cArmPlayBaseFPS;
 static const int cArmStartFrame = 219;
 static const int cArmEndFrame = 2049;
 static const int cArmFrameNum = cArmEndFrame - cArmStartFrame + 1;
@@ -53,6 +54,15 @@ static const float cDefaultR = 763.376313;
 static const int cGravity = 9;
 static const int cBodyBallSize = 20;
 static const int cTBMeshMax = 3 * 1000;
+
+//Particle
+static const ofVec3f cPCenter(0, -100, 0);
+static float cPBaseRadius = 300.0f;
+static float cPFadeDuration = 3.0f;
+static float cPDeadHigh = 3000;
+static float cPSphereSize = 4.0f;
+static float cPEmitterMinT = 0.5f;
+static float cPEmitterMaxT = 1.5f;
 
 //------------------------------------------
 //Views
@@ -76,6 +86,8 @@ static const ofVec3f cSymbolPos(0, 5000, 0);
 static const ofVec3f cSymbolViewHeight(0, 4500, 0);
 static const float cSymbolDisplayHeight = cSymbolViewHeight.y * 0.8f;
 
+//Partical
+static const ofVec3f cParticlePos(0, -100, 0);
 
 //Viewer Camera
 static const ofVec3f cViewCamDefaultPos(0, 0, 400);
