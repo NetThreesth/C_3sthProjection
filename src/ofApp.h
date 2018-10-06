@@ -7,6 +7,7 @@
 #include "viewCam.h"
 #include "vParticleMgr.h"
 #include "kinectMgr.h"
+#include "multiCam.h"
 
 class ofApp : public ofBaseApp{
 
@@ -14,13 +15,13 @@ public:
 	void setup();
 	void update();
 	void draw();
+	void debugDraw();
 
 	void keyPressed(int key);
-		
 
 private:
 	float _timer;
-
+	multiCam _multiCam;
 	ofFbo _canvas;
 	ofEasyCam _cam;
 
@@ -39,6 +40,7 @@ private:
 	vArms _viewArms;
 	vParticleMgr _viewParticle;
 	viewCam _viewCam;
+	
 #pragma endregion
 
 #pragma region KinectMgr

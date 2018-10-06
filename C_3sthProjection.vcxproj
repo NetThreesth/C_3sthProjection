@@ -181,6 +181,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\metaAiSymbol.cpp" />
     <ClCompile Include="src\metaball.cpp" />
+    <ClCompile Include="src\multiCam.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="..\..\..\addons\ofxAnimatable\src\ofxAnimatable.cpp" />
     <ClCompile Include="..\..\..\addons\ofxAnimatable\src\ofxAnimatableFloat.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="src\lightSet.h" />
     <ClInclude Include="src\metaAiSymbol.h" />
     <ClInclude Include="src\metaball.h" />
+    <ClInclude Include="src\multiCam.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="..\..\..\addons\ofxAnimatable\src\ofxAnimatable.h" />
     <ClInclude Include="..\..\..\addons\ofxAnimatable\src\ofxAnimatableFloat.h" />

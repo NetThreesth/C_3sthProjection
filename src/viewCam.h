@@ -35,6 +35,7 @@ public:
 	void updateCam();
 	void begin();
 	void end();
+	ofNode& getCam();
 private:
 	ofFbo _canvas;
 	ofEasyCam _cam;

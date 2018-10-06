@@ -64,6 +64,12 @@ static float cPSphereSize = 4.0f;
 static float cPEmitterMinT = 0.5f;
 static float cPEmitterMaxT = 1.5f;
 
+//Multi-Cam
+static const int cMCCamNum = 6;
+static const int cMCCamCanvasWidth = 1920;
+static const int cMCCamCanvasHeight = 1080;
+static const int cMCCamDist = 100;
+
 //------------------------------------------
 //Views
 //View Camera

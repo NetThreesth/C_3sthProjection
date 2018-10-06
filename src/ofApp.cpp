@@ -4,6 +4,9 @@
 void ofApp::setup() {
 
 	setupViewer();
+	_multiCam.setup(0, 0, 1920, 180);
+	_multiCam.updateParent(_viewCam.getCam());
+
 	//_kinectMgr.setup();
 	//_cam.setVFlip(true);
 	ofSetSmoothLighting(true);
@@ -17,7 +20,11 @@ void ofApp::update() {
 	float delta = ofGetElapsedTimef() - _timer;
 	_timer += delta;
 
+	
 	updateViewer(delta);
+	_multiCam.update(delta);
+	_multiCam.updateParent(_viewCam.getCam());
+	
 	flowField::getInstance()->update(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
@@ -25,10 +32,32 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	
-	drawViewer();
+	ofSetDepthTest(true);
+	for (int i = 0; i < _multiCam.getCamNum(); i++)
+	{
+		_multiCam.begin(i);
+		{
+			drawViewer();
+		}
+		_multiCam.end();
+	}
 
-	//_viewCam.draw();
-	
+	debugDraw();
+	_multiCam.draw();
+	ofSetDepthTest(false);
+}
+
+//--------------------------------------------------------------
+void ofApp::debugDraw()
+{
+	_cam.begin();
+	_viewArms.draw(_armsPos);
+	_viewThreeBody.draw(_threeBodyPos);
+	_viewSymbol.draw(_symbolPos);
+	_viewParticle.draw(_particlePos);
+	_viewCam.drawCamera();
+	_multiCam.drawCam();
+	_cam.end();
 }
 
 //--------------------------------------------------------------
@@ -118,23 +147,11 @@ void ofApp::updateViewer(float delta)
 
 //--------------------------------------------------------------
 void ofApp::drawViewer()
-{
-	ofSetDepthTest(true);
-
-	//_viewCam.begin();
-	//glPointSize(2.0f);
-	//_viewArms.draw(_armsPos);
-	//_viewThreeBody.draw(_threeBodyPos);
-	//_viewSymbol.draw(_symbolPos);
-	//_viewCam.end();
-
-	//Debug
-	_cam.begin();
+{	
+	ofPushStyle();
+	glPointSize(2.0f);
 	_viewArms.draw(_armsPos);
 	_viewThreeBody.draw(_threeBodyPos);
 	_viewSymbol.draw(_symbolPos);
-	_viewParticle.draw(_particlePos);
-	_viewCam.drawCamera();
-	_cam.end();
-	ofSetDepthTest(false);
+	ofPopStyle();
 }
