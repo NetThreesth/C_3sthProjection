@@ -16,7 +16,7 @@ public:
 	void update(float delta);
 	void draw(ofVec3f pos);
 	
-	void start();
+	bool start();
 	void stop();
 
 	void setStage(bool isDisplay);

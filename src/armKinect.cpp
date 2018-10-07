@@ -119,15 +119,16 @@ void armKinect::reset()
 }
 
 //--------------------------
-void armKinect::play()
+bool armKinect::play()
 {
 	if (!_isSetup)
 	{
 		ofLog(OF_LOG_ERROR, "[armKinect::play]Setup first");
-		return;
+		return false;
 	}
 
 	_isPlay = true;
+	return true;
 }
 
 //--------------------------

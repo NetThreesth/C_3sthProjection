@@ -60,10 +60,13 @@ void multiCam::setup(int x, int y, int width, int height)
 
 	float theata = 360 / cMCCamNum;
 	ofVec2f v(0, cMCCamDist);
+	ofVec3f target = _parent.getGlobalPosition();
+	target.z -= cMCTargetDepth;
 	for (int i = 0; i < cMCCamNum; i++)
 	{
 		_camList[i]._cam.setParent(_parent);
 		_camList[i]._cam.setPosition(v);
+		_camList[i]._cam.lookAt(target);
 		v.rotate(theata);
 	}
 }

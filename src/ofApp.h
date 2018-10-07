@@ -8,6 +8,7 @@
 #include "vParticleMgr.h"
 #include "kinectMgr.h"
 #include "multiCam.h"
+#include "config.h"
 
 class ofApp : public ofBaseApp{
 
@@ -19,11 +20,19 @@ public:
 
 	void keyPressed(int key);
 
+
+
 private:
 	float _timer;
 	multiCam _multiCam;
-	ofFbo _canvas;
 	ofEasyCam _cam;
+	bool _showDebug;
+	
+private:
+	void onFadeFinish(ofxAnimatable::AnimationEvent& e);
+
+private:
+	ofxAnimatableFloat _animFadeAlpah;
 
 
 #pragma region Viewer
@@ -40,8 +49,9 @@ private:
 	vArms _viewArms;
 	vParticleMgr _viewParticle;
 	viewCam _viewCam;
-	
 #pragma endregion
+
+
 
 #pragma region KinectMgr
 private:

@@ -56,6 +56,7 @@ private:
 	bool load(string name);
 	bool loadMirror(string name);
 	void updateMirror(float delta);
+	void resetMirror();
 	void drawMirror(ofVec3f pos);
 private:
 	ofImage _mask;

@@ -12,7 +12,7 @@ public:
 	void update(float delta);
 	void draw(ofVec3f shift);
 	void reset();
-	void play();
+	bool play();
 	int getFrame();
 private:
 	void checkBuffer();

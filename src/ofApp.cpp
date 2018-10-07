@@ -3,14 +3,26 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 
+	config::getInstance()->init();
 	setupViewer();
-	_multiCam.setup(0, 0, 1920, 180);
+
+	if (config::getInstance()->_exOnlyMultiCam)
+	{
+		ofSetWindowShape(config::getInstance()->_exWindowWidth, config::getInstance()->_exWindowHeight);
+		ofSetWindowPosition(0, 0);	
+	}
+	_multiCam.setup(0, 0, config::getInstance()->_exWindowWidth, config::getInstance()->_exWindowHeight);
 	_multiCam.updateParent(_viewCam.getCam());
 
 	//_kinectMgr.setup();
-	//_cam.setVFlip(true);
 	ofSetSmoothLighting(true);
 
+	//Fade
+	_animFadeAlpah.reset(0);
+	_animFadeAlpah.setDuration(cViewFadeT);
+	ofAddListener(_animFadeAlpah.animFinished, this, &ofApp::onFadeFinish);
+
+	_showDebug = false;
 	ofBackground(50);
 	_timer = ofGetElapsedTimef();
 }
@@ -25,6 +37,10 @@ void ofApp::update() {
 	_multiCam.update(delta);
 	_multiCam.updateParent(_viewCam.getCam());
 	
+	_animFadeAlpah.update(delta);
+
+
+
 	flowField::getInstance()->update(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
@@ -33,6 +49,7 @@ void ofApp::update() {
 void ofApp::draw() {
 	
 	ofSetDepthTest(true);
+
 	for (int i = 0; i < _multiCam.getCamNum(); i++)
 	{
 		_multiCam.begin(i);
@@ -42,9 +59,18 @@ void ofApp::draw() {
 		_multiCam.end();
 	}
 
-	debugDraw();
+	if (_showDebug && !config::getInstance()->_exOnlyMultiCam)
+	{
+		debugDraw();
+	}
+	
 	_multiCam.draw();
 	ofSetDepthTest(false);
+
+	ofPushStyle();
+	ofSetColor(0, _animFadeAlpah.getCurrentValue());
+	ofDrawRectangle(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+	ofPopStyle();
 }
 
 //--------------------------------------------------------------
@@ -67,15 +93,31 @@ void ofApp::keyPressed(int key) {
 	{
 	case 's':
 	{
-		_viewCam.start();
-		_viewArms.start();
+		if (_viewArms.start())
+		{
+			_viewCam.start();
+			_viewParticle.start(ofRandom(50, 100));
+		}
 		break;
 	}
-	case 't':
+	case 'd':
 	{
-		_viewParticle.start(100);
+		_showDebug ^= true;
 		break;
 	}
+	}
+}
+
+//--------------------------------------------------------------
+void ofApp::onFadeFinish(ofxAnimatable::AnimationEvent & e)
+{
+	if (_animFadeAlpah.getCurrentValue() == 0.0 && config::getInstance()->_exIsAutoLoop)
+	{
+		if (_viewArms.start())
+		{
+			_viewCam.start();
+			_viewParticle.start(50);
+		}
 	}
 }
 
@@ -84,6 +126,14 @@ void ofApp::onViewerChange(eViewState & nowState)
 {
 	switch (nowState)
 	{
+	case eViewWait:
+	{
+		_viewSymbol.stop();
+		_viewSymbol.reset();
+		_viewArms.setStage(true);
+		_viewCam.reset();
+		_animFadeAlpah.animateTo(0);
+	}
 	case eViewArms:
 	{
 		break;
@@ -111,8 +161,10 @@ void ofApp::onViewerChange(eViewState & nowState)
 		_viewThreeBody.stop();
 		break;
 	}
-	case eSymbolToArms:
+	case eSymbolToWait:
 	{
+		_animFadeAlpah.animateTo(255);
+		
 		break;
 	}
 	}
@@ -153,5 +205,6 @@ void ofApp::drawViewer()
 	_viewArms.draw(_armsPos);
 	_viewThreeBody.draw(_threeBodyPos);
 	_viewSymbol.draw(_symbolPos);
+	_viewParticle.draw(_particlePos);
 	ofPopStyle();
 }

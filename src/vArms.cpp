@@ -37,10 +37,18 @@ void vArms::draw(ofVec3f pos)
 }
 
 //------------------------------
-void vArms::start()
+bool vArms::start()
 {
-	_arms.play();
-	_isStart = true;
+	if (_arms.play())
+	{
+		_isStart = true;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	
 }
 
 //------------------------------

@@ -69,11 +69,13 @@ static const int cMCCamNum = 6;
 static const int cMCCamCanvasWidth = 1920;
 static const int cMCCamCanvasHeight = 1080;
 static const int cMCCamDist = 100;
+static const int cMCTargetDepth = 300;
 
 //------------------------------------------
 //Views
 //View Camera
 static const ofRectangle cViewCamSize(0, 0, 1920, 1080);
+static const float cViewFadeT = 3.0f;
 
 //Arms View
 static const ofVec3f cArmsShiftPos(0, 0, 250);
@@ -89,8 +91,9 @@ static const ofVec3f cThreeBodyPos(0, 3000, 0);
 
 //Symbol
 static const ofVec3f cSymbolPos(0, 5000, 0);
-static const ofVec3f cSymbolViewHeight(0, 4500, 0);
+static const ofVec3f cSymbolViewHeight(0, 4800, 0);
 static const float cSymbolDisplayHeight = cSymbolViewHeight.y * 0.8f;
+static const float cSymbolDisplayTime = 10.0f;
 
 //Partical
 static const ofVec3f cParticlePos(0, -100, 0);

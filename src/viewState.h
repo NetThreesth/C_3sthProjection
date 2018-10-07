@@ -9,5 +9,5 @@ enum eViewState
 	,eViewThreeBody
 	,eViewThreeBodyAndSymbol
 	,eViewSymbol
-	,eSymbolToArms
+	,eSymbolToWait
 };

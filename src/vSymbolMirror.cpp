@@ -53,6 +53,7 @@ void vSymbolMirror::reset()
 {
 	_animMirrorAlpha.reset(0);
 	_animSymbolAlpha.reset(0);
+	resetMirror();
 }
 
 //--------------------------------------------------------------
@@ -207,6 +208,17 @@ void vSymbolMirror::updateMirror(float delta)
 	{
 		auto color = _mirror.getColor(i);
 		color.a = _animMirrorAlpha.getCurrentValue();
+		_mirror.setColor(i, color);
+	}
+}
+
+//--------------------------------------------------------------
+void vSymbolMirror::resetMirror()
+{
+	for (int i = 0; i < _mirror.getNumColors(); i++)
+	{
+		auto color = _mirror.getColor(i);
+		color.a = 0.0f;
 		_mirror.setColor(i, color);
 	}
 }

@@ -5,6 +5,7 @@ viewCam::viewCam()
 	:_eState(eViewWait)
 	,_pos(cViewCamDefaultPos)
 	,_target(cViewCamDefaultTarget)
+	, _isStart(false)
 {
 	_canvas.allocate(cViewCamSize.width, cViewCamSize.height, GL_RGB);
 	_cam.disableMouseInput();
@@ -43,6 +44,9 @@ void viewCam::drawCamera()
 void viewCam::reset()
 {
 	_isStart = false;
+	_pos = cViewCamDefaultPos;
+	_target = cViewCamDefaultTarget;
+
 }
 
 //------------------------------------
@@ -111,6 +115,7 @@ void viewCam::stateCheck(float delta)
 		{
 			_eState = eViewSymbol;
 			ofNotifyEvent(_onViewStateChange, _eState, this);
+			_timer = cSymbolDisplayTime;
 		}
 		else
 		{
@@ -126,7 +131,23 @@ void viewCam::stateCheck(float delta)
 	}
 	case eViewSymbol:
 	{
+		_timer -= delta;
+		if (_timer <= 0.0f)
+		{
+			_eState = eSymbolToWait;
+			_timer = cViewFadeT;
+			ofNotifyEvent(_onViewStateChange, _eState, this);
+		}
 		break;
+	}
+	case eSymbolToWait:
+	{
+		_timer -= delta;
+		if (_timer <= 0.0f)
+		{
+			_eState = eViewWait;
+			ofNotifyEvent(_onViewStateChange, _eState, this);
+		}
 	}
 	}
 }
