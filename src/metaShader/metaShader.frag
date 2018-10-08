@@ -1,7 +1,9 @@
 #version 120
 
 uniform vec3 metaPos[10];
-uniform vec4 metaColor[10];
+uniform int metaFlag[10];
+uniform int metaWidth;
+uniform int metaHeight;
 varying vec3 pos;
 
 vec3 hsv2rgb(vec3 c)
@@ -14,33 +16,27 @@ vec3 hsv2rgb(vec3 c)
 void main()
 {
 	float result = 0.0f;
-	float valList[10];
 	for(int i = 0; i < 10; i++)
 	{
-		float distX = pos.x - metaPos[i].x;
-		float distY = pos.y - metaPos[i].y;
-		float r = (metaPos[i].z * metaPos[i].z);
-		float dist = (r) / ((distX * distX) + (distY * distY));
-		valList[i] = dist;
-		result += dist;
+		if(metaFlag[i] > 0)
+		{
+			float distX = abs(pos.x - metaPos[i].x);
+			float distY = abs(pos.y - metaPos[i].y);
+			distX = min(distX, metaWidth - distX);
+			distY = min(distY, metaHeight - distY);
+			float r = (metaPos[i].z * metaPos[i].z);
+			float dist = (r * 0.5f) / ((distX * distX) + (distY * distY));
+			result += dist;
+		}
 	}
+
 	
-	/*
-	vec4 color;
-	for(int i = 0; i < 10; i++)
-	{
-		color.r += metaColor[i].r * (valList[i] / result);
-		color.g += metaColor[i].g * (valList[i] / result);
-		color.b += metaColor[i].b * (valList[i] / result);
-	}
-	gl_FragColor.rgba = vec4(color.rgb, 0.8f);
-	*/
 	
 	vec3 color;
-	color.r = result;
+	color.r = min(1.0f, result);
 	color.g = 1.0f;
 	color.b = 1.0f;
-	gl_FragColor.rgba = vec4(hsv2rgb(color).rgb, 0.7f);
+	gl_FragColor.rgba = vec4(hsv2rgb(color).rgb, 1.0 - min(1.0f, result));
 	
 	
     

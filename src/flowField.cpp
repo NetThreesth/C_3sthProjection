@@ -25,6 +25,11 @@ ofVec2f flowField::forceUnit::getForce()
 
 }
 
+ofVec2f flowField::forceUnit::getBasicForce()
+{
+	return _basicForce;
+}
+
 //-----------------------------------
 void flowField::forceUnit::setForce(ofVec2f force)
 {
@@ -41,7 +46,7 @@ void flowField::forceUnit::setForce(ofVec2f force)
 //-----------------------------------
 void flowField::update(float delta)
 {
-	for (auto& iter : _flowMap)
+	for (auto& iter : _metaFlowMap)
 	{
 		if (iter._needUpdate)
 		{
@@ -71,7 +76,7 @@ void flowField::draw(int x, int y, int width, int height)
 		}
 
 		//flow
-		ofSetColor(255, 0,0);
+		
 		ofVec2f pos;
 		for (int y = 0; y < cFFRowsNum; y++)
 		{
@@ -80,7 +85,12 @@ void flowField::draw(int x, int y, int width, int height)
 			{
 				int index = x + y * cFFColsNum;
 				pos.x = unitW * 0.5 + unitW* x;
-				ofLine(pos, pos + _flowMap[index].getForce());
+
+				ofSetColor(0, 255, 0);
+				ofLine(pos, pos + _metaFlowMap[index].getForce());
+
+				ofSetColor(0, 0, 255);
+				ofLine(pos, pos + _metaFlowMap[index].getBasicForce());
 			}
 		}
 
@@ -113,7 +123,7 @@ void flowField::setForce(int x, int y, ofVec2f force, int width, int height)
 			if (rect.intersects(ofVec2f(x, y), ofVec2f(x - force.x, y - force.y)))
 			{
 				int index = dx + dy * cFFColsNum;
-				_flowMap[index].setForce(force);
+				_metaFlowMap[index].setForce(force);
 			}
 		}
 	}
@@ -131,7 +141,7 @@ void flowField::setForce(ofRectangle range, ofVec2f force, int width, int height
 		for (int dx = sp.x; dx <= ep.x; dx++)
 		{
 			int index = dx + dy * cFFColsNum;
-			_flowMap[index].setForce(force);
+			_metaFlowMap[index].setForce(force);
 		}
 	}
 
@@ -140,7 +150,13 @@ void flowField::setForce(ofRectangle range, ofVec2f force, int width, int height
 //--------------------------------------------------------------
 ofVec2f flowField::getForce(int x, int y, int width, int height)
 {
-	return _flowMap[getIndex(x, y, width, height)].getForce();
+	return _metaFlowMap[getIndex(x, y, width, height)].getForce();
+}
+
+//--------------------------------------------------------------
+ofVec2f flowField::getBasicForce(int x, int y, int width, int height)
+{
+	return _metaFlowMap[getIndex(x, y, width, height)].getBasicForce();
 }
 
 //--------------------------------------------------------------
@@ -149,7 +165,7 @@ int flowField::getIndex(int x, int y, int width, int height)
 	int indexX = floor(((float)x / width) * cFFColsNum);
 	int indexY = floor(((float)y / height) * cFFRowsNum);
 
-	return MAX(MIN(indexX + indexY * cFFColsNum, _flowMap.size() - 1), 0);
+	return MAX(MIN(indexX + indexY * cFFColsNum, _metaFlowMap.size() - 1), 0);
 }
 
 //--------------------------------------------------------------

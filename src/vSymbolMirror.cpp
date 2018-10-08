@@ -49,6 +49,18 @@ void vSymbolMirror::draw(ofVec3f pos)
 }
 
 //--------------------------------------------------------------
+void vSymbolMirror::debugUpdate(float delta)
+{
+	_mb.update(delta);
+}
+
+//--------------------------------------------------------------
+void vSymbolMirror::debugDraw()
+{
+	_mb.draw();
+}
+
+//--------------------------------------------------------------
 void vSymbolMirror::reset()
 {
 	_animMirrorAlpha.reset(0);

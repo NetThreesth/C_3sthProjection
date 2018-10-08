@@ -19,9 +19,6 @@ public:
 	void debugDraw();
 
 	void keyPressed(int key);
-
-
-
 private:
 	float _timer;
 	multiCam _multiCam;

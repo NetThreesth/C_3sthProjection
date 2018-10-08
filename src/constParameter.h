@@ -9,6 +9,7 @@ static const int cImg2MeshAlpahT = 20;
 
 //Metaball
 static const int cMetaballNum = 10;
+static const int cMetaballBasicFlowNum = 4;
 static const ofRectangle cMetaballRect(0, 0, 836, 1000);
 static const int cMetaballMaxSize = min(836, 1000);
 

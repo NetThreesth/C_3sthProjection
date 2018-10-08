@@ -18,6 +18,8 @@ public:
 	void update(float delta);
 	void draw(ofVec3f pos);
 
+	void debugUpdate(float delta);
+	void debugDraw();
 
 	void reset();
 	void start();

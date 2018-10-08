@@ -38,10 +38,12 @@ void ofApp::update() {
 	_multiCam.updateParent(_viewCam.getCam());
 	
 	_animFadeAlpah.update(delta);
-
-
-
+	
 	flowField::getInstance()->update(delta);
+	
+	
+	//Debug
+	_viewSymbol.debugUpdate(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
@@ -71,6 +73,11 @@ void ofApp::draw() {
 	ofSetColor(0, _animFadeAlpah.getCurrentValue());
 	ofDrawRectangle(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
 	ofPopStyle();
+
+
+	//Debug
+	_viewSymbol.debugDraw();
+	flowField::getInstance()->draw(0, 0, cMetaballRect.width, cMetaballRect.height);
 }
 
 //--------------------------------------------------------------

@@ -5,14 +5,17 @@
 class metaNode
 {
 public:
-	metaNode() {};
-	void setup(int x, int y, ofColor c);
+	metaNode() 
+		:_useBasic(false)
+		, _display(false)
+	{};
+	void setup(int x, int y, bool useBasicFlow);
 	void update(float delta);
 	void draw();
 	ofVec3f getPosAndR();
-	ofColor getColor();
+	bool isDisplay();
 private:
-	ofColor _color;
+	bool _display, _useBasic;
 	ofVec2f _vec, _pos, _acc;
 	float _r;
 };
