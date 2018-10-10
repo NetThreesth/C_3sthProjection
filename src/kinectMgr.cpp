@@ -26,18 +26,40 @@ void kinectMgr::update(float delta)
 	{
 		vector<trackBlob> newBlobList;
 		checkBlob(newBlobList);
-		//mergeCheck(newBlobList);
+		bool hasNewBlob = tracking(newBlobList);
 		
-		tracking(newBlobList);
-		_mergeBlobList = newBlobList;
+		if (newBlobList.size() > _mergeBlobList.size())
+		{
+			int num = newBlobList.size() - _mergeBlobList.size();
+			ofNotifyEvent(_onNewBlobIn, num, this);
+		}
+		else if (_mergeBlobList.size() > newBlobList.size())
+		{
+			int num = _mergeBlobList.size() - newBlobList.size();
+			ofNotifyEvent(_onBlobOut, num, this);
+		}
 
+		_mergeBlobList = newBlobList;
 		updateFlowField();
 		for (auto& iter : _kinectList)
 		{
 			iter._isUpdate = false;
 		}
-
-
+		_timeout = cKTimeoutT;
+	}
+	else
+	{
+		if (_timeout > 0.0f)
+		{
+			_timeout -= delta;
+			if (_timeout <= 0.0f)
+			{
+				int num = _mergeBlobList.size();
+				ofNotifyEvent(_onBlobOut, num, this);
+				_mergeBlobList.clear();
+				
+			}
+		}
 	}
 }
 
@@ -55,9 +77,6 @@ void kinectMgr::draw()
 		ofDrawBitmapString(ofToString(iter._bid), center);
 	}
 
-	//ofSetColor(255, 0, 0);
-	//ofDrawRectangle(_mergeArea[0]);
-	//ofDrawRectangle(_mergeArea[1]);
 	ofPopStyle();
 }
 
@@ -163,13 +182,13 @@ bool kinectMgr::mergeCheck(vector<trackBlob>& blobList)
 }
 
 //--------------------------------
-void kinectMgr::tracking(vector<trackBlob>& blobList)
+bool kinectMgr::tracking(vector<trackBlob>& blobList)
 {
 	if (blobList.size() == 0)
 	{
 		//No blob
 		_blobCounter = 0;
-		return;
+		return false;
 	}
 
 	if (_mergeBlobList.size() == 0)
@@ -180,7 +199,7 @@ void kinectMgr::tracking(vector<trackBlob>& blobList)
 			iter._bid = _blobCounter;
 			_blobCounter++;
 		}
-		return;
+		return true;
 	}
 
 	vector<vector<blobDistSet>> distMap;
@@ -239,15 +258,17 @@ void kinectMgr::tracking(vector<trackBlob>& blobList)
 		}		
 	}
 
+	bool hasNew = false;
 	for (auto& iter : blobList)
 	{
 		if (iter._bid == -1)
 		{
 			iter._bid = _blobCounter;
 			_blobCounter++;
+			hasNew = true;
 		}
 	}
-
+	return hasNew;
 }
 
 //--------------------------------

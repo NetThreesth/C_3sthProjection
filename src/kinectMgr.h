@@ -8,6 +8,7 @@ class kinectMgr
 public:
 	kinectMgr()
 		:_blobCounter(0)
+		, _timeout(-1)
 	{}
 	void setup();
 	void update(float delta);
@@ -18,12 +19,18 @@ private:
 	void checkBlob(vector<trackBlob>& nextBlobList);
 	void addNewBlob(blobData& blob, vector<trackBlob>& blobList);
 	bool mergeCheck(vector<trackBlob>& blobList);
-	void tracking(vector<trackBlob>& blobList);
+	bool tracking(vector<trackBlob>& blobList);
 	void updateFlowField();
-public:
+private:
 	int _blobCounter;
+	float _timeout;
 	vector<trackBlob> _mergeBlobList;
 	array<kinectUnit, cKinectNum> _kinectList;
 
 	array<ofRectangle, 2> _mergeArea;
+
+//Evnet
+public:
+	ofEvent<int> _onNewBlobIn;
+	ofEvent<int> _onBlobOut;
 };

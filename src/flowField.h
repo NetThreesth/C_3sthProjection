@@ -45,9 +45,7 @@ private:
 private:
 	flowField()
 	{
-		float t1, t2;
-		t1 = ofRandom(0, 0.5);
-		t2 = ofRandom(0, 0.5);
+
 		for (int y = 0; y < cFFRowsNum; y++)
 		{
 			for (int x = 0; x < cFFColsNum; x++)
@@ -55,18 +53,15 @@ private:
 				int index = y * cFFColsNum + x;
 				
 				
-				float vx = x / (float)cFFColsNum;
-				float vy = y / (float)cFFRowsNum;
+				float vx = x / (float)cFFColsNum + ofRandom(0.01, 0.05);
+				float vy = y / (float)cFFRowsNum + ofRandom(0.01, 0.05);;
 				float theta = ofMap(ofNoise(vx, vy), 0, 1, 0, TWO_PI);
 				ofVec2f v(cos(theta), sin(theta));
 
 				_metaFlowMap[index]._basicForce.set(v);
 				_metaFlowMap[index]._basicForce.normalize();
-				_metaFlowMap[index]._basicForce *= ofRandom(10, 20);
-				t1 += ofRandom(0.01, 0.1);
+				_metaFlowMap[index]._basicForce *= ofRandom(cFFBasicForceMin, cFFBasicForceMax);
 			}
-			t2 += ofRandom(0.01, 0.1);
-			
 		}
 	};
 	~flowField()

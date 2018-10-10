@@ -103,6 +103,18 @@ void vSymbolMirror::initLayerMask(int width, int height)
 
 #pragma region Symbol & Metaball
 //--------------------------------------------------------------
+void vSymbolMirror::addMetaball(int num)
+{
+	_mb.add(num);
+}
+
+//--------------------------------------------------------------
+void vSymbolMirror::removeMetaball(int num)
+{
+	_mb.remove(num);
+}
+
+//--------------------------------------------------------------
 void vSymbolMirror::initSymbol()
 {
 	_symbolDisplay.setup(640, 100, 11, 25);

@@ -14,7 +14,8 @@ void ofApp::setup() {
 	_multiCam.setup(0, 0, config::getInstance()->_exWindowWidth, config::getInstance()->_exWindowHeight);
 	_multiCam.updateParent(_viewCam.getCam());
 
-	//_kinectMgr.setup();
+	initKinect();
+	
 	ofSetSmoothLighting(true);
 
 	//Fade
@@ -39,6 +40,7 @@ void ofApp::update() {
 	
 	_animFadeAlpah.update(delta);
 	
+	_kinectMgr.update(delta);
 	flowField::getInstance()->update(delta);
 	
 	
@@ -76,6 +78,7 @@ void ofApp::draw() {
 
 
 	//Debug
+	//_kinectMgr.draw();
 	_viewSymbol.debugDraw();
 	flowField::getInstance()->draw(0, 0, cMetaballRect.width, cMetaballRect.height);
 }
@@ -128,6 +131,7 @@ void ofApp::onFadeFinish(ofxAnimatable::AnimationEvent & e)
 	}
 }
 
+#pragma region Viewer
 //--------------------------------------------------------------
 void ofApp::onViewerChange(eViewState & nowState)
 {
@@ -171,7 +175,7 @@ void ofApp::onViewerChange(eViewState & nowState)
 	case eSymbolToWait:
 	{
 		_animFadeAlpah.animateTo(255);
-		
+
 		break;
 	}
 	}
@@ -206,7 +210,7 @@ void ofApp::updateViewer(float delta)
 
 //--------------------------------------------------------------
 void ofApp::drawViewer()
-{	
+{
 	ofPushStyle();
 	glPointSize(2.0f);
 	_viewArms.draw(_armsPos);
@@ -215,3 +219,29 @@ void ofApp::drawViewer()
 	_viewParticle.draw(_particlePos);
 	ofPopStyle();
 }
+#pragma endregion
+
+#pragma region Kinect Manager
+//--------------------------------------------------------------
+void ofApp::initKinect()
+{
+	_kinectMgr.setup();
+
+	ofAddListener(_kinectMgr._onNewBlobIn, this, &ofApp::onNewBlobIn);
+	ofAddListener(_kinectMgr._onBlobOut, this, &ofApp::onBlobOut);
+}
+
+//--------------------------------------------------------------
+void ofApp::onNewBlobIn(int& num)
+{
+	_viewSymbol.addMetaball(num);
+}
+
+//--------------------------------------------------------------
+void ofApp::onBlobOut(int& num)
+{
+	_viewSymbol.removeMetaball(num);
+}
+#pragma endregion
+
+

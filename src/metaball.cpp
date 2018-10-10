@@ -9,7 +9,7 @@ void metaNode::setup(int x, int y, bool useBasicFlow)
 	_vec.set(0);
 	//_vec.set(ofRandom(-500, 500), ofRandom(-500, 500));
 	_acc.set(0);
-	_useBasic = _display = useBasicFlow;
+	_useBasic = useBasicFlow;
 
 	_r = cMetaballMaxSize * 0.5 * ofRandom(0.05f, 0.2f);
 }
@@ -20,7 +20,7 @@ void metaNode::update(float delta)
 
 	_vec += _acc * delta;
 	_pos += _vec * delta;
-	
+
 	if (_pos.x > cMetaballRect.width)
 	{
 		_pos.x = 0;
@@ -33,7 +33,7 @@ void metaNode::update(float delta)
 	{
 		_pos.y = 0;
 	}
-	else if(_pos.y < 0)
+	else if (_pos.y < 0)
 	{
 		_pos.y = cMetaballRect.height - 1;
 	}
@@ -47,7 +47,7 @@ void metaNode::update(float delta)
 	{
 		flowForce = flowField::getInstance()->getForce(_pos.x, _pos.y, cMetaballRect.width, cMetaballRect.height);
 	}
-	
+
 	if (flowForce.length() > 0)
 	{
 		ofVec2f steer = flowForce - _vec;
@@ -56,7 +56,7 @@ void metaNode::update(float delta)
 	else
 	{
 		_acc.set(0);
-		
+
 	}
 }
 
@@ -77,11 +77,6 @@ ofVec3f metaNode::getPosAndR()
 	return ofVec3f(_pos.x, _pos.y, _r);
 }
 
-bool metaNode::isDisplay()
-{
-	return _useBasic || _display;
-}
-
 #pragma endregion
 
 //--------------------------------------------------------------
@@ -95,24 +90,14 @@ void metaball::setup()
 		ofLog(OF_LOG_ERROR, "Load shader failed");
 	}
 
-	for (int i = 0; i < _nodeSet.size(); i++)
+	for (int i = 0; i < cMetaballBasicFlowNum; i++)
 	{
-		if (i < cMetaballBasicFlowNum)
-		{
-			_nodeSet[i].setup(
-				ofRandom(0, cMetaballRect.width),
-				ofRandom(0, cMetaballRect.height),
-				true
-				);
-		}
-		else
-		{
-			_nodeSet[i].setup(
-				ofRandom(0, cMetaballRect.width),
-				ofRandom(0, cMetaballRect.height),
-				false
-			);
-		}
+		metaNode newNode;
+		newNode.setup(ofRandom(0, cMetaballRect.width),
+			ofRandom(0, cMetaballRect.height),
+			true
+		);
+		_nodeBasicSet.push_back(newNode);
 
 	}
 }
@@ -123,18 +108,35 @@ void metaball::update(float delta)
 	nodeUpdate(delta);
 
 	float p[cMetaballNum * 3];
-	int flag[cMetaballNum];
+	int flag[cMetaballNum] = { 0 };
 	int idx = 0;
-	for (auto& iter : _nodeSet)
+	for (auto& iter : _nodeBasicSet)
 	{
-		auto data = iter.getPosAndR();		
+		if (idx >= cMetaballNum)
+		{
+			break;
+		}
+
+		auto data = iter.getPosAndR();
 		p[idx * 3] = data.x;
 		p[idx * 3 + 1] = data.y;
 		p[idx * 3 + 2] = data.z;
+		flag[idx] = 255;
+		idx++;
+	}
 
+	for (auto& iter : _nodeSet)
+	{
+		if (idx >= cMetaballNum)
+		{
+			break;
+		}
 
-		flag[idx] = iter.isDisplay()?255: 0;
-
+		auto data = iter.getPosAndR();
+		p[idx * 3] = data.x;
+		p[idx * 3 + 1] = data.y;
+		p[idx * 3 + 2] = data.z;
+		flag[idx] = 255;
 		idx++;
 	}
 
@@ -164,6 +166,11 @@ void metaball::draw()
 void metaball::drawNode()
 {
 	ofPushStyle();
+	for (auto& iter : _nodeBasicSet)
+	{
+		iter.draw();
+	}
+
 	for (auto& iter : _nodeSet)
 	{
 		iter.draw();
@@ -172,8 +179,38 @@ void metaball::drawNode()
 }
 
 //--------------------------------------------------------------
+void metaball::add(int num)
+{
+	int addNum = MIN(cMetaballNum - cMetaballBasicFlowNum - _nodeSet.size(), num);
+	for (int i = 0; i < addNum; i++)
+	{
+		metaNode newNode;
+		newNode.setup(ofRandom(0, cMetaballRect.width),
+			ofRandom(0, cMetaballRect.height),
+			false
+		);
+		_nodeSet.push_back(newNode);
+	}
+}
+
+//--------------------------------------------------------------
+void metaball::remove(int num)
+{
+	int removeNum = MIN(_nodeSet.size(), num);
+	for (int i = 0; i < removeNum; i++)
+	{
+		_nodeSet.pop_front();
+	}
+}
+
+//--------------------------------------------------------------
 void metaball::nodeUpdate(float delta)
 {
+	for (auto& iter : _nodeBasicSet)
+	{
+		iter.update(delta);
+	}
+
 	for (auto& iter : _nodeSet)
 	{
 		iter.update(delta);

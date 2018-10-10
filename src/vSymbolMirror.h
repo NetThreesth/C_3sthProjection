@@ -38,6 +38,9 @@ private:
 
 
 #pragma region Symbol & Metaball
+public:
+	void addMetaball(int num);
+	void removeMetaball(int num);
 private:
 	void initSymbol();
 	void updateToMirror();

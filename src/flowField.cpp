@@ -16,7 +16,7 @@ ofVec2f flowField::forceUnit::getForce()
 {
 	if (_needUpdate && _timer > 0.0f)
 	{
-		return _force * sin((_timer / cFFFourceTime) * HALF_PI);
+		return _force * sin((_timer / cFFForceTime) * HALF_PI);
 	}
 	else
 	{
@@ -34,13 +34,10 @@ ofVec2f flowField::forceUnit::getBasicForce()
 void flowField::forceUnit::setForce(ofVec2f force)
 {
 	_needUpdate = true;
-	//if (_force != force)
-	//{
-	//	_force += force;
-	//}
 	_force = force;
+	_force.limit(cFFForceLimit);
 	
-	_timer = cFFFourceTime;
+	_timer = cFFForceTime;
 }
 
 //-----------------------------------

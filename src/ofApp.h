@@ -51,6 +51,10 @@ private:
 
 
 #pragma region KinectMgr
+public:
+	void initKinect();
+	void onNewBlobIn(int& num);
+	void onBlobOut(int& num);
 private:
 	kinectMgr _kinectMgr;
 #pragma endregion
