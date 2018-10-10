@@ -57,6 +57,11 @@ void viewCam::start()
 	_timer = cViewArmsT;
 }
 
+eViewState viewCam::getState()
+{
+	return _eState;
+}
+
 //------------------------------------
 ofVec3f viewCam::getPos()
 {

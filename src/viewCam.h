@@ -12,7 +12,7 @@ public:
 	void drawCamera();
 	void reset();
 	void start();
-
+	eViewState getState();
 	ofVec3f getPos();
 	ofVec3f getTarget();
 private:

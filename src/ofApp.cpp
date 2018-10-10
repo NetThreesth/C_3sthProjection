@@ -4,6 +4,8 @@
 void ofApp::setup() {
 
 	config::getInstance()->init();
+	serverReq::getInstance()->init();
+	serverReq::getInstance()->reqChatCount();
 	setupViewer();
 
 	if (config::getInstance()->_exOnlyMultiCam)
@@ -42,10 +44,10 @@ void ofApp::update() {
 	
 	_kinectMgr.update(delta);
 	flowField::getInstance()->update(delta);
-	
+	serverReq::getInstance()->update();
 	
 	//Debug
-	_viewSymbol.debugUpdate(delta);
+	//_viewSymbol.debugUpdate(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
@@ -79,8 +81,8 @@ void ofApp::draw() {
 
 	//Debug
 	//_kinectMgr.draw();
-	_viewSymbol.debugDraw();
-	flowField::getInstance()->draw(0, 0, cMetaballRect.width, cMetaballRect.height);
+	//_viewSymbol.debugDraw();
+	//flowField::getInstance()->draw(0, 0, cMetaballRect.width, cMetaballRect.height);
 }
 
 //--------------------------------------------------------------
@@ -103,11 +105,7 @@ void ofApp::keyPressed(int key) {
 	{
 	case 's':
 	{
-		if (_viewArms.start())
-		{
-			_viewCam.start();
-			_viewParticle.start(ofRandom(50, 100));
-		}
+		start();
 		break;
 	}
 	case 'd':
@@ -143,6 +141,7 @@ void ofApp::onViewerChange(eViewState & nowState)
 		_viewSymbol.reset();
 		_viewArms.setStage(true);
 		_viewCam.reset();
+		_viewParticle.stop();
 		_animFadeAlpah.animateTo(0);
 	}
 	case eViewArms:
@@ -182,6 +181,25 @@ void ofApp::onViewerChange(eViewState & nowState)
 }
 
 //--------------------------------------------------------------
+void ofApp::onUpdateParticleNum(int & count)
+{
+	_particleNum = count;
+}
+
+//--------------------------------------------------------------
+void ofApp::start()
+{
+	if (_viewCam.getState() == eViewWait)
+	{
+		if (_viewArms.start())
+		{
+			_viewCam.start();
+			_viewParticle.start(_particleNum);
+		}
+	}
+}
+
+//--------------------------------------------------------------
 void ofApp::setupViewer()
 {
 	_viewArms.setup();
@@ -192,6 +210,9 @@ void ofApp::setupViewer()
 	_threeBodyPos.set(cThreeBodyPos);
 	_symbolPos.set(cSymbolPos);
 	_particlePos.set(cParticlePos);
+
+	_particleNum = 200;//Default
+	ofAddListener(serverReq::getInstance()->newChatCount, this, &ofApp::onUpdateParticleNum);
 
 	_viewArms.setStage(true);
 
@@ -235,6 +256,7 @@ void ofApp::initKinect()
 void ofApp::onNewBlobIn(int& num)
 {
 	_viewSymbol.addMetaball(num);
+	start();
 }
 
 //--------------------------------------------------------------
@@ -242,6 +264,5 @@ void ofApp::onBlobOut(int& num)
 {
 	_viewSymbol.removeMetaball(num);
 }
+
 #pragma endregion
-
-

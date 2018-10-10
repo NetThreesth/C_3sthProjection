@@ -36,7 +36,7 @@ void main()
 	color.r = min(1.0f, result);
 	color.g = 1.0f;
 	color.b = 1.0f;
-	gl_FragColor.rgba = vec4(hsv2rgb(color).rgb, 1.0 - min(1.0f, result));
+	gl_FragColor.rgba = vec4(hsv2rgb(color).rgb, max(0.4, 1.0 - min(1.0f, result)));
 	
 	
     

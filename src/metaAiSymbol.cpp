@@ -6,6 +6,8 @@
 metaAiSymbolDisplay::metaAiSymbolDisplay()
 	:_symbolRef(nullptr)
 	, _eState(eAnimDisplay)
+	, _rDeg(0.0)
+	, _rV(cMetaAiSymbolRotateV)
 {}
 
 //---------------------------------------
@@ -48,6 +50,12 @@ void metaAiSymbolDisplay::update(float delta)
 	{
 		return;
 	}
+
+	_rDeg += _rV * delta;
+	if (_rDeg > 360.0f)
+	{
+		_rDeg -= 360.0f;
+	}
 	
 	_animSymbol.update(delta);
 	checkState(delta);
@@ -62,16 +70,16 @@ void metaAiSymbolDisplay::draw()
 		return;
 	}
 
-	ofSetDepthTest(true);
 	ofPushStyle();
 	ofSetColor(255);
-	//drawNode();
-	
+
+	ofPushMatrix();
+	ofRotateY(_rDeg);
 	_symbolLine.draw();
 	_symbolMesh.drawWireframe();
 	_symbolMesh.draw();
+	ofPopMatrix();
 	ofPopStyle();
-	ofSetDepthTest(false);
 
 }
 
@@ -83,10 +91,19 @@ void metaAiSymbolDisplay::setSymbol(symbol & data)
 }
 
 //---------------------------------------
-void metaAiSymbolDisplay::toSymbol(symbol & toData)
+bool metaAiSymbolDisplay::toSymbol(symbol & toData, float duration)
 {
 	//_symbolTarget = &toData;
-	_animSymbol.toSymbol(toData, 3);
+	if (_eState == eAnimDisplay)
+	{
+		_animSymbol.toSymbol(toData, duration);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	
 }
 
 //---------------------------------------

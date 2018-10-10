@@ -4,8 +4,6 @@
 #include "ofxAnimatableFloat.h"
 #include "ofxAnimatableOfPoint.h"
 
-
-
 class metaAiSymbolDisplay
 {
 public:
@@ -14,7 +12,8 @@ public:
 	void update(float delta);
 	void draw();
 	void setSymbol(symbol& data);
-	void toSymbol(symbol& toData);
+	bool toSymbol(symbol& toData, float duration);
+	
 
 private:
 	void drawNode();
@@ -31,6 +30,7 @@ private:
 private:
 	int _displaySize;
 	float _moveRange, _tMin, _tMax, _nodeSize;
+	float _rDeg, _rV;
 	ofPixels _text;
 
 	ofVboMesh _symbolLine, _symbolMesh;

@@ -124,6 +124,12 @@
     <ClCompile Include="src\config.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxHttpUtils\src\ofxHttpUtils.cpp">
+      <Filter>addons\ofxHttpUtils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\serverReq.cpp">
+      <Filter>src\serverReq</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -194,6 +200,18 @@
     </Filter>
     <Filter Include="addons\ofxGui\src">
       <UniqueIdentifier>{07269182-97d0-4ae8-93cb-72b455de4584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxHttpUtils">
+      <UniqueIdentifier>{0fc5ee77-6151-4aca-b263-d2dda5db5f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxHttpUtils\src">
+      <UniqueIdentifier>{b0193e1c-8b89-4542-851c-335d575a36e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\nlohmann">
+      <UniqueIdentifier>{2ce2b8cd-6277-4f96-90c5-687da645ce32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\serverReq">
+      <UniqueIdentifier>{5d4db832-d510-491a-b68a-f64070bd2199}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -328,6 +346,24 @@
     </ClInclude>
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGui\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxHttpUtils\src\ofxHttpTypes.h">
+      <Filter>addons\ofxHttpUtils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxHttpUtils\src\ofxHttpUtils.h">
+      <Filter>addons\ofxHttpUtils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nlohmann\adl_serializer.hpp">
+      <Filter>src\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nlohmann\json.hpp">
+      <Filter>src\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nlohmann\json_fwd.hpp">
+      <Filter>src\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="src\serverReq.h">
+      <Filter>src\serverReq</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

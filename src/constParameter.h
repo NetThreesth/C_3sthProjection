@@ -7,9 +7,13 @@
 
 static const int cImg2MeshAlpahT = 20;
 
+//Backend
+static const string cBackendGetChatCount = "http://35.236.167.99:5000/3sth/api/v1.0/getChatroomCount/";
+static const string cBackendGetPattern = "http://35.236.167.99:5000/3sth/api/v1.0/getPattern/";
+
 //Metaball
 static const int cMetaballNum = 10;
-static const int cMetaballBasicFlowNum = 4;
+static const int cMetaballBasicFlowNum = 3;
 static const ofRectangle cMetaballRect(0, 0, 836, 1000);
 static const int cMetaballMaxSize = min(836, 1000);
 
@@ -17,6 +21,8 @@ static const int cMetaballMaxSize = min(836, 1000);
 static const int cMetaAiSymbolSize = 64;
 static const int cMetaAiSymbolNodeNum = cMetaAiSymbolSize * cMetaAiSymbolSize;
 static const int cMetaAiPixelThreshold = 100;
+static const float cMetaAiSymbolRotateV = 10.0f;
+static const float cMetaAiTranslateT = 5.0f;
 
 //Kinect
 static const int cKinectNum = 4;

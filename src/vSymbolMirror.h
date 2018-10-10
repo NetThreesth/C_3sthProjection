@@ -4,8 +4,10 @@
 #include "metaball.h"
 #include "metaAiSymbol.h"
 #include "flowField.h"
+#include "serverReq.h"
 #include "ofxLayerMask.h"
 #include "ofxAnimatableFloat.h"
+#include "Poco/Base64Decoder.h"
 
 class vSymbolMirror
 {
@@ -41,17 +43,21 @@ private:
 public:
 	void addMetaball(int num);
 	void removeMetaball(int num);
+	void onGetPattern(string& symbol64);
 private:
-	void initSymbol();
+	bool initSymbol();
+	void loadSymbol();
+	void updateSymbol(float delta);
 	void updateToMirror();
 	void drawSymbol(ofVec3f pos);
+	void resetSymbol();
 
 	vector<symbol> _symbolList;
 	metaAiSymbolDisplay _symbolDisplay;
 
 private:
-	ofEasyCam _cam;
 	int _symbolIndex;
+	float _translateTimer;
 	metaball _mb;
 	
 #pragma endregion

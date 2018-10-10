@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "constParameter.h"
 #include "vArms.h"
 #include "vSymbolMirror.h"
@@ -9,6 +10,7 @@
 #include "kinectMgr.h"
 #include "multiCam.h"
 #include "config.h"
+#include "serverReq.h"
 
 class ofApp : public ofBaseApp{
 
@@ -29,17 +31,21 @@ private:
 	void onFadeFinish(ofxAnimatable::AnimationEvent& e);
 
 private:
+	bool _isInFading;
 	ofxAnimatableFloat _animFadeAlpah;
 
 
 #pragma region Viewer
 public:
 	void onViewerChange(eViewState& nowState);
+	void onUpdateParticleNum(int& count);
+	void start();
 private:
 	void setupViewer();
 	void updateViewer(float delta);
 	void drawViewer();
 private:
+	int _particleNum;
 	ofVec3f _symbolPos, _threeBodyPos, _armsPos, _particlePos;
 	vSymbolMirror _viewSymbol;
 	vThreeBody _viewThreeBody;
@@ -47,8 +53,6 @@ private:
 	vParticleMgr _viewParticle;
 	viewCam _viewCam;
 #pragma endregion
-
-
 
 #pragma region KinectMgr
 public:
@@ -58,6 +62,7 @@ public:
 private:
 	kinectMgr _kinectMgr;
 #pragma endregion
+
 
 
 

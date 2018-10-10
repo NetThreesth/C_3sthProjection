@@ -3,12 +3,17 @@
 //--------------------------------------------------------------
 void vSymbolMirror::setup(int width, int height)
 {
-
+	bool result = true;
 	_mb.setup();
-	initSymbol();
+	result &= initSymbol();
 	initLayerMask(width, height);
-	reset();
-	_isSetup = load("mirror");
+	result &= load("mirror");
+
+	if (result)
+	{
+		reset();
+	}
+	_isSetup = result;
 }
 
 //--------------------------------------------------------------
@@ -24,9 +29,8 @@ void vSymbolMirror::update(float delta)
 	updateMirror(delta);
 	if (_isStart)
 	{
-		_symbolDisplay.update(delta);
 		_mb.update(delta);
-
+		updateSymbol(delta);
 		updateToMirror();
 		_mirrorContext.beginMask();
 		ofSetColor(255);
@@ -45,19 +49,30 @@ void vSymbolMirror::draw(ofVec3f pos)
 	}
 
 	drawMirror(pos);
-	drawSymbol(pos);
+
+	if (_isStart)
+	{
+		drawSymbol(pos);
+	}
 }
 
 //--------------------------------------------------------------
 void vSymbolMirror::debugUpdate(float delta)
 {
 	_mb.update(delta);
+	updateSymbol(delta);
+	updateToMirror();
+	_mirrorContext.beginMask();
+	ofSetColor(255);
+	_mask.draw(0, 0, cMetaballRect.width, cMetaballRect.height);
+
+	_mirrorContext.endMask();
 }
 
 //--------------------------------------------------------------
 void vSymbolMirror::debugDraw()
-{
-	_mb.draw();
+{	
+	_mirrorContext.draw();
 }
 
 //--------------------------------------------------------------
@@ -66,6 +81,7 @@ void vSymbolMirror::reset()
 	_animMirrorAlpha.reset(0);
 	_animSymbolAlpha.reset(0);
 	resetMirror();
+	resetSymbol();
 }
 
 //--------------------------------------------------------------
@@ -115,13 +131,55 @@ void vSymbolMirror::removeMetaball(int num)
 }
 
 //--------------------------------------------------------------
-void vSymbolMirror::initSymbol()
+void vSymbolMirror::onGetPattern(string & symbol64)
 {
-	_symbolDisplay.setup(640, 100, 11, 25);
+	stringstream ss;
+	ss << symbol64;
+	Poco::Base64Decoder decoder(ss);
 
+	ofBuffer buffer;
+	decoder >> buffer;
+
+	ofImage image;
+	image.load(buffer);
+	string path = ofGetTimestampString("symbol/%m%d.png");
+	image.saveImage(path);
+	ofLog(OF_LOG_NOTICE, "[onGetPattern]Get new Symbol and save it");
+	
+	ofRemoveListener(serverReq::getInstance()->newPattern, this, &vSymbolMirror::onGetPattern);
+	loadSymbol();
+	_isSetup = true;
+	reset();
+}
+
+//--------------------------------------------------------------
+bool vSymbolMirror::initSymbol()
+{
+	_symbolDisplay.setup(500, 100, 11, 19);
+
+	string path = ofGetTimestampString("symbol/%m%d.png");
+	ofFile f(path);
+
+	if (f.exists())
+	{
+		loadSymbol();
+		return true;
+	}
+	else
+	{
+		ofAddListener(serverReq::getInstance()->newPattern, this, &vSymbolMirror::onGetPattern);
+		serverReq::getInstance()->reqPattern();
+		return false;
+	}
+}
+
+//--------------------------------------------------------------
+void vSymbolMirror::loadSymbol()
+{
 	ofDirectory dir("symbol");
 	dir.allowExt("png");
 	auto size = dir.listDir();
+
 	_symbolList.resize(size);
 	for (int i = 0; i < size; i++)
 	{
@@ -129,8 +187,25 @@ void vSymbolMirror::initSymbol()
 	}
 	_symbolDisplay.setSymbol(_symbolList[0]);
 	_symbolIndex = 0;
+	_translateTimer = cMetaAiTranslateT;
 }
-#pragma endregion
+
+//--------------------------------------------------------------
+void vSymbolMirror::updateSymbol(float delta)
+{
+	_symbolDisplay.update(delta);
+	_translateTimer -= delta;
+
+	if (_translateTimer <= 0.0f)
+	{
+		int nextIndex = (_symbolIndex + 1) % _symbolList.size();
+		if (_symbolDisplay.toSymbol(_symbolList[nextIndex], cMetaAiTranslateT))
+		{
+			_translateTimer = cMetaAiTranslateT;
+			_symbolIndex = nextIndex;
+		}
+	}
+}
 
 //--------------------------------------------------------------
 void vSymbolMirror::updateToMirror()
@@ -140,10 +215,10 @@ void vSymbolMirror::updateToMirror()
 	ofPushStyle();
 	ofSetColor(255);
 	ofPushMatrix();
-	ofTranslate(_mirrorContext.getWidth() * 0.5f, _mirrorContext.getHeight() * 0.5f);
+	ofTranslate(_mirrorContext.getWidth() * 0.5f, _mirrorContext.getHeight() * 0.55f);
 	{
 		_symbolDisplay.draw();
-	}	
+	}
 	ofPopMatrix();
 	_mb.draw();
 	ofPopStyle();
@@ -154,11 +229,6 @@ void vSymbolMirror::updateToMirror()
 //--------------------------------------------------------------
 void vSymbolMirror::drawSymbol(ofVec3f pos)
 {
-	if (!_isStart)
-	{
-		return;
-	}
-
 	ofPushMatrix();
 	ofTranslate(pos);
 	ofRotateX(90);
@@ -166,12 +236,22 @@ void vSymbolMirror::drawSymbol(ofVec3f pos)
 	{
 		ofSetColor(255);
 		_mirrorContext.draw(_mirrorContext.getWidth() * -0.5f, _mirrorContext.getHeight() * -0.5f);
-
-		
-	}	
+	}
 	ofPopStyle();
 	ofPopMatrix();
 }
+
+//--------------------------------------------------------------
+void vSymbolMirror::resetSymbol()
+{
+	_symbolDisplay.setSymbol(_symbolList[0]);
+	_symbolIndex = 0;
+	_translateTimer = cMetaAiTranslateT;
+}
+
+#pragma endregion
+
+
 
 #pragma region Mirror & Mask
 //--------------------------------------------------------------
@@ -256,7 +336,6 @@ void vSymbolMirror::drawMirror(ofVec3f pos)
 	ofPushStyle();
 	{
 		_mirror.draw();
-
 	}
 	ofPopStyle();
 	ofPopMatrix();
