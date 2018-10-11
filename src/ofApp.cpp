@@ -26,7 +26,7 @@ void ofApp::setup() {
 	ofAddListener(_animFadeAlpah.animFinished, this, &ofApp::onFadeFinish);
 
 	_showDebug = false;
-	ofBackground(50);
+	ofBackground(0);
 	_timer = ofGetElapsedTimef();
 }
 
@@ -47,7 +47,7 @@ void ofApp::update() {
 	serverReq::getInstance()->update();
 	
 	//Debug
-	//_viewSymbol.debugUpdate(delta);
+	_viewSymbol.debugUpdate(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
@@ -60,6 +60,7 @@ void ofApp::draw() {
 	{
 		_multiCam.begin(i);
 		{
+			ofClear(0);
 			drawViewer();
 		}
 		_multiCam.end();
@@ -83,6 +84,7 @@ void ofApp::draw() {
 	//_kinectMgr.draw();
 	//_viewSymbol.debugDraw();
 	//flowField::getInstance()->draw(0, 0, cMetaballRect.width, cMetaballRect.height);
+	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 100, 100);
 }
 
 //--------------------------------------------------------------

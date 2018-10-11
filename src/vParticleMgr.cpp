@@ -52,7 +52,7 @@ void vParticleMgr::draw(ofVec3f pos)
 {
 
 	ofPushStyle();
-	ofSetColor(255, _animAlpha.getCurrentValue());
+	ofSetColor(50, _animAlpha.getCurrentValue());
 	{
 		ofPushMatrix();
 		ofTranslate(pos);

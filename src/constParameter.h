@@ -12,10 +12,10 @@ static const string cBackendGetChatCount = "http://35.236.167.99:5000/3sth/api/v
 static const string cBackendGetPattern = "http://35.236.167.99:5000/3sth/api/v1.0/getPattern/";
 
 //Metaball
-static const int cMetaballNum = 10;
-static const int cMetaballBasicFlowNum = 3;
-static const ofRectangle cMetaballRect(0, 0, 836, 1000);
-static const int cMetaballMaxSize = min(836, 1000);
+static const int cMetaballNum = 30;
+static const int cMetaballBasicFlowNum = 15;
+static const ofRectangle cMetaballRect(0, 0, 1672, 2000); //836 1000
+static const int cMetaballMaxSize = min(1672, 2000); //1672 2000
 
 //Meta Ai Symbol
 static const int cMetaAiSymbolSize = 64;
@@ -90,7 +90,7 @@ static const float cViewFadeT = 3.0f;
 //Arms View
 static const ofVec3f cArmsShiftPos(0, 0, 250);
 static const int cArmsSpaceSize = 500;
-static const int cArmsCeilingAlpha = 255;
+static const int cArmsCeilingAlpha = 50;
 static const int cArmsMirrorAlpha = 255;
 static const int cArmsMirrorNum = 2;
 static const float cArmsSpaceRotateV = 10.0f;
@@ -101,9 +101,9 @@ static const ofVec3f cThreeBodyPos(0, 3000, 0);
 
 //Symbol
 static const ofVec3f cSymbolPos(0, 5000, 0);
-static const ofVec3f cSymbolViewHeight(0, 4800, 0);
+static const ofVec3f cSymbolViewHeight(0, 4500, 0);
 static const float cSymbolDisplayHeight = cSymbolViewHeight.y * 0.8f;
-static const float cSymbolDisplayTime = 10.0f;
+static const float cSymbolDisplayTime = 500.0f;
 
 //Partical
 static const ofVec3f cParticlePos(0, -100, 0);

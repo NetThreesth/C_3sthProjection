@@ -209,7 +209,7 @@ void armKinect::load(armBuffer* loadPtr, int kinectIdx, int start, int end)
 				continue;
 			}
 			(*loadPtr)[frameIdx][kinectIdx].addVertex(pos);
-			(*loadPtr)[frameIdx][kinectIdx].addColor(ofColor(0));
+			(*loadPtr)[frameIdx][kinectIdx].addColor(ofColor(255));
 		}
 	}
 }

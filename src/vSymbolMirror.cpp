@@ -72,7 +72,15 @@ void vSymbolMirror::debugUpdate(float delta)
 //--------------------------------------------------------------
 void vSymbolMirror::debugDraw()
 {	
-	_mirrorContext.draw();
+	ofPushMatrix();
+	
+	ofScale(0.5, 0.5);
+	ofPushStyle();
+	ofSetColor(255);
+	_mirror.draw();
+	//_mirrorContext.draw();
+	ofPopStyle();
+	ofPopMatrix();
 }
 
 //--------------------------------------------------------------
@@ -155,7 +163,7 @@ void vSymbolMirror::onGetPattern(string & symbol64)
 //--------------------------------------------------------------
 bool vSymbolMirror::initSymbol()
 {
-	_symbolDisplay.setup(500, 100, 11, 19);
+	_symbolDisplay.setup(1000, 100, 22, 40);
 
 	string path = ofGetTimestampString("symbol/%m%d.png");
 	ofFile f(path);
@@ -290,7 +298,7 @@ bool vSymbolMirror::loadMirror(string name)
 			if (c.a > cImg2MeshAlpahT)
 			{
 				c.a = 0.0f;
-				ofVec3f vertex = ofVec3f((x - centerX) * 2, (y - centerY) * 2, float(brightness) / 255.0 * -50 + 25);
+				ofVec3f vertex = ofVec3f((x - centerX) * 4, (y - centerY) * 4, float(brightness) / 255.0 * -50 + 25);
 				_mirror.addVertex(vertex);
 				_mirror.addColor(c);
 			}

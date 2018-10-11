@@ -73,7 +73,7 @@ bool vArms::initStage()
 	result &= loadMirror(_mirrors[0], "stageMirror");
 	result &= loadMirror(_mirrors[1], "stageMirror2");
 
-	_spaceColor.set(200, 100);
+	_spaceColor.set(200, 50);
 	_space.setRadius(cArmsSpaceSize);
 	_space.setPosition(0, 0, 0);
 	
@@ -187,12 +187,13 @@ bool vArms::loadMirror(ofVboMesh& mesh, string name)
 	for (int y = 0; y < img.getHeight(); y++) {
 		for (int x = 0; x < img.getWidth(); x++) {
 			ofColor c = img.getColor(x, y);
+
 			int brightness = c.getBrightness();
 			if (c.a > cImg2MeshAlpahT) {
 				ofVec3f vertex = ofVec3f((x - centerX), (y - centerY), float(brightness) / 255.0 * -50 + 25);
 				c.a = cArmsMirrorAlpha;
 				mesh.addVertex(vertex);
-				mesh.addColor(c);
+				mesh.addColor(ofColor(70));
 			}
 		}
 	}

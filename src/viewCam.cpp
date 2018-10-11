@@ -194,7 +194,7 @@ void viewCam::updateCam()
 void viewCam::begin()
 {
 	_canvas.begin();
-	ofClear(50);
+	ofClear(0);
 	_cam.begin();
 
 }

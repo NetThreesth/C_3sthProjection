@@ -28,10 +28,10 @@ void config::loadConfig()
 
 	_exOnlyMultiCam = xml.getValue("OnlyMultiCam", false);
 	_exIsAutoLoop = xml.getValue("isAutoLoop", false);
-	_exWindowWidth = xml.getValue("FullWindowWidth", 1920);
+	_exWindowWidth = xml.getValue("FullScreenWidth", 1920);
 
 	float aspect = xml.getValue("CamAspect", 1.78f);
-	_exWindowHeight = (_exWindowWidth / cMCCamNum) * (1.0 / aspect);
+	_exWindowHeight = xml.getValue("ScreenHeight", 1920);
 
 }
 
