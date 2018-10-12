@@ -26,7 +26,7 @@ void main()
 			distX = min(distX, metaWidth - distX);
 			distY = min(distY, metaHeight - distY);
 			float r = (metaPos[i].z * metaPos[i].z);
-			float dist = (r) / ((distX * distX) + (distY * distY));
+			float dist = (r * 0.5f) / ((distX * distX) + (distY * distY));
 			result += dist;
 		}
 	}
@@ -37,7 +37,7 @@ void main()
 	color.r = min(0.5f, result);
 	color.g = 0.7f;
 	color.b = 0.5f;
-	gl_FragColor.rgba = vec4(color.rrr, max(0.4, 1.0 - min(1.0f, result)));
+	gl_FragColor.rgba = vec4(color.rrr, 1.0 - min(1.0f, result));
 	
 	
     
