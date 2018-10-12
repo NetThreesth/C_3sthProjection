@@ -1,5 +1,6 @@
 #include "metaball.h"
 #include "flowField.h"
+#include "config.h"
 
 #pragma region metaNode
 //--------------------------------------------------------------
@@ -7,7 +8,6 @@ void metaNode::setup(int x, int y, bool useBasicFlow)
 {
 	_pos.set(x, y);
 	_vec.set(0);
-	//_vec.set(ofRandom(-500, 500), ofRandom(-500, 500));
 	_acc.set(0);
 	_useBasic = useBasicFlow;
 
@@ -90,7 +90,7 @@ void metaball::setup()
 		ofLog(OF_LOG_ERROR, "Load shader failed");
 	}
 
-	for (int i = 0; i < cMetaballBasicFlowNum; i++)
+	for (int i = 0; i < config::getInstance()->_exMetaballBasicNum; i++)
 	{
 		metaNode newNode;
 		newNode.setup(ofRandom(0, cMetaballRect.width),
@@ -181,7 +181,7 @@ void metaball::drawNode()
 //--------------------------------------------------------------
 void metaball::add(int num)
 {
-	int addNum = MIN(cMetaballNum - cMetaballBasicFlowNum - _nodeSet.size(), num);
+	int addNum = MIN(cMetaballNum - config::getInstance()->_exMetaballBasicNum - _nodeSet.size(), num);
 	for (int i = 0; i < addNum; i++)
 	{
 		metaNode newNode;

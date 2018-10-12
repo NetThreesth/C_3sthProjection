@@ -1,10 +1,13 @@
 #include "vArms.h"
+#include "config.h"
 
 void vArms::setup()
 {
 	_arms.reset();
 	_shiftPos.set(0, 0, 250);
 	_isSetup = initStage();
+
+	config::getInstance()->_ceilingAlpha.addListener(this, &vArms::onCeilingAlphaChange);
 }
 
 //------------------------------
@@ -72,7 +75,7 @@ bool vArms::initStage()
 	result &= loadMirror(_mirrors[0], "stageMirror");
 	result &= loadMirror(_mirrors[1], "stageMirror2");
 
-	_spaceColor.set(200, 50);
+	_spaceColor.set(255);
 	_space.setRadius(cArmsSpaceSize);
 	_space.setPosition(0, 0, 0);
 	
@@ -129,7 +132,7 @@ void vArms::drawStage()
 	//Space
 	ofPushMatrix();
 	ofRotateY(-_rotD);
-	ofSetColor(_spaceColor);
+	ofSetColor(_spaceColor, config::getInstance()->_spaceAlpha);
 	_space.drawWireframe();
 	ofPopMatrix();
 
@@ -147,6 +150,7 @@ bool vArms::loadCeiling()
 	}
 
 	_ceiling.clear();
+	
 	for (int y = 0; y < ceilingImg.getHeight(); y++) {
 		float lon = ofMap(y, 0, ceilingImg.getHeight(), PI / 4, PI * 3 / 4);
 		for (int x = 0; x < ceilingImg.getWidth(); x++) {
@@ -160,7 +164,7 @@ bool vArms::loadCeiling()
 				float vy = cArmsSpaceSize *sin(lon)*sin(lat) + float(brightness) / 255.0 * -50;
 				float vz = cArmsSpaceSize *cos(lon);
 				ofVec3f vertex = ofVec3f(vx, vy, vz);
-				c.a = cArmsCeilingAlpha;
+				c.a = config::getInstance()->_ceilingAlpha;
 				_ceiling.addVertex(vertex);
 				_ceiling.addColor(c);
 			}
@@ -199,6 +203,26 @@ bool vArms::loadMirror(ofVboMesh& mesh, string name)
 	mesh.setMode(ofPrimitiveMode::OF_PRIMITIVE_POINTS);
 	return true;
 
+}
+
+//------------------------------
+void vArms::updateCeilingAlpha(int alpha)
+{
+	for (int i = 0; i < _ceiling.getNumColors(); i++)
+	{
+		auto c = _ceiling.getColor(i);
+		c.a = alpha / 255.0f;
+		_ceiling.setColor(i, c);
+	}
+}
+
+#pragma endregion
+
+#pragma region GUI Event
+//------------------------------
+void vArms::onCeilingAlphaChange(int & alpha)
+{
+	updateCeilingAlpha(alpha);
 }
 #pragma endregion
 

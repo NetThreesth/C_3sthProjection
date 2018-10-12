@@ -39,6 +39,8 @@ private:
 	bool loadCeiling();
 	bool loadMirror(ofVboMesh& mesh, string name);
 
+	void updateCeilingAlpha(int alpha);
+
 private:
 	bool _displayStage;
 	float _rotD, _rotV;
@@ -48,6 +50,10 @@ private:
 	ofSpherePrimitive _space;
 #pragma endregion
 
+#pragma region GUI event
+public:
+	void onCeilingAlphaChange(int& alpha);
+#pragma endregion
 
 
 };

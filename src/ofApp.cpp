@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "config.h"
 
 //--------------------------------------------------------------
 void ofApp::setup() {
@@ -81,6 +82,7 @@ void ofApp::draw() {
 
 
 	//Debug
+	config::getInstance()->draw();
 	//_kinectMgr.draw();
 	//_viewSymbol.debugDraw();
 	//flowField::getInstance()->draw(0, 0, cMetaballRect.width *0.5, cMetaballRect.height*0.5);

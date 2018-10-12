@@ -9,7 +9,6 @@
 #include "vParticleMgr.h"
 #include "kinectMgr.h"
 #include "multiCam.h"
-#include "config.h"
 #include "serverReq.h"
 
 class ofApp : public ofBaseApp{

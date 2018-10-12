@@ -1,5 +1,5 @@
 #include "viewCam.h"
-
+#include "config.h"
 //------------------------------------
 viewCam::viewCam()
 	:_eState(eViewWait)
@@ -53,9 +53,10 @@ void viewCam::start()
 {
 	_isStart = true;
 	_eState = eViewArms;
-	_timer = cViewArmsT;
+	_timer = config::getInstance()->_exCamStartWaitT;
 }
 
+//------------------------------------
 eViewState viewCam::getState()
 {
 	return _eState;
@@ -100,12 +101,12 @@ void viewCam::stateCheck(float delta)
 		if (_timer <= 0.0f)
 		{
 			_animZ.reset(_pos.z);
-			_animZ.setDuration(cViewArmsOutT * 0.8);
+			_animZ.setDuration(config::getInstance()->_exCamToCeilingT * 0.8);
 			_animZ.setCurve(AnimCurve::QUADRATIC_EASE_OUT);
 			_animZ.animateTo(0.0f);
 
 			_animY.reset(_pos.y);
-			_animY.setDuration(cViewArmsOutT);
+			_animY.setDuration(config::getInstance()->_exCamToCeilingT);
 			_animY.animateTo(cAmrsCeilTopPos.y);
 			_eState = eArmsToThreeBody;
 			ofNotifyEvent(_onViewStateChange, _eState, this);
@@ -116,7 +117,7 @@ void viewCam::stateCheck(float delta)
 	{
 		if (_animY.hasFinishedAnimating() && _animY.getPercentDone() == 1.0f)
 		{
-			_animY.setDuration(cViewThreeBoydT);
+			_animY.setDuration(config::getInstance()->_exCamToSymbolT);
 			_animY.animateTo(cSymbolViewHeight.y);
 			_eState = eViewThreeBody;
 			ofNotifyEvent(_onViewStateChange, _eState, this);

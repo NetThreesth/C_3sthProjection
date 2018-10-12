@@ -3,6 +3,7 @@
 //--------------------------
 void config::init()
 {
+	initGUI();
 	loadConfig();
 	loadGuiSetting();
 }
@@ -10,11 +11,24 @@ void config::init()
 //--------------------------
 void config::save()
 {
+	_gui.saveToFile("_guiConfig.xml");
+
 }
 
 //--------------------------
 void config::draw()
 {
+	_gui.draw();
+}
+
+//--------------------------
+void config::initGUI()
+{
+	_gui.setup();
+	_gui.add(_armsAlpha.setup("Arms Alpha", 255, 0, 255));
+	_gui.add(_ceilingAlpha.setup("Ceiling Alpha", 50, 0, 255));
+	_gui.add(_spaceAlpha.setup("Space Alpha", 50, 0, 255));
+
 }
 
 //--------------------------
@@ -29,15 +43,19 @@ void config::loadConfig()
 	_exOnlyMultiCam = xml.getValue("OnlyMultiCam", false);
 	_exIsAutoLoop = xml.getValue("isAutoLoop", false);
 	_exWindowWidth = xml.getValue("FullScreenWidth", 1920);
-
-	float aspect = xml.getValue("CamAspect", 1.78f);
 	_exWindowHeight = xml.getValue("ScreenHeight", 1920);
 
+	_exCamStartWaitT = xml.getValue("camStartWaitT", 20.0f);
+	_exCamToCeilingT = xml.getValue("camToCeilingT", 10.0f);
+	_exCamToSymbolT = xml.getValue("camToSymbolT", 10.0f);
+
+	_exMetaballBasicNum = xml.getValue("metaballBasicNum", 20);
 }
 
 //--------------------------
 void config::loadGuiSetting()
 {
+	_gui.loadFromFile("_guiConfig.xml");
 }
 
 //--------------------------

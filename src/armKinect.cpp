@@ -1,5 +1,5 @@
 #include "armKinect.h"
-
+#include "config.h"
 //--------------------------
 armKinect::armKinect()
 	:_isSetup(false)
@@ -75,7 +75,7 @@ void armKinect::draw(ofVec3f shift)
 	}
 
 	ofPushStyle();
-	ofSetColor(255);
+	ofSetColor(255, 10);
 	ofPushMatrix();
 	ofTranslate(shift);
 	for (int i = 0; i < cArmKinectNum; i++)
@@ -215,7 +215,7 @@ void armKinect::load(armBuffer* loadPtr, int kinectIdx, int start, int end)
 				continue;
 			}
 			(*loadPtr)[frameIdx][kinectIdx].addVertex(pos);
-			(*loadPtr)[frameIdx][kinectIdx].addColor(ofColor(255));
+			(*loadPtr)[frameIdx][kinectIdx].addColor(ofColor(255, config::getInstance()->_armsAlpha));
 		}
 	}
 }

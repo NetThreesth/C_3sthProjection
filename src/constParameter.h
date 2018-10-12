@@ -2,9 +2,6 @@
 
 #include "ofMain.h"
 
-
-
-
 static const int cImg2MeshAlpahT = 20;
 
 //Backend
@@ -90,7 +87,6 @@ static const float cViewFadeT = 3.0f;
 //Arms View
 static const ofVec3f cArmsShiftPos(0, 0, 250);
 static const int cArmsSpaceSize = 500;
-static const int cArmsCeilingAlpha = 50;
 static const int cArmsMirrorAlpha = 255;
 static const int cArmsMirrorNum = 2;
 static const float cArmsSpaceRotateV = 10.0f;
@@ -112,6 +108,3 @@ static const ofVec3f cParticlePos(0, -100, 0);
 //Viewer Camera
 static const ofVec3f cViewCamDefaultPos(0, 0, 400);
 static const ofVec3f cViewCamDefaultTarget(0, 0, -1);
-static const float cViewArmsT = 20.0f;
-static const float cViewArmsOutT = 10.0f;
-static const float cViewThreeBoydT = 20.0f;

@@ -14,6 +14,8 @@ public:
 	void reset();
 	bool play();
 	int getFrame();
+
+
 private:
 	void checkBuffer();
 	bool loadFrame(armBuffer* loadPtr, int start, int end);
