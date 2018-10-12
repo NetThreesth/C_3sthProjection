@@ -1,4 +1,5 @@
 #include "multiCam.h"
+#include "config.h"
 
 #pragma region camUnit
 //---------------------------------
@@ -59,7 +60,7 @@ void multiCam::setup(int x, int y, int width, int height)
 	_unitH = height;
 
 	float theata = 360 / cMCCamNum;
-	ofVec2f v(0, cMCCamDist);
+	ofVec3f v(0, 0, config::getInstance()->_multiCamDist);
 	ofVec3f target = _parent.getGlobalPosition();
 	target.z -= cMCTargetDepth;
 	for (int i = 0; i < cMCCamNum; i++)
@@ -67,8 +68,13 @@ void multiCam::setup(int x, int y, int width, int height)
 		_camList[i]._cam.setParent(_parent);
 		_camList[i]._cam.setPosition(v);
 		_camList[i]._cam.lookAt(target);
-		v.rotate(theata);
+		v.rotate(theata, ofVec3f(0, 1, 0));
+
 	}
+
+	_mask.load("mask.png");
+
+	config::getInstance()->_multiCamDist.addListener(this, &multiCam::onCamDistChange);
 }
 
 //---------------------------------
@@ -97,11 +103,13 @@ void multiCam::draw()
 		for (int i = 0; i < cMCCamNum; i++)
 		{
 			_camList[i].draw(i * _unitW, 0, _unitW, _unitH);
+			_mask.draw(i * _unitW, 0, _unitW, _unitH);
 		}
 	}
 	ofPopMatrix();
 	ofPopStyle();
 }
+	
 
 //---------------------------------
 void multiCam::drawCam()
@@ -138,4 +146,21 @@ void multiCam::end()
 		_camList[_drawCamIdx].end();
 		_drawCamIdx = -1;
 	}	
+}
+
+//---------------------------------
+void multiCam::onCamDistChange(int & dist)
+{
+	float theata = 360 / cMCCamNum;
+	ofVec3f v(0, 0, dist);
+	ofVec3f target = _parent.getGlobalPosition();
+	target.z -= cMCTargetDepth;
+	for (int i = 0; i < cMCCamNum; i++)
+	{
+		_camList[i]._cam.setParent(_parent);
+		_camList[i]._cam.setPosition(v);
+		_camList[i]._cam.lookAt(target);
+		v.rotate(theata, ofVec3f(0, 1, 0));
+
+	}
 }

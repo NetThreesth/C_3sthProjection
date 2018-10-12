@@ -28,6 +28,7 @@ public:
 	//Gui
 	ofxPanel _gui;
 	ofxIntSlider _armsAlpha, _ceilingAlpha, _spaceAlpha;
+	ofxIntSlider _multiCamDist;
 
 
 //-------------------

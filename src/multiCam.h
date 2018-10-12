@@ -38,11 +38,15 @@ public:
 	void begin(int i);
 	void end();
 
+	//GUI
+	void onCamDistChange(int& dist);
+
 private:
 	bool _isSetup;
 	int _drawCamIdx;
 	float _unitW, _unitH;
 	ofRectangle _displayRect;
 	ofNode _parent;
+	ofImage _mask;
 	array<camUnit, cMCCamNum> _camList;
 };

@@ -48,7 +48,7 @@ void ofApp::update() {
 	serverReq::getInstance()->update();
 	
 	//Debug
-	//_viewSymbol.debugUpdate(delta);
+	_viewSymbol.debugUpdate(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
@@ -71,9 +71,8 @@ void ofApp::draw() {
 	{
 		debugDraw();
 	}
-	
-	_multiCam.draw();
 	ofSetDepthTest(false);
+	_multiCam.draw();
 
 	ofPushStyle();
 	ofSetColor(0, _animFadeAlpah.getCurrentValue());
@@ -84,9 +83,9 @@ void ofApp::draw() {
 	//Debug
 	config::getInstance()->draw();
 	//_kinectMgr.draw();
-	//_viewSymbol.debugDraw();
-	//flowField::getInstance()->draw(0, 0, cMetaballRect.width *0.5, cMetaballRect.height*0.5);
-	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 100, 100);
+	_viewSymbol.debugDraw();
+	//flowField::getInstance()->draw(cMetaballRect.x * 0.5f, cMetaballRect.y * 0.5, cMetaballRect.width *0.5, cMetaballRect.height*0.5);
+	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 100, 150);
 }
 
 //--------------------------------------------------------------
@@ -214,7 +213,7 @@ void ofApp::setupViewer()
 {
 	_viewArms.setup();
 	_viewThreeBody.setup();
-	_viewSymbol.setup(cMetaballRect.getWidth(), cMetaballRect.getHeight());
+	_viewSymbol.setup(cSymbolRect.getWidth(), cSymbolRect.getHeight());
 
 	_armsPos.set(0);
 	_threeBodyPos.set(cThreeBodyPos);

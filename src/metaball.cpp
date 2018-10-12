@@ -158,7 +158,7 @@ void metaball::draw()
 {
 	ofPushStyle();
 	ofSetColor(255);
-	_canvas.draw(0, 0);
+	_canvas.draw(cMetaballRect);
 	ofPopStyle();
 }
 

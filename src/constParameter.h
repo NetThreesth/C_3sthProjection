@@ -11,8 +11,8 @@ static const string cBackendGetPattern = "http://35.236.167.99:5000/3sth/api/v1.
 //Metaball
 static const int cMetaballNum = 30;
 static const int cMetaballBasicFlowNum = 20;
-static const ofRectangle cMetaballRect(0, 0, 1672, 2000); //836 1000
-static const int cMetaballMaxSize = min(1672, 2000); //1672 2000
+static const ofRectangle cMetaballRect(292, 496, 1096, 1260);
+static const int cMetaballMaxSize = min(1096, 1260);
 
 //Meta Ai Symbol
 static const int cMetaAiSymbolSize = 64;
@@ -92,7 +92,6 @@ static const int cArmsMirrorNum = 2;
 static const float cArmsSpaceRotateV = 10.0f;
 static const ofVec3f cAmrsCeilTopPos(0, cArmsSpaceSize, 0);
 
-
 //Three Body
 static const ofVec3f cThreeBodyPos(0, 3000, 0);
 
@@ -102,7 +101,9 @@ static const ofVec3f cSymbolViewHeight(0, 4500, 0);
 static const float cSymbolDisplayHeight = cSymbolViewHeight.y * 0.8f;
 static const float cSymbolDisplayTime = 500.0f;
 
-//Partical
+static const ofRectangle cSymbolRect(0, 0, 1672, 2000);
+
+//Particle View
 static const ofVec3f cParticlePos(0, -100, 0);
 
 //Viewer Camera

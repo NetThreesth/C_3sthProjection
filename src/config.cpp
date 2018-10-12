@@ -24,10 +24,11 @@ void config::draw()
 //--------------------------
 void config::initGUI()
 {
-	_gui.setup();
+	_gui.setup("", "_guiConfig.xml");
 	_gui.add(_armsAlpha.setup("Arms Alpha", 255, 0, 255));
 	_gui.add(_ceilingAlpha.setup("Ceiling Alpha", 50, 0, 255));
 	_gui.add(_spaceAlpha.setup("Space Alpha", 50, 0, 255));
+	_gui.add(_multiCamDist.setup("Multi-Camera dist", 100, 50, 500));
 
 }
 

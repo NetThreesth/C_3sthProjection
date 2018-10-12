@@ -34,7 +34,7 @@ void vSymbolMirror::update(float delta)
 		updateToMirror();
 		_mirrorContext.beginMask();
 		ofSetColor(255);
-		_mask.draw(0, 0, cMetaballRect.width, cMetaballRect.height);
+		_mask.draw(0, 0, cSymbolRect.width, cSymbolRect.height);
 
 		_mirrorContext.endMask();
 	}
@@ -64,7 +64,7 @@ void vSymbolMirror::debugUpdate(float delta)
 	updateToMirror();
 	_mirrorContext.beginMask();
 	ofSetColor(255);
-	_mask.draw(0, 0, cMetaballRect.width, cMetaballRect.height);
+	_mask.draw(0, 0, cSymbolRect.width, cSymbolRect.height);
 
 	_mirrorContext.endMask();
 }
@@ -78,8 +78,8 @@ void vSymbolMirror::debugDraw()
 	ofPushStyle();
 	ofSetColor(255);
 	//_mirror.draw();
-	//_mirrorContext.draw();
-	_mb.draw();
+	_mirrorContext.draw();
+	//_mb.draw();
 	ofPopStyle();
 	ofPopMatrix();
 }
