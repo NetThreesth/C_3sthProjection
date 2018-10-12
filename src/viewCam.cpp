@@ -9,7 +9,6 @@ viewCam::viewCam()
 {
 	_canvas.allocate(cViewCamSize.width, cViewCamSize.height, GL_RGB);
 	_cam.disableMouseInput();
-
 }
 
 //------------------------------------
@@ -75,6 +74,21 @@ ofVec3f viewCam::getTarget()
 }
 
 //------------------------------------
+void viewCam::symbolIsFinish()
+{
+	if(_eState == eViewSymbol)
+	{
+		_eState = eSymbolToWait;
+		_timer = cViewFadeT;
+		ofNotifyEvent(_onViewStateChange, _eState, this);
+	}
+	else
+	{
+		ofLog(OF_LOG_ERROR, "[viewCam::symbolIsFinish]State error");
+	}
+}
+
+//------------------------------------
 void viewCam::stateCheck(float delta)
 {
 
@@ -86,12 +100,12 @@ void viewCam::stateCheck(float delta)
 		if (_timer <= 0.0f)
 		{
 			_animZ.reset(_pos.z);
-			_animZ.setDuration(6.0);
+			_animZ.setDuration(cViewArmsOutT * 0.8);
 			_animZ.setCurve(AnimCurve::QUADRATIC_EASE_OUT);
 			_animZ.animateTo(0.0f);
 
 			_animY.reset(_pos.y);
-			_animY.setDuration(8.0);
+			_animY.setDuration(cViewArmsOutT);
 			_animY.animateTo(cAmrsCeilTopPos.y);
 			_eState = eArmsToThreeBody;
 			ofNotifyEvent(_onViewStateChange, _eState, this);
@@ -102,7 +116,7 @@ void viewCam::stateCheck(float delta)
 	{
 		if (_animY.hasFinishedAnimating() && _animY.getPercentDone() == 1.0f)
 		{
-			_animY.setDuration(10.0);
+			_animY.setDuration(cViewThreeBoydT);
 			_animY.animateTo(cSymbolViewHeight.y);
 			_eState = eViewThreeBody;
 			ofNotifyEvent(_onViewStateChange, _eState, this);
@@ -136,13 +150,13 @@ void viewCam::stateCheck(float delta)
 	}
 	case eViewSymbol:
 	{
-		_timer -= delta;
-		if (_timer <= 0.0f)
-		{
-			_eState = eSymbolToWait;
-			_timer = cViewFadeT;
-			ofNotifyEvent(_onViewStateChange, _eState, this);
-		}
+		//_timer -= delta;
+		//if (_timer <= 0.0f)
+		//{
+		//	_eState = eSymbolToWait;
+		//	_timer = cViewFadeT;
+		//	ofNotifyEvent(_onViewStateChange, _eState, this);
+		//}
 		break;
 	}
 	case eSymbolToWait:

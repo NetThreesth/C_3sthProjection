@@ -15,6 +15,7 @@ public:
 	vSymbolMirror()
 		:_isSetup(false)
 		,_isStart(false)
+		, _isFinish(false)
 	{}
 	void setup(int width, int height);
 	void update(float delta);
@@ -34,7 +35,7 @@ private:
 	void initLayerMask(int width, int height);
 
 private:
-	bool _isSetup, _isStart;
+	bool _isSetup, _isStart, _isFinish;
 	ofxAnimatableFloat _animMirrorAlpha, _animSymbolAlpha;
 	ofxLayerMask _mirrorContext;
 
@@ -60,6 +61,9 @@ private:
 	float _translateTimer;
 	metaball _mb;
 	
+public:
+	ofEvent<void> _symbolPlayFinish;
+
 #pragma endregion
 
 #pragma region Mirror & Mask

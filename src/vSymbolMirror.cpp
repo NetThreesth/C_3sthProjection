@@ -77,8 +77,9 @@ void vSymbolMirror::debugDraw()
 	ofScale(0.5, 0.5);
 	ofPushStyle();
 	ofSetColor(255);
-	_mirror.draw();
+	//_mirror.draw();
 	//_mirrorContext.draw();
+	_mb.draw();
 	ofPopStyle();
 	ofPopMatrix();
 }
@@ -90,6 +91,7 @@ void vSymbolMirror::reset()
 	_animSymbolAlpha.reset(0);
 	resetMirror();
 	resetSymbol();
+	
 }
 
 //--------------------------------------------------------------
@@ -102,6 +104,7 @@ void vSymbolMirror::start()
 void vSymbolMirror::stop()
 {
 	_isStart = false;
+	_isFinish = false;
 }
 
 //--------------------------------------------------------------
@@ -196,6 +199,7 @@ void vSymbolMirror::loadSymbol()
 	_symbolDisplay.setSymbol(_symbolList[0]);
 	_symbolIndex = 0;
 	_translateTimer = cMetaAiTranslateT;
+
 }
 
 //--------------------------------------------------------------
@@ -206,11 +210,19 @@ void vSymbolMirror::updateSymbol(float delta)
 
 	if (_translateTimer <= 0.0f)
 	{
-		int nextIndex = (_symbolIndex + 1) % _symbolList.size();
-		if (_symbolDisplay.toSymbol(_symbolList[nextIndex], cMetaAiTranslateT))
+		int nextIndex = _symbolIndex + 1;
+		if (nextIndex >= _symbolList.size())
 		{
-			_translateTimer = cMetaAiTranslateT;
-			_symbolIndex = nextIndex;
+			_isFinish = true;
+			ofNotifyEvent(_symbolPlayFinish, this);
+		}
+		else
+		{
+			if (_symbolDisplay.toSymbol(_symbolList[nextIndex], cMetaAiTranslateT))
+			{
+				_translateTimer = cMetaAiTranslateT;
+				_symbolIndex = nextIndex;
+			}
 		}
 	}
 }

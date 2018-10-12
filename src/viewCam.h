@@ -15,9 +15,10 @@ public:
 	eViewState getState();
 	ofVec3f getPos();
 	ofVec3f getTarget();
+
+	void symbolIsFinish();
 private:
 	void stateCheck(float delta);
-
 	void animToThreeBody();
 
 private:

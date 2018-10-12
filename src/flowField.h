@@ -14,13 +14,18 @@ private:
 			, _timer(0.0f)
 		{};
 		void update(float delta);
+		void updateBasicForce();
+		
 		ofVec2f getForce();
 		ofVec2f getBasicForce();
 		void setForce(ofVec2f force);
+
 	public:
 		bool _needUpdate;
 		ofVec2f _force;
 		ofVec2f _basicForce;
+		float _vx, _vy;
+		float _basicForceSize;
 		float _timer;
 	};
 
@@ -53,14 +58,12 @@ private:
 				int index = y * cFFColsNum + x;
 				
 				
-				float vx = x / (float)cFFColsNum + ofRandom(0.01, 0.05);
-				float vy = y / (float)cFFRowsNum + ofRandom(0.01, 0.05);;
-				float theta = ofMap(ofNoise(vx, vy), 0, 1, 0, TWO_PI);
-				ofVec2f v(cos(theta), sin(theta));
+				float vx = x / (float)cFFColsNum;
+				float vy = y / (float)cFFRowsNum;
 
-				_metaFlowMap[index]._basicForce.set(v);
-				_metaFlowMap[index]._basicForce.normalize();
-				_metaFlowMap[index]._basicForce *= ofRandom(cFFBasicForceMin, cFFBasicForceMax);
+				_metaFlowMap[index]._vx = vx;
+				_metaFlowMap[index]._vy = vy;
+				_metaFlowMap[index]._basicForceSize = ofRandom(cFFBasicForceMin, cFFBasicForceMax);
 			}
 		}
 	};

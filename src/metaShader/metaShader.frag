@@ -1,7 +1,8 @@
 #version 120
 
-uniform vec3 metaPos[10];
-uniform int metaFlag[10];
+#define cMetaballNum 30
+uniform vec3 metaPos[cMetaballNum];
+uniform int metaFlag[cMetaballNum];
 uniform int metaWidth;
 uniform int metaHeight;
 varying vec3 pos;
@@ -16,7 +17,7 @@ vec3 hsv2rgb(vec3 c)
 void main()
 {
 	float result = 0.0f;
-	for(int i = 0; i < 10; i++)
+	for(int i = 0; i < cMetaballNum; i++)
 	{
 		if(metaFlag[i] > 0)
 		{
@@ -25,7 +26,7 @@ void main()
 			distX = min(distX, metaWidth - distX);
 			distY = min(distY, metaHeight - distY);
 			float r = (metaPos[i].z * metaPos[i].z);
-			float dist = (r * 0.5f) / ((distX * distX) + (distY * distY));
+			float dist = (r) / ((distX * distX) + (distY * distY));
 			result += dist;
 		}
 	}
@@ -33,10 +34,10 @@ void main()
 	
 	
 	vec3 color;
-	color.r = min(1.0f, result);
-	color.g = 1.0f;
-	color.b = 1.0f;
-	gl_FragColor.rgba = vec4(hsv2rgb(color).rgb, max(0.4, 1.0 - min(1.0f, result)));
+	color.r = min(0.5f, result);
+	color.g = 0.7f;
+	color.b = 0.5f;
+	gl_FragColor.rgba = vec4(color.rrr, max(0.4, 1.0 - min(1.0f, result)));
 	
 	
     

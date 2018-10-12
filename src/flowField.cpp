@@ -11,6 +11,18 @@ void flowField::forceUnit::update(float delta)
 	}
 }
 
+
+//-----------------------------------
+void flowField::forceUnit::updateBasicForce()
+{
+	
+	float theta = ofMap(ofNoise(_vx, _vy, ofGetElapsedTimef() * 0.01), 0, 1, 0, TWO_PI);
+	ofVec2f v(cos(theta), sin(theta));
+
+	_basicForce.set(v * _basicForceSize);
+
+}
+
 //-----------------------------------
 ofVec2f flowField::forceUnit::getForce()
 {
@@ -25,6 +37,7 @@ ofVec2f flowField::forceUnit::getForce()
 
 }
 
+//-----------------------------------
 ofVec2f flowField::forceUnit::getBasicForce()
 {
 	return _basicForce;
@@ -49,6 +62,7 @@ void flowField::update(float delta)
 		{
 			iter.update(delta);
 		}
+		iter.updateBasicForce();
 	}
 }
 
@@ -72,8 +86,7 @@ void flowField::draw(int x, int y, int width, int height)
 			ofLine(0, unitH * i, width, unitH * i);
 		}
 
-		//flow
-		
+		//flow		
 		ofVec2f pos;
 		for (int y = 0; y < cFFRowsNum; y++)
 		{

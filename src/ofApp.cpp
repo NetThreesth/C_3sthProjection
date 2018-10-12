@@ -47,7 +47,7 @@ void ofApp::update() {
 	serverReq::getInstance()->update();
 	
 	//Debug
-	_viewSymbol.debugUpdate(delta);
+	//_viewSymbol.debugUpdate(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
@@ -83,7 +83,7 @@ void ofApp::draw() {
 	//Debug
 	//_kinectMgr.draw();
 	//_viewSymbol.debugDraw();
-	//flowField::getInstance()->draw(0, 0, cMetaballRect.width, cMetaballRect.height);
+	//flowField::getInstance()->draw(0, 0, cMetaballRect.width *0.5, cMetaballRect.height*0.5);
 	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 100, 100);
 }
 
@@ -189,6 +189,12 @@ void ofApp::onUpdateParticleNum(int & count)
 }
 
 //--------------------------------------------------------------
+void ofApp::onSymbolFinish()
+{
+	_viewCam.symbolIsFinish();
+}
+
+//--------------------------------------------------------------
 void ofApp::start()
 {
 	if (_viewCam.getState() == eViewWait)
@@ -219,6 +225,7 @@ void ofApp::setupViewer()
 	_viewArms.setStage(true);
 
 	ofAddListener(_viewCam._onViewStateChange, this, &ofApp::onViewerChange);
+	ofAddListener(_viewSymbol._symbolPlayFinish, this, &ofApp::onSymbolFinish);
 }
 
 //--------------------------------------------------------------

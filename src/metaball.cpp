@@ -11,7 +11,7 @@ void metaNode::setup(int x, int y, bool useBasicFlow)
 	_acc.set(0);
 	_useBasic = useBasicFlow;
 
-	_r = cMetaballMaxSize * 0.5 * ofRandom(0.05f, 0.2f);
+	_r = cMetaballMaxSize * 0.5 * ofRandom(0.07f, 0.13f);
 }
 
 //--------------------------------------------------------------

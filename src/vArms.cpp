@@ -20,8 +20,6 @@ void vArms::update(float delta)
 		_arms.update(delta);
 	}
 	updateStage(delta);
-
-
 }
 
 //------------------------------
@@ -55,6 +53,7 @@ bool vArms::start()
 void vArms::stop()
 {
 	_isStart = false;
+	_arms.reset();
 }
 
 //------------------------------

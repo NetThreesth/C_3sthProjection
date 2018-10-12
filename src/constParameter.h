@@ -13,7 +13,7 @@ static const string cBackendGetPattern = "http://35.236.167.99:5000/3sth/api/v1.
 
 //Metaball
 static const int cMetaballNum = 30;
-static const int cMetaballBasicFlowNum = 15;
+static const int cMetaballBasicFlowNum = 20;
 static const ofRectangle cMetaballRect(0, 0, 1672, 2000); //836 1000
 static const int cMetaballMaxSize = min(1672, 2000); //1672 2000
 
@@ -50,7 +50,7 @@ static const int cArmPlaySpeedNum = 6;
 static const float cArmPlayBaseFPS = 24.0f;
 static const float cArmPlaySpeedEach = cArmBufferSize / (float)cArmPlaySpeedNum;
 static const float cFrameTime = 1 / cArmPlayBaseFPS;
-static const int cArmStartFrame = 219;
+static const int cArmStartFrame = 300;
 static const int cArmEndFrame = 2049;
 static const int cArmFrameNum = cArmEndFrame - cArmStartFrame + 1;
 
@@ -96,6 +96,7 @@ static const int cArmsMirrorNum = 2;
 static const float cArmsSpaceRotateV = 10.0f;
 static const ofVec3f cAmrsCeilTopPos(0, cArmsSpaceSize, 0);
 
+
 //Three Body
 static const ofVec3f cThreeBodyPos(0, 3000, 0);
 
@@ -111,5 +112,6 @@ static const ofVec3f cParticlePos(0, -100, 0);
 //Viewer Camera
 static const ofVec3f cViewCamDefaultPos(0, 0, 400);
 static const ofVec3f cViewCamDefaultTarget(0, 0, -1);
-static const float cViewArmsT = 3.0f;
-static const float cViewThreeBoydT = 5.0f;
+static const float cViewArmsT = 20.0f;
+static const float cViewArmsOutT = 10.0f;
+static const float cViewThreeBoydT = 20.0f;

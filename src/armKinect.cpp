@@ -52,13 +52,7 @@ void armKinect::update(float delta)
 			//For Start
 			checkBuffer();
 		}
-		else if (_totalFrameIdx == cArmEndFrame - 1)
-		{
-			//End
-			_isSetup = _isPlay = false;
-		}
-
-
+		
 		_totalFrameIdx = _startF + _bufferFrameIdx;
 		_bufferFrameIdx = (_bufferFrameIdx + 1) % cArmBufferSize;
 		auto index = MIN((int)floor(_bufferFrameIdx / cArmPlaySpeedEach), cArmPlaySpeedNum - 1);
@@ -111,8 +105,8 @@ void armKinect::reset()
 	resetSPFList();
 
 	//Load Buffer
-	_startF = cArmStartFrame;
-	_endF = cArmStartFrame + cArmBufferSize;
+	_startF = cArmStartFrame + rand() % (cArmFrameNum - cArmBufferSize);
+	_endF = _startF + cArmBufferSize;
 	loadFrame(_displayPtr, _startF, _endF);
 
 	_totalFrameIdx = _startF;
@@ -150,8 +144,20 @@ void armKinect::checkBuffer()
 		swap(_displayPtr, _bufferPtr);
 		_haveNext = false;
 	}
-	_startF = _endF;
-	_endF = MIN((_startF + cArmBufferSize), cArmEndFrame);
+
+	if (_totalFrameIdx + cArmBufferSize != cArmEndFrame)
+	{
+		//TODO - _startF & _endF is buffer index, not play index // 1012 Cater
+		_startF = _endF;
+		_endF = MIN((_startF + cArmBufferSize), cArmEndFrame);
+
+	}
+	else
+	{
+		//Back to Start
+		_startF = cArmStartFrame;
+		_endF = MIN((_startF + cArmBufferSize), cArmEndFrame);
+	}
 	loadFrame(_bufferPtr, _startF, _endF);
 	resetSPFList();
 }

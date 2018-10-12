@@ -39,6 +39,7 @@ private:
 public:
 	void onViewerChange(eViewState& nowState);
 	void onUpdateParticleNum(int& count);
+	void onSymbolFinish();
 	void start();
 private:
 	void setupViewer();
