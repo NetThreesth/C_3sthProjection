@@ -48,7 +48,7 @@ void ofApp::update() {
 	serverReq::getInstance()->update();
 	
 	//Debug
-	_viewSymbol.debugUpdate(delta);
+	//_viewSymbol.debugUpdate(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
@@ -83,7 +83,7 @@ void ofApp::draw() {
 	//Debug
 	config::getInstance()->draw();
 	//_kinectMgr.draw();
-	_viewSymbol.debugDraw();
+	//_viewSymbol.debugDraw();
 	//flowField::getInstance()->draw(cMetaballRect.x * 0.5f, cMetaballRect.y * 0.5, cMetaballRect.width *0.5, cMetaballRect.height*0.5);
 	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 100, 150);
 }
