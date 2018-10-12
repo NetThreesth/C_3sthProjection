@@ -79,22 +79,22 @@ void flowField::draw(int x, int y, int width, int height)
 		ofSetColor(255, 0, 0, 100);
 		for (int i = 0; i <= cFFColsNum; i++)
 		{
-			ofLine(unitW * i, 0, unitW * i, height);
+			ofLine(x + unitW * i, y + 0, x + unitW * i, y + height);
 		}
 		for (int i = 0; i <= cFFRowsNum; i++)
 		{
-			ofLine(0, unitH * i, width, unitH * i);
+			ofLine(x, y + unitH * i, x + width, y + unitH * i);
 		}
 
 		//flow		
 		ofVec2f pos;
-		for (int y = 0; y < cFFRowsNum; y++)
+		for (int dy = 0; dy < cFFRowsNum; dy++)
 		{
-			pos.y = unitH * 0.5 + unitH * y;
-			for (int x = 0; x < cFFColsNum; x++)
+			pos.y =  y + (unitH * 0.5 + unitH * dy);
+			for (int dx = 0; dx < cFFColsNum; dx++)
 			{
-				int index = x + y * cFFColsNum;
-				pos.x = unitW * 0.5 + unitW* x;
+				int index = dx + dy * cFFColsNum;
+				pos.x = x + (unitW * 0.5 + unitW * dx);
 
 				ofSetColor(0, 255, 0);
 				ofLine(pos, pos + _metaFlowMap[index].getForce());

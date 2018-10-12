@@ -1,4 +1,5 @@
 #include "vSymbolMirror.h"
+#include "config.h"
 
 //--------------------------------------------------------------
 void vSymbolMirror::setup(int width, int height)
@@ -111,7 +112,7 @@ void vSymbolMirror::stop()
 void vSymbolMirror::displayMirror()
 {
 	_animMirrorAlpha.setDuration(3.0f);
-	_animMirrorAlpha.animateFromTo(0.0, 1.0f);
+	_animMirrorAlpha.animateFromTo(0.0, (config::getInstance()->_symbolMirrorAlpha / 255.0f));
 }
 
 //--------------------------------------------------------------
@@ -208,7 +209,7 @@ void vSymbolMirror::updateSymbol(float delta)
 	_symbolDisplay.update(delta);
 	_translateTimer -= delta;
 
-	if (_translateTimer <= 0.0f)
+	if (_translateTimer <= 0.0f && !_isFinish)
 	{
 		int nextIndex = _symbolIndex + 1;
 		if (nextIndex >= _symbolList.size())
@@ -231,8 +232,8 @@ void vSymbolMirror::updateSymbol(float delta)
 void vSymbolMirror::updateToMirror()
 {
 	_mirrorContext.beginLayer();
-	ofClear(255);
 	ofPushStyle();
+	ofClear(0);
 	ofSetColor(255);
 	ofPushMatrix();
 	ofTranslate(_mirrorContext.getWidth() * 0.5f, _mirrorContext.getHeight() * 0.55f);

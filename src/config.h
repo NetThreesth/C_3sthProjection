@@ -29,7 +29,8 @@ public:
 	ofxPanel _gui;
 	ofxIntSlider _armsAlpha, _ceilingAlpha, _spaceAlpha;
 	ofxIntSlider _multiCamDist;
-
+	ofxIntSlider _symbolMirrorAlpha;
+	ofxFloatSlider _metaballSize, _metaballFieldBasic;
 
 //-------------------
 //Singleton

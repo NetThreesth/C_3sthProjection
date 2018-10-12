@@ -58,6 +58,8 @@ void metaNode::update(float delta)
 		_acc.set(0);
 
 	}
+
+	
 }
 
 //--------------------------------------------------------------
@@ -120,7 +122,7 @@ void metaball::update(float delta)
 		auto data = iter.getPosAndR();
 		p[idx * 3] = data.x;
 		p[idx * 3 + 1] = data.y;
-		p[idx * 3 + 2] = data.z;
+		p[idx * 3 + 2] = data.z * config::getInstance()->_metaballSize;
 		flag[idx] = 255;
 		idx++;
 	}
@@ -135,7 +137,7 @@ void metaball::update(float delta)
 		auto data = iter.getPosAndR();
 		p[idx * 3] = data.x;
 		p[idx * 3 + 1] = data.y;
-		p[idx * 3 + 2] = data.z;
+		p[idx * 3 + 2] = data.z * config::getInstance()->_metaballSize;
 		flag[idx] = 255;
 		idx++;
 	}

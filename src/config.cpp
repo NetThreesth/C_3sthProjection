@@ -29,7 +29,9 @@ void config::initGUI()
 	_gui.add(_ceilingAlpha.setup("Ceiling Alpha", 50, 0, 255));
 	_gui.add(_spaceAlpha.setup("Space Alpha", 50, 0, 255));
 	_gui.add(_multiCamDist.setup("Multi-Camera dist", 100, 50, 500));
-
+	_gui.add(_symbolMirrorAlpha.setup("Symbol Mirror Alpha", 200, 0, 255));
+	_gui.add(_metaballSize.setup("Metaball Size", 1.0, 0.5, 2.0));
+	//_gui.add(_metaballFieldBasic.setup("Field Basic", ));
 }
 
 //--------------------------

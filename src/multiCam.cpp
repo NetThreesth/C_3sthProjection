@@ -31,7 +31,6 @@ void multiCam::camUnit::begin()
 	}
 	_setBegin = true;
 	_canvas.begin();
-	ofClear(50);
 	_cam.begin();
 }
 
