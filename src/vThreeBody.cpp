@@ -1,9 +1,9 @@
 #include "vThreeBody.h"
 
 //--------------------------------------------------------------
-void vThreeBody::setup()
+void vThreeBody::setup(int skipStep)
 {
-	_tBody.setup();
+	_tBody.setup(skipStep);
 	_isSetup = true;
 }
 

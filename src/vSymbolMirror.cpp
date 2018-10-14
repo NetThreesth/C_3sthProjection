@@ -123,6 +123,12 @@ void vSymbolMirror::displayContent()
 }
 
 //--------------------------------------------------------------
+void vSymbolMirror::setIsLooping(bool isLoop)
+{
+	_isLoop = isLoop;
+}
+
+//--------------------------------------------------------------
 void vSymbolMirror::initLayerMask(int width, int height)
 {
 	_mirrorContext.setup(width, height);
@@ -199,7 +205,7 @@ void vSymbolMirror::loadSymbol()
 	}
 	_symbolDisplay.setSymbol(_symbolList[0]);
 	_symbolIndex = 0;
-	_translateTimer = cMetaAiTranslateT;
+	_translateTimer = config::getInstance()->_symbolChangeT;
 
 }
 
@@ -212,16 +218,17 @@ void vSymbolMirror::updateSymbol(float delta)
 	if (_translateTimer <= 0.0f && !_isFinish)
 	{
 		int nextIndex = _symbolIndex + 1;
-		if (nextIndex >= _symbolList.size())
+		if (!_isLoop && nextIndex >= _symbolList.size())
 		{
 			_isFinish = true;
 			ofNotifyEvent(_symbolPlayFinish, this);
 		}
 		else
 		{
-			if (_symbolDisplay.toSymbol(_symbolList[nextIndex], cMetaAiTranslateT))
+			nextIndex = nextIndex % _symbolList.size();
+			if (_symbolDisplay.toSymbol(_symbolList[nextIndex], config::getInstance()->_symbolChangeT))
 			{
-				_translateTimer = cMetaAiTranslateT;
+				_translateTimer = config::getInstance()->_symbolChangeT;
 				_symbolIndex = nextIndex;
 			}
 		}
@@ -267,12 +274,10 @@ void vSymbolMirror::resetSymbol()
 {
 	_symbolDisplay.setSymbol(_symbolList[0]);
 	_symbolIndex = 0;
-	_translateTimer = cMetaAiTranslateT;
+	_translateTimer = config::getInstance()->_symbolChangeT;
 }
 
 #pragma endregion
-
-
 
 #pragma region Mirror & Mask
 //--------------------------------------------------------------

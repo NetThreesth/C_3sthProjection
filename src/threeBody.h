@@ -29,9 +29,22 @@ private:
 			ofSetColor(_color);
 			ofDrawSphere(_pos, cBodyBallSize);
 		}
+
+		void backup()
+		{
+			_velBackup = _vel;
+			_posBackup = _pos;
+		}
+
+		void recover()
+		{
+			_vel = _velBackup;
+			_pos = _posBackup;
+		}
 	public:
 		int _mass;
 		ofVec3f _vel, _pos;
+		ofVec3f _velBackup, _posBackup;
 		ofColor _color;
 
 	};
@@ -43,10 +56,14 @@ public:
 		,_timer(cTBUpdateTime)
 		, _meshTimer(cTBAddMeshTime)
 	{}
-	void setup();
+	void setup(int startStep = 0);
 	void update(float delta);
 	void draw();
 	void reset();
+
+
+public:
+	void onAlphaChange(int& alpha);
 
 private:
 	void oneStep();

@@ -14,7 +14,7 @@ public:
 	void setSymbol(symbol& data);
 	bool toSymbol(symbol& toData, float duration);
 	
-
+	void onRotateVChange(float& v);
 private:
 	void drawNode();
 	void rebuildLine(symbol* data);

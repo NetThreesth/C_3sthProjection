@@ -50,7 +50,6 @@ void vParticleMgr::update(float delta)
 //-------------------------------
 void vParticleMgr::draw(ofVec3f pos)
 {
-
 	ofPushStyle();
 	ofSetColor(50, _animAlpha.getCurrentValue());
 	{

@@ -1,14 +1,11 @@
 #include "threeBody.h"
-
+#include "config.h"
 //-----------------------------
-void threeBody::setup()
+void threeBody::setup(int startStep)
 {
-
 	_bodyA._pos.set(cDefaultR*cos(0), 0);
 	_bodyB._pos.set(cDefaultR*cos(2 * PI / 3), cDefaultR*sin(2 * PI / 3));
 	_bodyC._pos.set(cDefaultR*cos(4 * PI / 3), cDefaultR*sin(4 * PI / 3));
-
-	//    cout << "posA: " << posA << " ; " << "posB: " << posB << " ; " << "posC: " << posC << endl;
 
 	float distAB = _bodyA.dist(_bodyB);
 	float distBC = _bodyB.dist(_bodyC);
@@ -28,6 +25,17 @@ void threeBody::setup()
 	_bodyC._color.set(0, 0, 255, 100);
 	_mesh.setMode(OF_PRIMITIVE_LINE_LOOP);
 
+
+	//Skip Step
+	for (int i = 0; i < startStep; i++)
+	{
+		oneStep();
+	}
+	_bodyA.backup();
+	_bodyB.backup();
+	_bodyC.backup();
+
+	config::getInstance()->_threeBodyAlpha.addListener(this, &threeBody::onAlphaChange);
 	_timer = cTBUpdateTime;
 	_meshTimer = cTBAddMeshTime;
 	_isSetup = true;
@@ -79,6 +87,17 @@ void threeBody::draw()
 void threeBody::reset()
 {
 	_mesh.clear();
+	_bodyA.recover();
+	_bodyB.recover();
+	_bodyC.recover();
+}
+
+//-----------------------------
+void threeBody::onAlphaChange(int & alpha)
+{
+	_bodyA._color.a = alpha;
+	_bodyB._color.a = alpha;
+	_bodyC._color.a = alpha;
 }
 
 //-----------------------------

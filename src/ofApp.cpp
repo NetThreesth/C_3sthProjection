@@ -23,10 +23,10 @@ void ofApp::setup() {
 
 	//Fade
 	_animFadeAlpah.reset(0);
-	_animFadeAlpah.setDuration(cViewFadeT);
+	_animFadeAlpah.setDuration(config::getInstance()->_faderT);
 	ofAddListener(_animFadeAlpah.animFinished, this, &ofApp::onFadeFinish);
 
-	_showDebug = false;
+	_showDebug = _showGUI = false;
 	ofBackground(0);
 	_timer = ofGetElapsedTimef();
 }
@@ -80,12 +80,15 @@ void ofApp::draw() {
 	ofPopStyle();
 
 
+	if (_showGUI)
+	{
+		config::getInstance()->draw();
+	}
+
 	//Debug
-	config::getInstance()->draw();
 	//_kinectMgr.draw();
 	//_viewSymbol.debugDraw();
 	//flowField::getInstance()->draw(cMetaballRect.x * 0.5f, cMetaballRect.y * 0.5, cMetaballRect.width *0.5, cMetaballRect.height*0.5);
-	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 100, 150);
 }
 
 //--------------------------------------------------------------
@@ -114,6 +117,11 @@ void ofApp::keyPressed(int key) {
 	case 'd':
 	{
 		_showDebug ^= true;
+		break;
+	}
+	case 'g':
+	{
+		_showGUI ^= true;
 		break;
 	}
 	}
@@ -145,6 +153,7 @@ void ofApp::onViewerChange(eViewState & nowState)
 		_viewArms.setStage(true);
 		_viewCam.reset();
 		_viewParticle.stop();
+		_animFadeAlpah.setDuration(config::getInstance()->_faderT);
 		_animFadeAlpah.animateTo(0);
 	}
 	case eViewArms:
@@ -176,6 +185,7 @@ void ofApp::onViewerChange(eViewState & nowState)
 	}
 	case eSymbolToWait:
 	{
+		_animFadeAlpah.setDuration(config::getInstance()->_faderT);
 		_animFadeAlpah.animateTo(255);
 
 		break;
@@ -187,6 +197,8 @@ void ofApp::onViewerChange(eViewState & nowState)
 void ofApp::onUpdateParticleNum(int & count)
 {
 	_particleNum = count;
+
+	_viewThreeBody.setup(_particleNum);
 }
 
 //--------------------------------------------------------------
@@ -212,7 +224,7 @@ void ofApp::start()
 void ofApp::setupViewer()
 {
 	_viewArms.setup();
-	_viewThreeBody.setup();
+	
 	_viewSymbol.setup(cSymbolRect.getWidth(), cSymbolRect.getHeight());
 
 	_armsPos.set(0);

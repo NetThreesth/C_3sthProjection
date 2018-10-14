@@ -24,7 +24,7 @@ private:
 	float _timer;
 	multiCam _multiCam;
 	ofEasyCam _cam;
-	bool _showDebug;
+	bool _showGUI, _showDebug;
 	
 private:
 	void onFadeFinish(ofxAnimatable::AnimationEvent& e);

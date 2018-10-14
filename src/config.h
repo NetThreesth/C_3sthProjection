@@ -30,7 +30,13 @@ public:
 	ofxIntSlider _armsAlpha, _ceilingAlpha, _spaceAlpha;
 	ofxIntSlider _multiCamDist;
 	ofxIntSlider _symbolMirrorAlpha;
+	ofxFloatSlider _symbolRotateSpeed, _symbolChangeT;
 	ofxFloatSlider _metaballSize, _metaballFieldBasic;
+	ofxIntSlider _threeBodyAlpha;
+
+	ofxFloatSlider _faderT;
+
+	ofxLabel _fps;
 
 //-------------------
 //Singleton

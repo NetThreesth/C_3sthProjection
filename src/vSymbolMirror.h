@@ -31,11 +31,13 @@ public:
 	void displayMirror();
 	void displayContent();
 
+	void setIsLooping(bool isLoop);
+
 private:
 	void initLayerMask(int width, int height);
 
 private:
-	bool _isSetup, _isStart, _isFinish;
+	bool _isSetup, _isStart, _isLoop, _isFinish;
 	ofxAnimatableFloat _animMirrorAlpha, _animSymbolAlpha;
 	ofxLayerMask _mirrorContext;
 

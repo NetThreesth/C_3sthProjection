@@ -1,5 +1,5 @@
 #include "flowField.h"
-
+#include "config.h"
 //-----------------------------------
 void flowField::forceUnit::update(float delta)
 {
@@ -15,11 +15,10 @@ void flowField::forceUnit::update(float delta)
 //-----------------------------------
 void flowField::forceUnit::updateBasicForce()
 {
-	
 	float theta = ofMap(ofNoise(_vx, _vy, ofGetElapsedTimef() * 0.01), 0, 1, 0, TWO_PI);
 	ofVec2f v(cos(theta), sin(theta));
 
-	_basicForce.set(v * _basicForceSize);
+	_basicForce.set(v * _basicForceSize * config::getInstance()->_metaballFieldBasic);
 
 }
 

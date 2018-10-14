@@ -18,6 +18,7 @@ void config::save()
 //--------------------------
 void config::draw()
 {
+	_fps = ofToString(ofGetFrameRate());
 	_gui.draw();
 }
 
@@ -30,8 +31,16 @@ void config::initGUI()
 	_gui.add(_spaceAlpha.setup("Space Alpha", 50, 0, 255));
 	_gui.add(_multiCamDist.setup("Multi-Camera dist", 100, 50, 500));
 	_gui.add(_symbolMirrorAlpha.setup("Symbol Mirror Alpha", 200, 0, 255));
+	_gui.add(_symbolRotateSpeed.setup("Symbol Rotate Speed(deg/s)", 10.0, 1.0, 60.0));
+	_gui.add(_symbolChangeT.setup("Symbol Translate Duration", 5.0, 3.0, 30.0));
 	_gui.add(_metaballSize.setup("Metaball Size", 1.0, 0.5, 2.0));
-	//_gui.add(_metaballFieldBasic.setup("Field Basic", ));
+	_gui.add(_metaballFieldBasic.setup("Field Basic", 1.0, 0.0, 5.0));
+
+	_gui.add(_threeBodyAlpha.setup("Three Body Alpha", 100, 0, 255));
+
+	_gui.add(_faderT.setup("Cover fadeing Time", 3.0, 1.0, 20.0));
+	_gui.add(_fps.setup("FPS", "0.0"));
+	
 }
 
 //--------------------------

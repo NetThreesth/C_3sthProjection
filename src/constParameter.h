@@ -19,7 +19,6 @@ static const int cMetaAiSymbolSize = 64;
 static const int cMetaAiSymbolNodeNum = cMetaAiSymbolSize * cMetaAiSymbolSize;
 static const int cMetaAiPixelThreshold = 100;
 static const float cMetaAiSymbolRotateV = 10.0f;
-static const float cMetaAiTranslateT = 5.0f;
 
 //Kinect
 static const int cKinectNum = 4;

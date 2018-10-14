@@ -10,7 +10,7 @@ public:
 		:_isSetup(false)
 		, _isStart(false)
 	{}
-	void setup();
+	void setup(int skipStep);
 	void update(float delta);
 	void draw(ofVec3f pos);
 

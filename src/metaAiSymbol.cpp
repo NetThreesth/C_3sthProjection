@@ -1,5 +1,5 @@
 #include "metaAiSymbol.h"
-
+#include "config.h"
 
 #pragma region metaAi Symbol Display
 //---------------------------------------
@@ -7,8 +7,9 @@ metaAiSymbolDisplay::metaAiSymbolDisplay()
 	:_symbolRef(nullptr)
 	, _eState(eAnimDisplay)
 	, _rDeg(0.0)
-	, _rV(cMetaAiSymbolRotateV)
-{}
+	, _rV(0.0)
+{
+}
 
 //---------------------------------------
 void metaAiSymbolDisplay::setup(int size, int range, float thresholdMin, float thresholdMax)
@@ -40,6 +41,11 @@ void metaAiSymbolDisplay::setup(int size, int range, float thresholdMin, float t
 			_symbolNode[index].init(x * unitDist - half, y * unitDist - half);
 		}
 	}
+
+
+	_rV = config::getInstance()->_symbolRotateSpeed;
+	config::getInstance()->_symbolRotateSpeed.addListener(this, &metaAiSymbolDisplay::onRotateVChange);
+
 	_mainTimer = 0.0f;
 }
 
@@ -74,6 +80,7 @@ void metaAiSymbolDisplay::draw()
 	ofSetColor(255);
 
 	ofPushMatrix();
+	ofRotateX(_rDeg);
 	ofRotateY(_rDeg);
 	_symbolLine.draw();
 	_symbolMesh.drawWireframe();
@@ -104,6 +111,12 @@ bool metaAiSymbolDisplay::toSymbol(symbol & toData, float duration)
 		return false;
 	}
 	
+}
+
+//---------------------------------------
+void metaAiSymbolDisplay::onRotateVChange(float & v)
+{
+	_rV = v;
 }
 
 //---------------------------------------
