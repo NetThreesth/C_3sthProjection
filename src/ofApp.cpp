@@ -33,7 +33,7 @@ void ofApp::setup() {
 	//Auto
 	if (config::getInstance()->_exIsAutoLoop)
 	{
-		_loopTimer = 180;
+		_loopTimer = config::getInstance()->_exLoopWaitT;
 		_waitAutoStart = true;
 	}
 	_showDebug = _showGUI = false;
@@ -157,7 +157,7 @@ void ofApp::onFadeFinish(ofxAnimatable::AnimationEvent & e)
 {
 	if (_animFadeAlpah.getCurrentValue() == 0.0 && config::getInstance()->_exIsAutoLoop)
 	{
-		_loopTimer = 180;
+		_loopTimer = config::getInstance()->_exLoopWaitT;
 		_waitAutoStart = true;
 	}
 }

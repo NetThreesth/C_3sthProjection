@@ -56,6 +56,7 @@ void config::loadConfig()
 
 	_exOnlyMultiCam = xml.getValue("OnlyMultiCam", false);
 	_exIsAutoLoop = xml.getValue("isAutoLoop", false);
+	_exLoopWaitT = xml.getValue("loopingWaitT", 180.0f);
 	_exWindowWidth = xml.getValue("FullScreenWidth", 1920);
 	_exWindowHeight = xml.getValue("ScreenHeight", 1920);
 

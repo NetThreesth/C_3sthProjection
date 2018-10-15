@@ -20,6 +20,7 @@ public:
 	//Config
 	bool _exOnlyMultiCam;
 	bool _exIsAutoLoop;
+	float _exLoopWaitT;
 	int _exWindowWidth, _exWindowHeight;
 	float _exCamStartWaitT, _exCamToCeilingT, _exCamToSymbolT;
 	int _exMetaballBasicNum;
