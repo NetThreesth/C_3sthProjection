@@ -72,7 +72,7 @@ void ofApp::update() {
 	}
 
 	//Debug
-	_viewSymbol.debugUpdate(delta);
+	//_viewSymbol.debugUpdate(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
@@ -111,7 +111,7 @@ void ofApp::draw() {
 
 	//Debug
 	//_kinectMgr.draw();
-	_viewSymbol.debugDraw();
+	//_viewSymbol.debugDraw();
 	//flowField::getInstance()->draw(cMetaballRect.x * 0.5f, cMetaballRect.y * 0.5, cMetaballRect.width *0.5, cMetaballRect.height*0.5);
 }
 
@@ -206,6 +206,7 @@ void ofApp::onViewerChange(eViewState & nowState)
 	{
 		_viewSymbol.hideMirror();
 		_viewThreeBody.stop();
+		_viewParticle.stop();
 		
 		break;
 	}
