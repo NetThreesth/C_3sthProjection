@@ -26,10 +26,23 @@ void ofApp::setup() {
 	_animFadeAlpah.setDuration(config::getInstance()->_faderT);
 	ofAddListener(_animFadeAlpah.animFinished, this, &ofApp::onFadeFinish);
 
+	_bgm.load("bgm.mp3");
+	_bgm.setLoop(true);
+	_bgm.play();
+
+	//Auto
+	if (config::getInstance()->_exIsAutoLoop)
+	{
+		_loopTimer = 180;
+		_waitAutoStart = true;
+	}
 	_showDebug = _showGUI = false;
 	ofHideCursor();
 	ofBackground(0);
 	_timer = ofGetElapsedTimef();
+
+
+
 }
 
 //--------------------------------------------------------------
@@ -48,6 +61,16 @@ void ofApp::update() {
 	flowField::getInstance()->update(delta);
 	serverReq::getInstance()->update();
 	
+	if (config::getInstance()->_exIsAutoLoop && _waitAutoStart)
+	{
+		_loopTimer -= delta;
+		if (_loopTimer < 0.0f)
+		{
+			start();
+			_waitAutoStart = false;
+		}
+	}
+
 	//Debug
 	_viewSymbol.debugUpdate(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
@@ -134,11 +157,8 @@ void ofApp::onFadeFinish(ofxAnimatable::AnimationEvent & e)
 {
 	if (_animFadeAlpah.getCurrentValue() == 0.0 && config::getInstance()->_exIsAutoLoop)
 	{
-		if (_viewArms.start())
-		{
-			_viewCam.start();
-			_viewParticle.start(50);
-		}
+		_loopTimer = 180;
+		_waitAutoStart = true;
 	}
 }
 
@@ -157,6 +177,8 @@ void ofApp::onViewerChange(eViewState & nowState)
 		_viewParticle.stop();
 		_animFadeAlpah.setDuration(config::getInstance()->_faderT);
 		_animFadeAlpah.animateTo(0);
+
+		
 	}
 	case eViewArms:
 	{
@@ -220,6 +242,10 @@ void ofApp::start()
 			_viewCam.start();
 			_viewParticle.start(_particleNum);
 		}
+	}
+	else
+	{
+		ofLog(OF_LOG_ERROR, "[ofApp::start]Wrong State");
 	}
 }
 

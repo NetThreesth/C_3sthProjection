@@ -34,6 +34,5 @@ private:
 	array<ofVec3f, cKinectNum> _kPos, _kRot;
 	int _totalFrameIdx, _bufferFrameIdx;
 	int _startF, _endF;
-	
-	 
+
 };
