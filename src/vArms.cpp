@@ -72,8 +72,7 @@ bool vArms::initStage()
 {
 	bool result = true;
 	result &= loadCeiling();
-	result &= loadMirror(_mirrors[0], "stageMirror");
-	result &= loadMirror(_mirrors[1], "stageMirror2");
+	result &= loadMirror(_mirrors[0], "stageMirror2");
 
 	_spaceColor.set(255);
 	_space.setRadius(cArmsSpaceSize);
@@ -115,18 +114,12 @@ void vArms::drawStage()
 	_ceiling.draw();
 	ofPopMatrix();
 
-	//Mirror 1
-	ofPushMatrix();
-	ofRotate(90, 1, 0, 0);
-	ofTranslate(0, 0, 400);
-	_mirrors[0].draw();
-	ofPopMatrix();
 
 	//Mirror 2
 	ofPushMatrix();
 	ofRotate(90, 1, 0, 0);
 	ofTranslate(0, 0, 50);
-	_mirrors[1].draw();
+	_mirrors[0].draw();
 	ofPopMatrix();
 
 	//Space
