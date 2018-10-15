@@ -23,7 +23,7 @@ void metaAiSymbolDisplay::setup(int size, int range, float thresholdMin, float t
 	_symbolLine.setMode(ofPrimitiveMode::OF_PRIMITIVE_LINES);
 	_symbolMesh.setMode(ofPrimitiveMode::OF_PRIMITIVE_TRIANGLES);
 
-	float unitDist = _displaySize / (float)cMetaAiSymbolSize;
+	float unitDist = _displaySize / (float)(cMetaAiSymbolSize - 1);
 	float unitDistPow = unitDist * unitDist;
 	_nodeSize = unitDist * 0.2f;
 

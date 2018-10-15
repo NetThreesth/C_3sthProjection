@@ -80,6 +80,7 @@ void vParticleMgr::stop()
 {
 	_animAlpha.animateTo(0);
 	_particleList.clear();
+	_isEmitted = false;
 }
 
 

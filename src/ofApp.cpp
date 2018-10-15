@@ -27,6 +27,7 @@ void ofApp::setup() {
 	ofAddListener(_animFadeAlpah.animFinished, this, &ofApp::onFadeFinish);
 
 	_showDebug = _showGUI = false;
+	ofHideCursor();
 	ofBackground(0);
 	_timer = ofGetElapsedTimef();
 }
@@ -48,7 +49,7 @@ void ofApp::update() {
 	serverReq::getInstance()->update();
 	
 	//Debug
-	//_viewSymbol.debugUpdate(delta);
+	_viewSymbol.debugUpdate(delta);
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
@@ -87,7 +88,7 @@ void ofApp::draw() {
 
 	//Debug
 	//_kinectMgr.draw();
-	//_viewSymbol.debugDraw();
+	_viewSymbol.debugDraw();
 	//flowField::getInstance()->draw(cMetaballRect.x * 0.5f, cMetaballRect.y * 0.5, cMetaballRect.width *0.5, cMetaballRect.height*0.5);
 }
 
@@ -122,6 +123,7 @@ void ofApp::keyPressed(int key) {
 	case 'g':
 	{
 		_showGUI ^= true;
+		_showGUI ? ofShowCursor() : ofHideCursor();
 		break;
 	}
 	}
@@ -180,14 +182,15 @@ void ofApp::onViewerChange(eViewState & nowState)
 	}
 	case eViewSymbol:
 	{
+		_viewSymbol.hideMirror();
 		_viewThreeBody.stop();
+		
 		break;
 	}
 	case eSymbolToWait:
 	{
 		_animFadeAlpah.setDuration(config::getInstance()->_faderT);
 		_animFadeAlpah.animateTo(255);
-
 		break;
 	}
 	}
@@ -243,7 +246,7 @@ void ofApp::setupViewer()
 
 //--------------------------------------------------------------
 void ofApp::updateViewer(float delta)
-{
+{	
 	_viewArms.update(delta);
 	_viewThreeBody.update(delta);
 	_viewSymbol.update(delta);

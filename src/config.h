@@ -14,7 +14,6 @@ private:
 	void initGUI();
 	void loadConfig();
 	void loadGuiSetting();
-	void saveGuiSetting();
 
 public:
 
@@ -24,16 +23,17 @@ public:
 	int _exWindowWidth, _exWindowHeight;
 	float _exCamStartWaitT, _exCamToCeilingT, _exCamToSymbolT;
 	int _exMetaballBasicNum;
+	float _exSymbolUnitSize, _exSymbolConnMin, _exSymbolConnMax;
 
 	//Gui
 	ofxPanel _gui;
 	ofxIntSlider _armsAlpha, _ceilingAlpha, _spaceAlpha;
 	ofxIntSlider _multiCamDist;
 	ofxIntSlider _symbolMirrorAlpha;
-	ofxFloatSlider _symbolRotateSpeed, _symbolChangeT;
+	ofxFloatSlider _symbolRotateSpeed, _symbolChangeT, _symbolMirrorFadeT;
 	ofxFloatSlider _metaballSize, _metaballFieldBasic;
 	ofxIntSlider _threeBodyAlpha;
-
+	
 	ofxFloatSlider _faderT;
 
 	ofxLabel _fps;

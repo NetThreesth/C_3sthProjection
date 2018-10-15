@@ -29,6 +29,7 @@ public:
 	void stop();
 
 	void displayMirror();
+	void hideMirror();
 	void displayContent();
 
 	void setIsLooping(bool isLoop);

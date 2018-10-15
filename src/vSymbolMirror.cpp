@@ -111,8 +111,15 @@ void vSymbolMirror::stop()
 //--------------------------------------------------------------
 void vSymbolMirror::displayMirror()
 {
-	_animMirrorAlpha.setDuration(3.0f);
+	_animMirrorAlpha.setDuration(config::getInstance()->_symbolChangeT);
 	_animMirrorAlpha.animateFromTo(0.0, (config::getInstance()->_symbolMirrorAlpha / 255.0f));
+}
+
+//--------------------------------------------------------------
+void vSymbolMirror::hideMirror()
+{
+	_animMirrorAlpha.setDuration(config::getInstance()->_symbolChangeT);
+	_animMirrorAlpha.animateTo(0.0);
 }
 
 //--------------------------------------------------------------
@@ -173,7 +180,9 @@ void vSymbolMirror::onGetPattern(string & symbol64)
 //--------------------------------------------------------------
 bool vSymbolMirror::initSymbol()
 {
-	_symbolDisplay.setup(1000, 100, 22, 40);
+	float fullSize = config::getInstance()->_exSymbolUnitSize * (cMetaAiSymbolSize - 1);
+
+	_symbolDisplay.setup(fullSize, 100, config::getInstance()->_exSymbolConnMin, config::getInstance()->_exSymbolConnMax);
 
 	string path = ofGetTimestampString("symbol/%m%d.png");
 	ofFile f(path);
