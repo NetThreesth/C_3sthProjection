@@ -41,7 +41,7 @@ void ofApp::setup() {
 	ofBackground(0);
 	_timer = ofGetElapsedTimef();
 
-
+	ofLogToFile(ofGetTimestampString("%m%d_log.txt"), true);
 
 }
 
